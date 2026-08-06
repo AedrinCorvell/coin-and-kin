@@ -61,6 +61,19 @@ const STR = {
   "hall.tapDispatch": { en:"tap to dispatch", tr:"sefere yolla" },
   "hall.inProgress":  { en:"in progress",  tr:"devam ediyor" },
   "hall.ledger":      { en:"Guild Ledger", tr:"Lonca Defteri" },
+  "tut.title":        { en:"Getting Started", tr:"Nereden Başlamalı" },
+  "tut.done":         { en:"You've learned the ropes! Good luck, Guildmaster.", tr:"Temelleri öğrendin! Bol şans, Lonca Efendisi." },
+  "tut.hire":         { en:"Hire your first adventurer", tr:"İlk maceracını işe al" },
+  "tut.hireHow":      { en:"Open ⚔️ Adventurers → tap a recruit to hire them.", tr:"⚔️ Maceracılar'ı aç → bir adayı işe almak için dokun." },
+  "tut.quest":        { en:"Send them on an expedition", tr:"Onları sefere yolla" },
+  "tut.questHow":     { en:"Open 🗺️ Quests → pick a region → choose a party → dispatch.", tr:"🗺️ Görevler'i aç → bir bölge seç → ekip kur → yolla." },
+  "tut.sell":         { en:"Sell loot at the Market", tr:"Ganimeti Pazar'da sat" },
+  "tut.sellHow":      { en:"Loot fills your storage. Open ⚖️ Market to turn it into gold.", tr:"Ganimet depona dolar. ⚖️ Pazar'ı açıp altına çevir." },
+  "tut.upgrade":      { en:"Upgrade a building", tr:"Bir binayı yükselt" },
+  "tut.upgradeHow":   { en:"Open 🏰 Build → upgrade the Treasury to unlock new regions.", tr:"🏰 İnşa'yı aç → yeni bölgeler için Hazine'yi yükselt." },
+  "tut.craft":        { en:"Craft something to sell", tr:"Satmak için bir şey üret" },
+  "tut.craftHow":     { en:"Open ⚒️ Craft → tap a recipe → your idle heroes will make it.", tr:"⚒️ Üretim'i aç → bir tarife dokun → boştaki kahramanların üretir." },
+  "tut.hide":         { en:"Hide guide", tr:"Rehberi gizle" },
   "hall.recentFirst": { en:"Most recent first", tr:"En yeni en üstte" },
   "hall.ledgerEmpty": { en:"The guild's story will be recorded here.", tr:"Loncanın hikâyesi burada kayda geçecek." },
   "hall.dayExplain":  { en:"Each day (the clock up top) ends a pay cycle: adventurers pay you rent & board, and you pay their wages. Keep income above wages.", tr:"Her gün (yukarıdaki saat) bir ödeme döngüsünü kapatır: maceracılar sana kira ve yemek öder, sen de onlara maaş ödersin. Gelirini maaşların üstünde tut." },
@@ -80,6 +93,7 @@ const STR = {
   "step.sell.cta":  { en:"Sell", tr:"Sat" },
   // ---- common buttons / labels ----
   "ui.settings":   { en:"Settings",      tr:"Ayarlar" },
+  "ui.colorblind": { en:"Colorblind mode", tr:"Renk körü modu" },
   "ui.language":   { en:"Language",      tr:"Dil" },
   "ui.close":      { en:"Close",         tr:"Kapat" },
   "ui.cancel":     { en:"Cancel",        tr:"Vazgeç" },
@@ -209,7 +223,7 @@ const STR = {
   "task.patrol":      { en:"Patrol", tr:"Devriye" },
   "task.restDesc":    { en:"Recovers fatigue & slowly heals.", tr:"Yorgunluğu giderir ve yavaşça iyileşir." },
   "task.trainDesc":   { en:"Slowly gains XP — safe, free leveling.", tr:"Yavaşça TP kazanır — güvenli, bedava seviye." },
-  "task.assistDesc":  { en:"Speeds up active crafting jobs.", tr:"Süren üretim işlerini hızlandırır." },
+  "task.assistDesc":  { en:"Greatly speeds up active crafting jobs.", tr:"Süren üretim işlerini belirgin ölçüde hızlandırır." },
   "task.patrolDesc":  { en:"Earns a trickle of gold & renown.", tr:"Azar azar altın ve şöhret kazandırır." },
   "quest.dispatch":   { en:"Dispatch", tr:"Sefere Yolla" },
   "legend.expeditions":{ en:"expeditions", tr:"sefer" },
@@ -375,19 +389,19 @@ const CLASSES = {
     desc: "Low damage but keeps everyone alive. Strongly reduces injuries and heals the party faster after a failed run.",
     perk:"−10% party injury risk", mod:{ partyInjury:-0.10 } },
   // ===== Rare classes — only appear on the board once the guild earns renown =====
-  Paladin: { hp: 140, atk: 16, def: 16, spd: 7, icon: "🛡️", role:"Holy Guardian", rare:true, minRenown:25,
+  Paladin: { hp: 140, atk: 16, def: 16, spd: 7, icon: "🛡️", role:"Holy Guardian", rare:true, minRenown:40,
     desc: "An elite, blessed warrior. Both shields the party and lifts its fighting spirit — the finest protector a guild can field.",
     perk:"−9% injury & +5% success", mod:{ partyInjury:-0.09, partySuccess:0.05 } },
-  Necromancer: { hp: 85, atk: 24, def: 7, spd: 10, icon: "💀", role:"Dark Caster", rare:true, minRenown:55,
+  Necromancer: { hp: 85, atk: 24, def: 7, spd: 10, icon: "💀", role:"Dark Caster", rare:true, minRenown:90,
     desc: "Wields forbidden magic of devastating power. Greatly raises success, but the dead they raise sometimes carry off extra spoils.",
     perk:"+12% success & +8% loot", mod:{ partySuccess:0.12, partyLoot:0.08 } },
-  Assassin: { hp: 88, atk: 22, def: 8, spd: 18, icon: "🥷", role:"Shadow Blade", rare:true, minRenown:40,
+  Assassin: { hp: 88, atk: 22, def: 8, spd: 18, icon: "🥷", role:"Shadow Blade", rare:true, minRenown:65,
     desc: "Strikes from the dark and vanishes. Blistering speed brings the party home fast, and rich, hand-picked loot.",
     perk:"+15% loot & 10% faster", mod:{ partyLoot:0.15, speedMult:0.90 } },
-  Beastmaster: { hp: 110, atk: 17, def: 11, spd: 13, icon: "🐺", role:"Wild Warden", rare:true, minRenown:75,
+  Beastmaster: { hp: 110, atk: 17, def: 11, spd: 13, icon: "🐺", role:"Wild Warden", rare:true, minRenown:140,
     desc: "Commands loyal beasts on the hunt. A rare all-rounder that boosts every facet of an expedition.",
     perk:"+6% success, loot & −4% injury", mod:{ partySuccess:0.06, partyLoot:0.06, partyInjury:-0.04 } },
-  Monk: { hp: 90, atk: 15, def: 9, spd: 16, icon: "☯️", role:"Battle Healer", rare:true, minRenown:60,
+  Monk: { hp: 90, atk: 15, def: 9, spd: 16, icon: "☯️", role:"Battle Healer", rare:true, minRenown:110,
     desc: "A wandering martial ascetic. Low armor but lightning reflexes let the whole party dodge harm, and their disciplined calm keeps morale high on the road.",
     perk:"−11% injury & +4% success", mod:{ partyInjury:-0.11, partySuccess:0.04 } },
   // ===== UNIQUE heroes — appear on the board only very rarely, cost a fortune =====
@@ -638,6 +652,15 @@ const TR_TRAIT = {
 };
 function itemName(id){ if(LANG==="tr" && TR_ITEM[id]) return TR_ITEM[id]; return (ITEMS[id]&&ITEMS[id].name)||id; }
 function regionName(r){ const id=typeof r==="string"?r:(r&&r.id); if(LANG==="tr" && TR_REGION[id]) return TR_REGION[id]; if(typeof r==="string"){ const byName=REGIONS.find(x=>x.name===r); if(byName){ if(LANG==="tr" && TR_REGION[byName.id]) return TR_REGION[byName.id]; return byName.name; } } const reg=typeof r==="object"?r:REGIONS.find(x=>x.id===id); return (reg&&reg.name)||r||id; }
+// where does an item come from? (for craft hints) — boss reward > craftable > region loot
+function itemSource(item){
+  const boss=BOSSES.find(b=>b.reward&&b.reward.item===item);
+  if(boss) return (LANG==="tr"?`${bossName(boss)} (boss) düşürür`:`dropped by ${bossName(boss)} (boss)`);
+  if(RECIPES.some(r=>r.out===item)) return (LANG==="tr"?"üretimden elde edilir":"made at the workshop");
+  const regs=REGIONS.filter(r=>Array.isArray(r.loot)&&r.loot.some(l=>l.item===item));
+  if(regs.length) return (LANG==="tr"?`${regs.map(r=>regionName(r)).slice(0,2).join(", ")} seferlerinden`:`from ${regs.map(r=>regionName(r)).slice(0,2).join(", ")}`);
+  return null;
+}
 function clsName(c){ if(LANG==="tr" && TR_CLASS[c]) return TR_CLASS[c]; return c; }
 function roleName(rl){ if(LANG==="tr" && TR_ROLE[rl]) return TR_ROLE[rl]; return rl; }
 const TRAIT_EN = { LoneWolfCurse:"Lone Wolf", Discordant:"Discordant", Cursed:"Cursed", Obsessed:"Obsessed", Vigilant:"Vigilant" };
@@ -934,7 +957,7 @@ const TR_BOON = {
 };
 function boonLabel(b){ if(LANG==="tr" && TR_BOON[b]) return TR_BOON[b].label; return (CLASS_BOONS[b]&&CLASS_BOONS[b].label)||""; }
 function boonDesc(b){ if(LANG==="tr" && TR_BOON[b]) return TR_BOON[b].desc; return (CLASS_BOONS[b]&&CLASS_BOONS[b].desc)||""; }
-const dangerColor = (d)=> d<=1?"#6fae6f" : d<=2?"#b8c45b" : d<=3?"#e0a23c" : d<=4?"#d98a3c" : "#c0563f";
+const dangerColor = (d)=> d<=1?T.green : d<=2?"#b8c45b" : d<=3?T.gold : d<=4?"#d98a3c" : T.red;
 
 // Estimate party success & injury for a region — must mirror the tick resolution formula.
 function estimateOutcome(party, region, tavernSucc, rels){
@@ -984,7 +1007,7 @@ function estimateOutcome(party, region, tavernSucc, rels){
   }
   return { success:Math.round(avgSucc*100), injury:Math.round(anyInjury*100), death:Math.round(anyDeath*100), relBonus };
 }
-const outcomeColor=(pct)=> pct>=75?"#6fae6f" : pct>=55?"#e0a23c" : "#c0563f";
+const outcomeColor=(pct)=> pct>=75?T.green : pct>=55?T.gold : T.red;
 
 // ==================== §LOGIC · İLİŞKİLER & OYUN MANTIĞI ====================
 // Stored in state.rels keyed by sorted pair "idA|idB" → { score:-100..100, met:elapsed }
@@ -1027,14 +1050,14 @@ function relType(score, a, b, rels, roster){
           return sc>=70 && Math.abs(who.level-o.level)<=8;
         });
         // if either already has a romance with someone else, this stays a deep friendship
-        if(hasOtherRomance(a,b)||hasOtherRomance(b,a)) return {type:"Close Friend", icon:"🤝", color:"#6fae6f"};
+        if(hasOtherRomance(a,b)||hasOtherRomance(b,a)) return {type:"Close Friend", icon:"🤝", color:T.green};
       }
       return {type:"Romance", icon:"💞", color:"#e07a9c"};
     }
-    return {type:"Close Friend", icon:"🤝", color:"#6fae6f"};
+    return {type:"Close Friend", icon:"🤝", color:T.green};
   }
-  if(score>=30) return {type:"Friend", icon:"😊", color:"#6fae6f"};
-  if(score<=-60) return {type:"Bitter Rival", icon:"💢", color:"#c0563f"};
+  if(score>=30) return {type:"Friend", icon:"😊", color:T.green};
+  if(score<=-60) return {type:"Bitter Rival", icon:"💢", color:T.red};
   if(score<=-25) return {type:"Rival", icon:"😠", color:"#d98a3c"};
   // mentorship: big level gap + positive-ish
   if(score>=10 && Math.abs(a.level-b.level)>=12){
@@ -1660,11 +1683,19 @@ function achName(a){ return a?(LANG==="tr"?a.name.tr:a.name.en):""; }
 function achDesc(a){ return a?(LANG==="tr"?a.desc.tr:a.desc.en):""; }
 
 // ==================== §THEME · RENK TEMASI & FONT ====================
-const T = {
+let T = {
   bg:"#1a1410", panel:"#241c15", panel2:"#2e241A", border:"#3d2f20", borderLit:"#5a4530",
   gold:"#e0a23c", goldDim:"#9a7228", ink:"#e8dcc8", inkDim:"#a89878", inkFaint:"#6b5d48",
   green:"#6fae6f", red:"#c0563f", blue:"#5b9bd5", parchment:"#d8c8a8",
 };
+// colorblind-friendly overrides (red-green): green→teal/cyan, red→amber-orange, blue→brighter
+const T_NORMAL = { green:"#6fae6f", red:"#c0563f", blue:"#5b9bd5" };
+const T_CB     = { green:"#3aa6b9", red:"#e08a2e", blue:"#8f7fd6" };
+function applyColorblind(on){
+  const src = on ? T_CB : T_NORMAL;
+  T.green = src.green; T.red = src.red; T.blue = src.blue;
+}
+try{ if(typeof localStorage!=="undefined" && localStorage.getItem("guildmaster_cb")==="1") applyColorblind(true); }catch(e){}
 const font = "'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif";
 
 // ==================== §ROOT · ANA BİLEŞEN & OYUN DÖNGÜSÜ ====================
@@ -1769,7 +1800,7 @@ export default function Guildmaster(){
       buildings: { dormitory:0, tavern:0, tannery:0, weavery:0, kitchen:0, workshop:0, notice_board:0, treasury:0, warehouse:0 },
       lastUpkeep: 0, log: [],
       achieved: {}, stats: { quests:0, crafted:0, sold:0, forged:0, maxParty:0 },
-      bossUnlocked: {}, bossDefeated: {},
+      bossUnlocked: {}, bossDefeated: {}, savedParties: [null,null,null],
     };
   }
 
@@ -2062,7 +2093,7 @@ export default function Guildmaster(){
           if(taskChanged||assistSpeedup>0||patrolGold>0) ns.adventurers=adv3;
           // assisting crafters: nudge active crafts forward
           if(assistSpeedup>0 && ns.crafting && ns.crafting.length){
-            ns.crafting = ns.crafting.map(c=>({...c, endAt: c.endAt - assistSpeedup})); // each assistant shaves time
+            ns.crafting = ns.crafting.map(c=>({...c, endAt: c.endAt - assistSpeedup*2})); // each assistant shaves 2s per tick
           }
           // patrolling brings in petty coin & word-of-mouth
           if(patrolGold>0){ ns.gold = ns.gold + patrolGold;
@@ -2284,6 +2315,32 @@ export default function Guildmaster(){
   );
 }
 function Panel({children,style}){ return <div style={{background:T.panel,border:`1px solid ${T.border}`,borderRadius:10,padding:14,...style}}>{children}</div>; }
+function TutorialPanel({state,onHide}){
+  const st=state.stats||{};
+  const steps=[
+    { key:"hire",    done:(state.adventurers||[]).length>0 },
+    { key:"quest",   done:(st.quests||0)>0 },
+    { key:"sell",    done:(st.sold||0)>0 },
+    { key:"craft",   done:(st.crafted||0)>0 },
+    { key:"upgrade", done:Object.values(state.buildings||{}).some(v=>v>=1) },
+  ];
+  const allDone=steps.every(s=>s.done);
+  const firstOpen=steps.find(s=>!s.done);
+  return (<Panel style={{marginBottom:12,border:`1px solid ${T.gold}`,background:"linear-gradient(135deg,#2a2112,#1c140d)"}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:allDone?0:10}}>
+      <div style={{fontSize:11,letterSpacing:2,textTransform:"uppercase",color:T.gold,fontWeight:700}}>📖 {t("tut.title")}</div>
+      <button onClick={onHide} style={{background:"none",border:`1px solid ${T.border}`,color:T.inkFaint,borderRadius:6,padding:"3px 8px",fontSize:10}}>{t("tut.hide")}</button>
+    </div>
+    {allDone ? <div style={{fontSize:12,color:T.green,marginTop:8}}>✓ {t("tut.done")}</div> :
+      <div style={{display:"flex",flexDirection:"column",gap:7}}>
+        {steps.map(s=>(<div key={s.key} style={{opacity:s.done?0.5:1}}>
+          <div style={{fontSize:12,color:s.done?T.inkFaint:T.ink,fontWeight:s.done?400:700,textDecoration:s.done?"line-through":"none"}}>
+            {s.done?"✓":(s===firstOpen?"▸":"○")} {t("tut."+s.key)}</div>
+          {s===firstOpen && <div style={{fontSize:11,color:T.gold,marginLeft:16,marginTop:2}}>{t("tut."+s.key+"How")}</div>}
+        </div>))}
+      </div>}
+  </Panel>);
+}
 function SectionTitle({children,sub}){ return (<div style={{marginBottom:10}}>
   <div style={{fontSize:11,letterSpacing:2,textTransform:"uppercase",color:T.gold,fontWeight:700}}>{children}</div>
   {sub&&<div style={{fontSize:12,color:T.inkDim,marginTop:2}}>{sub}</div>}</div>); }
@@ -2506,6 +2563,7 @@ function HallView({state,setTab,setState,notify,newGame,lang,switchLang}){
         </div>
       </Panel>
     )}
+    {!state.tutorialHidden && <TutorialPanel state={state} onHide={()=>setState(s=>({...s,tutorialHidden:true}))} />}
     {/* compact summary strip — adventurers emphasized, rest small & tappable */}
     <div style={{display:"flex",gap:8,marginBottom:12}}>
       <button onClick={()=>setTab("advs")} style={{flex:2,textAlign:"left",background:`linear-gradient(135deg,${T.panel2},${T.panel})`,border:`1px solid ${T.borderLit}`,borderRadius:10,padding:"11px 13px"}}>
@@ -2558,6 +2616,7 @@ function SettingsModal({state,setState,notify,newGame,lang,switchLang,onSave,onC
   const [sound,setSound]=useState(Audio.sfxOn);
   const [confirmNew,setConfirmNew]=useState(false);
   const [music,setMusic]=useState(Audio.musicOn);
+  const [cb,setCb]=useState(()=>{ try{ return localStorage.getItem("guildmaster_cb")==="1"; }catch(e){ return false; } });
   const Toggle=({on,set,label})=>(
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"11px 0",borderBottom:`1px solid ${T.border}`}}>
       <span style={{fontSize:13,color:T.ink}}>{label}</span>
@@ -2578,6 +2637,7 @@ function SettingsModal({state,setState,notify,newGame,lang,switchLang,onSave,onC
     <div style={{marginBottom:8}}>
       <Toggle on={sound} set={(v)=>{setSound(v);Audio.setSfx(v);if(v)Audio.play("click");}} label={`🔊 ${t("ui.sfx")}`}/>
       <Toggle on={music} set={(v)=>{setMusic(v);Audio.setMusic(v);}} label={`🎵 ${t("ui.music")}`}/>
+      <Toggle on={cb} set={(v)=>{ setCb(v); applyColorblind(v); try{ localStorage.setItem("guildmaster_cb", v?"1":"0"); }catch(e){} setState(s=>({...s})); }} label={`👁️ ${t("ui.colorblind")}`}/>
       <div style={{fontSize:10,color:T.inkFaint,marginTop:6,marginBottom:14}}>{t("ui.musicHint")}</div>
     </div>
     <SectionTitle>{t("ui.language")}</SectionTitle>
@@ -2914,8 +2974,8 @@ function AdventurersView({state,setState,notify}){
         .sort((a,b)=>CLASSES[a].minRenown-CLASSES[b].minRenown);
       const unlocked=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && state.renown>=CLASSES[k].minRenown);
       return (<div style={{fontSize:11,color:T.inkDim,marginBottom:10,padding:"8px 11px",borderRadius:8,background:T.panel2,border:`1px solid ${T.border}`}}>
-        ★ <b style={{color:T.gold}}>Renown {state.renown}</b> — {unlocked.length>0?`rare classes can now appear: ${unlocked.map(k=>CLASSES[k].icon+" "+k).join(", ")}. `:""}
-        {locked.length>0?`Next: ${CLASSES[locked[0]].icon} ${locked[0]} at ${CLASSES[locked[0]].minRenown} renown.`:(unlocked.length>0?"All rare classes unlocked!":"Earn renown by selling goods & succeeding to attract rare adventurers.")}
+        ★ <b style={{color:T.gold}}>{LANG==="tr"?`${state.renown} şöhret`:`Renown ${state.renown}`}</b> — {unlocked.length>0?(LANG==="tr"?`nadir sınıflar artık çıkabilir: ${unlocked.map(k=>CLASSES[k].icon+" "+clsName(k)).join(", ")}. `:`rare classes can now appear: ${unlocked.map(k=>CLASSES[k].icon+" "+clsName(k)).join(", ")}. `):""}
+        {locked.length>0?(LANG==="tr"?`Sıradaki: ${CLASSES[locked[0]].icon} ${clsName(locked[0])} — ${CLASSES[locked[0]].minRenown} şöhrette.`:`Next: ${CLASSES[locked[0]].icon} ${clsName(locked[0])} at ${CLASSES[locked[0]].minRenown} renown.`):(unlocked.length>0?(LANG==="tr"?"Tüm nadir sınıflar açıldı!":"All rare classes unlocked!"):(LANG==="tr"?"Mal satıp seferlerde başarılı olarak şöhret kazan, nadir maceracıları çek.":"Earn renown by selling goods & succeeding to attract rare adventurers."))}
       </div>); })()}
     {state.recruits.map(r=>(<AdvCard key={r.id} a={r} onOpen={()=>setDetail(r)}>
       <GoldBtn onClick={()=>hire(r)} disabled={state.gold<r.hireCost||full} style={{marginTop:8,width:"100%"}}>
@@ -2929,13 +2989,13 @@ function AdventurersView({state,setState,notify}){
         <div onClick={e=>e.stopPropagation()} style={{background:"linear-gradient(135deg,#241c15,#16100b)",
           border:`1px solid ${T.red}`,borderRadius:14,padding:"24px 22px",maxWidth:340,width:"100%",textAlign:"center"}}>
           <div style={{fontSize:34,marginBottom:12}}>{CLASSES[confirmKick.cls].icon}</div>
-          <div style={{fontSize:16,fontWeight:700,color:T.parchment,marginBottom:8}}>Dismiss {confirmKick.name}?</div>
+          <div style={{fontSize:16,fontWeight:700,color:T.parchment,marginBottom:8}}>{LANG==="tr"?`${confirmKick.name} kovulsun mu?`:`Dismiss ${confirmKick.name}?`}</div>
           <div style={{fontSize:12,color:T.inkDim,lineHeight:1.5,marginBottom:20}}>
-            They will leave the guild for good. This cannot be undone — their bonds and progress will be lost.</div>
+            {LANG==="tr"?"Loncayı sonsuza dek terk edecek. Bu geri alınamaz — bağları ve tüm ilerlemesi kaybolacak.":"They will leave the guild for good. This cannot be undone — their bonds and progress will be lost."}</div>
           <div style={{display:"flex",gap:9}}>
             <GhostBtn onClick={()=>setConfirmKick(null)} style={{flex:1}}>{t("adv.keepThem")}</GhostBtn>
             <button onClick={()=>doDismiss(confirmKick)} style={{flex:1,background:T.red,color:"#fff",border:"none",
-              borderRadius:9,padding:"11px",fontWeight:700,fontSize:13,fontFamily:font}}>✕ Dismiss</button>
+              borderRadius:9,padding:"11px",fontWeight:700,fontSize:13,fontFamily:font}}>✕ {LANG==="tr"?"Kov":"Dismiss"}</button>
           </div>
         </div>
       </div>
@@ -3012,18 +3072,21 @@ function QuestsView({state,setState,notify}){
       <div style={{fontSize:24,filter:"grayscale(1)"}}>{r.icon}</div>
       <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:T.ink}}>{regionName(r)}</div>
         <div style={{fontSize:11,color:T.inkDim}}>🔒 {t("quest.reachTier").replace("{n}", r.tier)}</div></div></div>))}
-    {picking && <PartyPicker region={picking.__boss?picking.region:picking} boss={picking.__boss||null} idle={idle} lastParty={state.lastParty} rels={state.rels} tavernSucc={BUILDINGS.tavern.levels[state.buildings.tavern].successBonus||0} onClose={()=>setPicking(null)} onGo={(region,ids,rep)=>dispatch(region,ids,rep,picking.__boss?picking.__boss.id:null)}/>}
+    {picking && <PartyPicker region={picking.__boss?picking.region:picking} boss={picking.__boss||null} idle={idle} lastParty={state.lastParty} rels={state.rels} tavernSucc={BUILDINGS.tavern.levels[state.buildings.tavern].successBonus||0} savedParties={state.savedParties||[]} onSaveParty={(slot,ids)=>setState(s=>{const sp=[...(s.savedParties||[null,null,null])];sp[slot]=ids;return{...s,savedParties:sp};})} onClearParty={(slot)=>setState(s=>{const sp=[...(s.savedParties||[null,null,null])];sp[slot]=null;return{...s,savedParties:sp};})} onClose={()=>setPicking(null)} onGo={(region,ids,rep)=>dispatch(region,ids,rep,picking.__boss?picking.__boss.id:null)}/>}
   </div>);
 }
-function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,onClose,onGo}){
+function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,savedParties,onSaveParty,onClearParty,onClose,onGo}){
   // auto-select last party members who are currently idle & available
   const preselect=(lastParty||[]).filter(id=>idle.some(a=>a.id===id));
   const [sel,setSel]=useState(preselect);
   const [repeat,setRepeat]=useState(1);
   const isSoloClass=(cls)=> cls==="LoneWolf" || cls==="GoblinSlayer";
+  // load a saved party: keep only members still idle & available
+  const loadParty=(ids)=>{ if(!ids) return; setSel(ids.filter(id=>idle.some(a=>a.id===id && a.fatigue<90))); };
   const toggle=(id)=>setSel(s=>{
     if(s.includes(id)) return s.filter(x=>x!==id);
     const cand=idle.find(a=>a.id===id);
+    if(cand && cand.fatigue>=90) return s; // too exhausted to march
     const isLone=cand && isSoloClass(cand.cls);
     const selHasLone=s.some(x=>{const a=idle.find(y=>y.id===x);return a&&isSoloClass(a.cls);});
     // solo heroes only fight alone: block adding anyone alongside, and block adding them to a non-empty party
@@ -3104,16 +3167,33 @@ function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,onClose,onGo}){
         ● {dangerLabel(region.danger)} — {t("pp.selectToSee")}</div>
     ))}
     {preselect.length>0 && <div style={{fontSize:11,color:T.gold,marginBottom:10}}>↩️ {t("pp.preselected")}</div>}
+    {!boss && (()=>{ const slots=savedParties&&savedParties.length?savedParties:[null,null,null];
+      return (<div style={{marginBottom:12}}>
+        <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:T.inkFaint,marginBottom:6}}>{LANG==="tr"?"Kayıtlı Ekipler":"Saved Parties"}</div>
+        <div style={{display:"flex",gap:6}}>
+          {[0,1,2].map(i=>{ const ids=slots[i]; const filled=ids&&ids.length;
+            return (<div key={i} style={{flex:1,display:"flex",flexDirection:"column",gap:3}}>
+              <button onClick={()=>{ if(filled) loadParty(ids); else if(sel.length) onSaveParty(i,sel); }}
+                style={{padding:"7px 4px",borderRadius:7,border:`1px ${filled?"solid":"dashed"} ${filled?T.gold:T.border}`,
+                background:filled?"rgba(224,162,60,.10)":"transparent",color:filled?T.gold:T.inkFaint,fontSize:10,fontWeight:700,lineHeight:1.2}}>
+                {filled?`${LANG==="tr"?"Ekip":"Party"} ${i+1}`:`＋ ${LANG==="tr"?"Kaydet":"Save"} ${i+1}`}
+                <div style={{fontSize:8,color:T.inkFaint,fontWeight:400}}>{filled?`${ids.length} ${LANG==="tr"?"kişi":"heroes"}`:(sel.length?(LANG==="tr"?"seçileni kaydet":"save current"):(LANG==="tr"?"boş":"empty"))}</div>
+              </button>
+              {filled?<button onClick={()=>onClearParty(i)} style={{fontSize:8,color:T.inkFaint,background:"none",border:"none",padding:0}}>✕ {LANG==="tr"?"sil":"clear"}</button>:null}
+            </div>); })}
+        </div>
+      </div>); })()}
     {idle.map(a=>{ const c=CLASSES[a.cls]; const on=sel.includes(a.id);
       const selHasLone=sel.some(x=>{const y=idle.find(z=>z.id===x);return y&&isSoloClass(y.cls);});
       const isLone=isSoloClass(a.cls);
-      const locked = !on && ((selHasLone) || (isLone && sel.length>0));
+      const tooTired = a.fatigue>=90;
+      const locked = !on && (tooTired || (selHasLone) || (isLone && sel.length>0));
       return (<button key={a.id} onClick={()=>toggle(a.id)} disabled={locked} style={{width:"100%",textAlign:"left",marginBottom:8,opacity:locked?0.4:1,
         background:on?T.panel2:T.panel,border:`1px solid ${on?T.gold:T.border}`,borderRadius:9,padding:11,display:"flex",gap:10,alignItems:"center"}}>
         <div style={{fontSize:20}}>{c.icon}</div>
         <div style={{flex:1}}><div style={{fontWeight:700,fontSize:13,color:T.ink}}>{a.name}{isLone?" 🐺":""}</div>
-          <div style={{fontSize:10,color:T.inkDim}}>Lv {a.level} {clsName(a.cls)} · {roleName(c.role)} · <span style={{color:T.green}}>{isLone?(LANG==="tr"?"yalnız savaşır":"fights solo"):clsPerk(a.cls)}</span></div></div>
-        <div style={{fontSize:18,color:on?T.gold:T.inkFaint}}>{locked?"🔒":on?"☑":"☐"}</div>
+          <div style={{fontSize:10,color:T.inkDim}}>Lv {a.level} {clsName(a.cls)} · {roleName(c.role)} · <span style={{color:tooTired?T.red:T.green}}>{tooTired?(LANG==="tr"?"çok yorgun":"too exhausted"):isLone?(LANG==="tr"?"yalnız savaşır":"fights solo"):clsPerk(a.cls)}</span></div></div>
+        <div style={{fontSize:18,color:on?T.gold:T.inkFaint}}>{locked?(tooTired?"😴":"🔒"):on?"☑":"☐"}</div>
       </button>); })}
     {!boss && <div style={{display:"flex",alignItems:"center",gap:10,margin:"14px 0 6px",padding:"10px 12px",background:T.panel2,borderRadius:9,border:`1px solid ${T.border}`}}>
       <div style={{flex:1}}><div style={{fontSize:12,fontWeight:700}}>{t("pp.repeat")}</div>
@@ -3211,9 +3291,12 @@ function RecipeDetailModal({r,state,onClose}){
     <SectionTitle>{t("craft.recipe")}</SectionTitle>
     <div style={{marginBottom:14}}>
       {r.in.map((i,idx)=>{ const have=state.inventory[i.item]||0;
-        return (<div key={idx} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:`1px solid ${T.border}`}}>
-          <span style={{fontSize:13,color:T.ink}}>{ITEMS[i.item].icon} {itemName(i.item)}</span>
-          <span style={{fontSize:13,fontWeight:700,color:have>=i.qty?T.green:T.red}}>{have}/{i.qty}</span>
+        return (<div key={idx} style={{padding:"8px 0",borderBottom:`1px solid ${T.border}`}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <span style={{fontSize:13,color:T.ink}}>{ITEMS[i.item].icon} {itemName(i.item)}</span>
+            <span style={{fontSize:13,fontWeight:700,color:have>=i.qty?T.green:T.red}}>{have}/{i.qty}</span>
+          </div>
+          {(()=>{ const src=itemSource(i.item); return src?<div style={{fontSize:10,color:T.inkFaint,marginTop:3}}>🗺️ {src}</div>:null; })()}
         </div>); })}
     </div>
     <SectionTitle>{t("craft.details")}</SectionTitle>
