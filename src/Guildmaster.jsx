@@ -127,7 +127,7 @@ const STR = {
   "adv.relationships":{ en:"Relationships", tr:"İlişkiler" },
   "adv.relSub":       { en:"Bonds form on shared expeditions and over time at the hall", tr:"Bağlar ortak seferlerde ve loncada zamanla kurulur" },
   "adv.yours":        { en:"Your Adventurers", tr:"Maceracıların" },
-  "adv.housed":       { en:"housed · tap a card for full stats", tr:"barınıyor · tüm bilgiler için karta dokun" },
+  "adv.housed":       { en:"housed · tap a card for full stats", tr:"loncada · ayrıntılar için karta dokun" },
   "adv.recruitBoard": { en:"Recruitment Board", tr:"İşe Alım Tahtası" },
   "adv.keepThem":     { en:"Keep them", tr:"Vazgeç" },
   "adv.noBonds":      { en:"No strong bonds yet.", tr:"Henüz güçlü bir bağ yok." },
@@ -178,9 +178,9 @@ const STR = {
   // ---- market view ----
   "market.sellAll":   { en:"Sell All", tr:"Hepsini Sat" },
   "market.pricesToday":{ en:"Market Prices Today", tr:"Bugünkü Pazar Fiyatları" },
-  "market.pricesSub": { en:"Prices shift daily — sell high, and don't flood one market", tr:"Fiyatlar her gün değişir — yüksekken sat, tek pazarı boğma" },
+  "market.pricesSub": { en:"Prices shift daily — sell high, and don't flood one market", tr:"Fiyatlar her gün oynar — pahalıyken satmaya bak, aynı alıcıyı aynı malla boğma" },
   "market.sellGoods": { en:"Sell Goods", tr:"Mal Sat" },
-  "market.empty":     { en:"Storeroom is empty. Send heroes on expeditions to gather goods.", tr:"Depo boş. Mal toplamak için kahramanları sefere yolla." },
+  "market.empty":     { en:"Storeroom is empty. Send heroes on expeditions to gather goods.", tr:"Satacak bir şey yok. Önce kahramanlarını sefere yollayıp ganimet topla." },
   "tier.fin":         { en:"Finished Goods", tr:"Bitmiş Ürünler" },
   "tier.mid":         { en:"Refined", tr:"İşlenmiş" },
   "tier.raw":         { en:"Raw Materials", tr:"Ham Madde" },
@@ -637,8 +637,8 @@ const TR_CLASS = {
   Paladin:"Şövalye", Necromancer:"Nekromansör", Assassin:"Suikastçı", Beastmaster:"Canavar Efendisi", Monk:"Keşiş", LoneWolf:"Yalnız Kurt", Hawk:"Karanlığın Şahini", Dragonborn:"Ejderha Doğumlu", GoblinSlayer:"Goblin Katili",
 };
 const TR_ROLE = {
-  "Frontline Tank":"Ön Saf Tankı", "Scout":"İzci", "Damage Dealer":"Vuruş Gücü", "Hunter":"Avcı", "Healer":"Şifacı",
-  "Holy Guardian":"Kutsal Koruyucu", "Dark Caster":"Kara Büyücü", "Shadow Blade":"Gölge Bıçağı", "Beast Lord":"Canavar Lordu",
+  "Frontline Tank":"Ön Saf", "Scout":"İzci", "Damage Dealer":"Yıkım Ustası", "Hunter":"Avcı", "Healer":"Şifacı",
+  "Holy Guardian":"Kutsal Muhafız", "Dark Caster":"Kara Büyücü", "Shadow Blade":"Gölge Hançeri", "Beast Lord":"Canavar Efendisi",
   "Wild Warden":"Vahşi Muhafız", "Battle Healer":"Savaşçı Şifacı", "Lone Slayer":"Yalnız Katil", "Dark Falcon":"Kara Şahin", "Dragon-Blooded":"Ejderha Kanlı", "Goblin Bane":"Goblin Belası",
 };
 const TR_TRAIT = {
@@ -672,14 +672,14 @@ const TR_BUILDING = {
 };
 function buildingName(id){ if(LANG==="tr" && TR_BUILDING[id]) return TR_BUILDING[id]; return (BUILDINGS[id]&&BUILDINGS[id].name)||id; }
 const TR_BUILDING_DESC = {
-  dormitory:"Maceracılar burada kalmak için sana ödeme yapar. Daha iyi yataklar = daha çok kira geliri, mutluluk, kapasite ve daha hızlı yorgunluk giderme.",
-  tavern:"Maceracılar senden yemek ve içki alır. Daha iyi sofra = daha çok yemek geliri ve daha yüksek sefer başarısı.",
-  tannery:"Post ve derileri deri eşyaya çevir — çizme, çanta, pelerin. Üst seviyeler daha hızlı üretir ve aynı anda daha çok iş alır.",
-  weavery:"Lifleri kumaşa ve ince giysilere dönüştür — tunik, elbise, goblen. Üst seviyeler daha hızlı üretir ve aynı anda daha çok iş alır.",
-  kitchen:"Satmak için yemek pişir ve içki demle — güveç, ekmek, bal şarabı, ziyafet tabağı. Üst seviyeler daha hızlı üretir ve aynı anda daha çok iş alır.",
-  workshop:"Ev eşyası, oyuncak, mum ve ince mücevher üret — en geniş ürün yelpazesi. Üst seviyeler daha hızlı üretir ve aynı anda daha çok iş alır.",
-  warehouse:"Ganimet ve mallar için depolama alanı. Dolduğunda seferler artık mal depolayamaz.",
-  notice_board:"Daha çok tahta = aynı anda daha çok görev.",
+  dormitory:"Maceracılar burada konaklar ve sana kira öder. Yatakhane geliştikçe kazancın, üye kapasiten ve herkesin morali artar; dinlenenler de yorgunluğunu daha çabuk atar.",
+  tavern:"Maceracılar karnını burada doyurur, parasını da sana bırakır. Meyhane geliştikçe hem kazancın artar hem de tok karnına yola çıkanlar seferlerde daha başarılı olur.",
+  tannery:"Seferlerden gelen postları işleyip çizme, çanta, pelerin gibi deri eşyalara dönüştürür. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
+  weavery:"Yün ve keteni kumaşa, kumaşı da giysiye çevirir — gömlek, cübbe, duvar halısı. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
+  kitchen:"Satılacak yiyecek ve içecek hazırlar — güveç, ekmek, bal şarabı, şölen sofraları. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
+  workshop:"Ev eşyasından oyuncağa, mumdan mücevhere kadar en geniş ürün yelpazesi burada. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
+  warehouse:"Ganimetlerin ve ürettiğin malların durduğu yer. Ambar dolarsa seferden dönenler getirdiklerini bırakmak zorunda kalır.",
+  notice_board:"Ne kadar çok ilan tahtası olursa, aynı anda o kadar çok sefer yürütebilirsin.",
   treasury:"Lonca kademesini yükseltir, yeni bölgeleri ve üyeleri açar. En görkemli salonlar birer anıta dönüşüp loncanın şöhretini yayar.",
 };
 function buildingDesc(id){ if(LANG==="tr" && TR_BUILDING_DESC[id]) return TR_BUILDING_DESC[id]; return (BUILDINGS[id]&&BUILDINGS[id].desc)||""; }
@@ -1661,7 +1661,7 @@ const ACHIEVEMENTS = [
   { id:"a_maxlevel", icon:"💯", name:{en:"Overqualified",tr:"Fazla Nitelikli"}, desc:{en:"Get a hero to level 50",tr:"Bir kahramanı 50. seviyeye çıkar"}, check:s=>s.adventurers.some(a=>a.level>=50) },
   // --- Nadir sınıflar ---
   { id:"a_rareclass", icon:"🛡️", name:{en:"Exclusive Club",tr:"Seçkin Kulüp"}, desc:{en:"Recruit any rare class",tr:"Herhangi bir nadir sınıf al"}, check:s=>s.adventurers.some(a=>CLASSES[a.cls].rare) },
-  { id:"a_allrare", icon:"🎴", name:{en:"Gotta Catch 'Em All",tr:"Hepsini Topla"}, desc:{en:"Have all 5 rare classes at once",tr:"5 nadir sınıfın hepsi aynı anda"}, check:s=>{const have=new Set(s.adventurers.filter(a=>CLASSES[a.cls].rare).map(a=>a.cls));return have.size>=5;} },
+  { id:"a_allrare", icon:"🎴", name:{en:"Gotta Catch 'Em All",tr:"Hepsini Topla"}, desc:{en:"Have all 5 rare classes at once",tr:"5 nadir sınıfın hepsi aynı anda"}, check:s=>{const have=new Set(s.adventurers.filter(a=>CLASSES[a.cls].rare&&!CLASSES[a.cls].unique).map(a=>a.cls));return have.size>=5;} },
   { id:"a_relic", icon:"⚜️", name:{en:"Relic Hunter",tr:"Emanet Avcısı"}, desc:{en:"Craft a class relic",tr:"Bir sınıf emaneti üret"}, check:s=>s.adventurers.some(a=>a.boon) },
   // --- Üretim / ekonomi derinliği ---
   { id:"a_craft50", icon:"🛠️", name:{en:"Little Factory",tr:"Küçük Fabrika"}, desc:{en:"Craft 50 items total",tr:"Toplam 50 ürün üret"}, check:s=>(s.stats&&s.stats.crafted>=50) },
@@ -1690,7 +1690,7 @@ let T = {
 };
 // colorblind-friendly overrides (red-green): green→teal/cyan, red→amber-orange, blue→brighter
 const T_NORMAL = { green:"#6fae6f", red:"#c0563f", blue:"#5b9bd5" };
-const T_CB     = { green:"#3aa6b9", red:"#e08a2e", blue:"#8f7fd6" };
+const T_CB     = { green:"#4db8ff", red:"#ff9500", blue:"#c77dff" };
 function applyColorblind(on){
   const src = on ? T_CB : T_NORMAL;
   T.green = src.green; T.red = src.red; T.blue = src.blue;
@@ -2638,6 +2638,11 @@ function SettingsModal({state,setState,notify,newGame,lang,switchLang,onSave,onC
       <Toggle on={sound} set={(v)=>{setSound(v);Audio.setSfx(v);if(v)Audio.play("click");}} label={`🔊 ${t("ui.sfx")}`}/>
       <Toggle on={music} set={(v)=>{setMusic(v);Audio.setMusic(v);}} label={`🎵 ${t("ui.music")}`}/>
       <Toggle on={cb} set={(v)=>{ setCb(v); applyColorblind(v); try{ localStorage.setItem("guildmaster_cb", v?"1":"0"); }catch(e){} setState(s=>({...s})); }} label={`👁️ ${t("ui.colorblind")}`}/>
+      <div style={{display:"flex",gap:6,marginTop:8,marginBottom:4}}>
+        <div style={{flex:1,textAlign:"center",padding:"6px 0",borderRadius:6,background:"#0e0a07",border:`1px solid ${T.green}`,color:T.green,fontSize:11,fontWeight:700}}>✔ {LANG==="tr"?"iyi":"good"}</div>
+        <div style={{flex:1,textAlign:"center",padding:"6px 0",borderRadius:6,background:"#0e0a07",border:`1px solid ${T.gold}`,color:T.gold,fontSize:11,fontWeight:700}}>● {LANG==="tr"?"orta":"fair"}</div>
+        <div style={{flex:1,textAlign:"center",padding:"6px 0",borderRadius:6,background:"#0e0a07",border:`1px solid ${T.red}`,color:T.red,fontSize:11,fontWeight:700}}>✖ {LANG==="tr"?"kötü":"bad"}</div>
+      </div>
       <div style={{fontSize:10,color:T.inkFaint,marginTop:6,marginBottom:14}}>{t("ui.musicHint")}</div>
     </div>
     <SectionTitle>{t("ui.language")}</SectionTitle>
@@ -2741,9 +2746,11 @@ function AchievementsModal({achieved,onClose}){
 
 function Modal({children,title,onClose}){ return (
   <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.7)",zIndex:60,display:"flex",
-    alignItems:"flex-end",justifyContent:"center",padding:0}}>
-    <div onClick={e=>e.stopPropagation()} style={{background:T.panel,border:`1px solid ${T.borderLit}`,borderRadius:"14px 14px 0 0",
-      padding:18,width:"100%",maxWidth:760,maxHeight:"85vh",overflowY:"auto",animation:"fadeUp .25s"}}>
+    alignItems:"center",justifyContent:"center",
+    padding:`14px 12px calc(14px + env(safe-area-inset-bottom)) 12px`,boxSizing:"border-box"}}>
+    <div onClick={e=>e.stopPropagation()} style={{background:T.panel,border:`1px solid ${T.borderLit}`,borderRadius:14,
+      padding:18,width:"100%",maxWidth:760,maxHeight:"100%",overflowY:"auto",boxSizing:"border-box",
+      WebkitOverflowScrolling:"touch",animation:"fadeUp .25s"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
         <div style={{fontSize:16,fontWeight:700,color:T.gold}}>{title}</div>
         <button onClick={onClose} style={{background:"none",border:"none",color:T.inkDim,fontSize:22,lineHeight:1}}>×</button>
@@ -2970,9 +2977,9 @@ function AdventurersView({state,setState,notify}){
       <SectionTitle>{t("adv.recruitBoard")}</SectionTitle>
       <GhostBtn onClick={refresh} style={{padding:"5px 10px",fontSize:11}}>🔄 New (20G)</GhostBtn>
     </div>
-    {(()=>{ const locked=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && state.renown<CLASSES[k].minRenown)
+    {(()=>{ const locked=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && !CLASSES[k].unique && state.renown<CLASSES[k].minRenown)
         .sort((a,b)=>CLASSES[a].minRenown-CLASSES[b].minRenown);
-      const unlocked=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && state.renown>=CLASSES[k].minRenown);
+      const unlocked=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && !CLASSES[k].unique && state.renown>=CLASSES[k].minRenown);
       return (<div style={{fontSize:11,color:T.inkDim,marginBottom:10,padding:"8px 11px",borderRadius:8,background:T.panel2,border:`1px solid ${T.border}`}}>
         ★ <b style={{color:T.gold}}>{LANG==="tr"?`${state.renown} şöhret`:`Renown ${state.renown}`}</b> — {unlocked.length>0?(LANG==="tr"?`nadir sınıflar artık çıkabilir: ${unlocked.map(k=>CLASSES[k].icon+" "+clsName(k)).join(", ")}. `:`rare classes can now appear: ${unlocked.map(k=>CLASSES[k].icon+" "+clsName(k)).join(", ")}. `):""}
         {locked.length>0?(LANG==="tr"?`Sıradaki: ${CLASSES[locked[0]].icon} ${clsName(locked[0])} — ${CLASSES[locked[0]].minRenown} şöhrette.`:`Next: ${CLASSES[locked[0]].icon} ${clsName(locked[0])} at ${CLASSES[locked[0]].minRenown} renown.`):(unlocked.length>0?(LANG==="tr"?"Tüm nadir sınıflar açıldı!":"All rare classes unlocked!"):(LANG==="tr"?"Mal satıp seferlerde başarılı olarak şöhret kazan, nadir maceracıları çek.":"Earn renown by selling goods & succeeding to attract rare adventurers."))}
@@ -3202,8 +3209,10 @@ function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,savedParties,on
         border:`1px solid ${repeat===n?T.gold:T.border}`,background:repeat===n?T.panel:"transparent",
         color:repeat===n?T.gold:T.inkDim,fontWeight:700,fontSize:13}}>×{n}</button>))}
     </div>}
-    <GoldBtn onClick={()=>onGo(region,sel,boss?1:repeat)} disabled={sel.length===0} style={{width:"100%",marginTop:6}}>
-      {boss?(LANG==="tr"?"⚔️ Ava Çık":"⚔️ Hunt"):t("pp.send")} {sel.length>0?`${sel.length}`:""}{!boss&&repeat>1?` · ${t("pp.repeatX")} ×${repeat}`:""} ›</GoldBtn>
+    <div style={{position:"sticky",bottom:-18,background:T.panel,paddingTop:8,paddingBottom:4,marginTop:6,boxShadow:`0 -10px 14px -6px ${T.panel}`}}>
+      <GoldBtn onClick={()=>onGo(region,sel,boss?1:repeat)} disabled={sel.length===0} style={{width:"100%"}}>
+        {boss?(LANG==="tr"?"⚔️ Ava Çık":"⚔️ Hunt"):t("pp.send")} {sel.length>0?`${sel.length}`:""}{!boss&&repeat>1?` · ${t("pp.repeatX")} ×${repeat}`:""} ›</GoldBtn>
+    </div>
   </Modal>);
 }
 
@@ -3253,7 +3262,7 @@ function CraftView({state,setState,notify}){
 
   return (<div style={{animation:"fadeUp .3s"}}>
     <div style={{fontSize:11,color:T.inkDim,marginBottom:12,padding:"8px 11px",borderRadius:8,background:T.panel2,border:`1px solid ${T.border}`}}>
-      💰 Tap any recipe to see details. Your guild's craftsfolk turn the spoils your heroes bring home into goods to <b style={{color:T.gold}}>sell at the Market</b> — funding better gear, wages, and grander expeditions.</div>
+      {LANG==="tr"?<>💰 Ayrıntılar için bir tarife dokun. Loncanın zanaatkârları, kahramanlarının getirdiği ham ganimeti <b style={{color:T.gold}}>Pazar'da satılacak</b> mallara dönüştürür — daha iyi teçhizatın, maaşların ve daha büyük seferlerin parası buradan çıkar.</>:<>💰 Tap any recipe to see details. Your guild's craftsfolk turn the spoils your heroes bring home into goods to <b style={{color:T.gold}}>sell at the Market</b> — funding better gear, wages, and grander expeditions.</>}</div>
     {ready.length>0 && <><SectionTitle sub={t("craft.readySub")}>✅ {t("craft.ready")}</SectionTitle>
       {ready.map(r=><RecipeRow key={"rdy_"+r.id} r={r} compact/>)}
       <div style={{height:6}}/></>}
@@ -3383,7 +3392,7 @@ function StorageView({state}){
   return (<div style={{animation:"fadeUp .3s"}}>
     <Panel style={{marginBottom:12}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
-        <div style={{fontSize:11,color:T.gold,textTransform:"uppercase",letterSpacing:1.5}}>🛢️ Warehouse</div>
+        <div style={{fontSize:11,color:T.gold,textTransform:"uppercase",letterSpacing:1.5}}>🛢️ {LANG==="tr"?"Ambar":"Warehouse"}</div>
         <div style={{fontSize:13,fontWeight:700,color:nearFull?T.red:T.ink}}>{total} / {cap}</div>
       </div>
       <Bar pct={pct} color={nearFull?T.red:T.gold} h={8}/>
@@ -3391,7 +3400,7 @@ function StorageView({state}){
         {nearFull?(LANG==="tr"?"⚠️ Neredeyse dolu — seferler ganimet bırakabilir. İnşa sekmesinden yükselt.":"⚠️ Nearly full — expeditions may leave loot behind. Upgrade in the Build tab."):(LANG==="tr"?`Toplam stok değeri ${value.toLocaleString()}A`:`Total stock value ${value.toLocaleString()}G`)}</div>
     </Panel>
     <SectionTitle sub={t("store.roomSub")}>{t("store.room")}</SectionTitle>
-    {owned.length===0 && <div style={{textAlign:"center",color:T.inkFaint,padding:30,fontSize:13}}>Empty. Loot from expeditions and crafted goods are stored here.</div>}
+    {owned.length===0 && <div style={{textAlign:"center",color:T.inkFaint,padding:30,fontSize:13}}>{LANG==="tr"?"Boş. Seferlerden gelen ganimetler ve ürettiğin mallar burada durur.":"Empty. Loot from expeditions and crafted goods are stored here."}</div>}
     {["raw","mid","fin"].map(tg=>{ const grp=owned.filter(([k])=>ITEMS[k].tier===tg); if(!grp.length)return null;
       return (<div key={tg} style={{marginBottom:14}}>
         <div style={{fontSize:10,color:T.inkFaint,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>
