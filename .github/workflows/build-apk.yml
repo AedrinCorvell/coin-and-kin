@@ -22,7 +22,7 @@ jobs:
           java-version: "21"
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Install dependencies
         run: npm install
@@ -69,7 +69,7 @@ jobs:
           ./gradlew assembleDebug
 
       - name: Upload the APK
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: coin-and-kin-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
