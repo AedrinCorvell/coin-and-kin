@@ -263,12 +263,21 @@ const Audio = {
   async ensure(){
     if(this.ready||this.loading) return;
     this.loading=true;
-    await new Promise((res)=>{
-      if(window.Tone){ res(); return; }
-      const sc=document.createElement("script");
-      sc.src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js";
-      sc.onload=res; sc.onerror=res; document.head.appendChild(sc);
-    });
+    // first: prefer the bundled copy, so audio works offline inside the app
+    if(!window.Tone){
+      try{
+        const mod = await import("tone");
+        window.Tone = mod.default || mod;
+      }catch(e){ /* not bundled — fall back to the network copy below */ }
+    }
+    // then: fall back to the network copy for the browser preview
+    if(!window.Tone){
+      await new Promise((res)=>{
+        const sc=document.createElement("script");
+        sc.src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js";
+        sc.onload=res; sc.onerror=res; document.head.appendChild(sc);
+      });
+    }
     if(!window.Tone){ this.loading=false; return; }
     this.Tone=window.Tone;
     try{
@@ -1709,9 +1718,24 @@ export default function Guildmaster(){
       if(raw){
         const obj = JSON.parse(raw);
         if(obj && typeof obj==="object" && obj.gold!==undefined){
-          obj.pendingEvent=null; obj.deathAlert=null; obj.injuryAlert=null;
+          obj.pendingEvent=null; obj.deathAlert=null; obj.injuryAlert=null; obj._achToast=null;
           if(!obj.market) obj.market=freshMarket();
           if(!obj.pendingChains) obj.pendingChains=[];
+          // ---- migrate older saves: fill in fields added by later updates ----
+          if(!obj.achieved) obj.achieved={};
+          if(!obj.stats) obj.stats={quests:0,crafted:0,sold:0,forged:0,maxParty:0};
+          if(!obj.bossUnlocked) obj.bossUnlocked={};
+          if(!obj.bossDefeated) obj.bossDefeated={};
+          if(!Array.isArray(obj.savedParties)) obj.savedParties=[null,null,null];
+          if(!obj.inventory) obj.inventory={};
+          if(!obj.rels) obj.rels={};
+          if(!Array.isArray(obj.fallen)) obj.fallen=[];
+          if(!Array.isArray(obj.log)) obj.log=[];
+          if(!Array.isArray(obj.quests)) obj.quests=[];
+          if(!Array.isArray(obj.crafting)) obj.crafting=[];
+          if(!Array.isArray(obj.adventurers)) obj.adventurers=[];
+          if(!Array.isArray(obj.recruits)) obj.recruits=[];
+          if(!obj.buildings) obj.buildings=newGame().buildings;
           return obj;
         }
       }
@@ -1737,13 +1761,21 @@ export default function Guildmaster(){
   const lastEventId = useRef(null);
   const tickRef = useRef();
 
-  // ---- auto-save: persist the guild to device storage whenever it changes ----
+  // ---- auto-save: persist the guild to device storage (throttled to ~5s) ----
+  const lastSaveRef = useRef(0);
   useEffect(()=>{
     if(!state.started) return; // don't save the pre-game intro state
-    try{
-      const { pendingEvent, deathAlert, injuryAlert, ...clean } = state;
-      localStorage.setItem(SAVE_KEY, JSON.stringify(clean));
-    }catch(e){ /* storage full or unavailable — game still runs in memory */ }
+    const now = Date.now();
+    const doSave = ()=>{
+      try{
+        const { pendingEvent, deathAlert, injuryAlert, _achToast, ...clean } = state;
+        localStorage.setItem(SAVE_KEY, JSON.stringify(clean));
+        lastSaveRef.current = Date.now();
+      }catch(e){ /* storage full or unavailable — game still runs in memory */ }
+    };
+    if(now - lastSaveRef.current >= 5000){ doSave(); return; }
+    const id = setTimeout(doSave, 5000 - (now - lastSaveRef.current));
+    return ()=>clearTimeout(id);
   }, [state]);
 
   // watch for new deaths flagged by the tick
@@ -1773,6 +1805,18 @@ export default function Guildmaster(){
       notify(LANG==="tr"?`🩸 ${n.length>1?n.length+" maceracı":n[0]} ${regionName(state.injuryAlert.region)} bölgesinde yaralandı!`:`🩸 ${n.length>1?n.length+" adventurers were":n[0]+" was"} hurt in ${regionName(state.injuryAlert.region)}!`);
     }
   }, [state.injuryAlert]);
+
+  // watch for unlocked achievements → toast
+  const lastAchId = useRef(null);
+  useEffect(()=>{
+    const at=state._achToast;
+    if(at && at.id!==lastAchId.current){
+      lastAchId.current = at.id;
+      const extra = at.count>1 ? (LANG==="tr"?` (+${at.count-1} daha)`:` (+${at.count-1} more)`) : "";
+      notify(`🏆 ${LANG==="tr"?"Başarım":"Achievement"}: ${at.ach.icon} ${achName(at.ach)}${extra}`);
+      Audio.play("levelup");
+    }
+  }, [state._achToast]);
 
   // resolve a big-event choice
   const resolveEvent = useCallback((choiceIdx)=>{
@@ -2232,7 +2276,7 @@ export default function Guildmaster(){
           // auto-check condition-based achievements
           ACHIEVEMENTS.forEach(a=>{ if(a.check && !ns.achieved[a.id]){ try{ if(a.check(ns)){ ns.achieved[a.id]=ns.elapsed||1; newly.push(a.id); } }catch(e){} } });
           newly.forEach(id=>{ const a=ACH_BY_ID[id]; if(a) logAdds.push({t:ns.elapsed,msg:`${a.icon} ${LANG==="tr"?"Başarım açıldı":"Achievement unlocked"}: ${achName(a)}`}); });
-          if(newly.length) ns._achToast=(ns.achieved&&ACH_BY_ID[newly[newly.length-1]])?ACH_BY_ID[newly[newly.length-1]]:null;
+          if(newly.length){ const last=ACH_BY_ID[newly[newly.length-1]]; if(last) ns._achToast={id:uid(), ach:last, count:newly.length}; }
         }
         if(logAdds.length){ ns.log = [...logAdds.reverse(), ...s.log].slice(0,40); }
         return ns;
@@ -2704,7 +2748,8 @@ function SaveModal({state,setState,notify,onClose}){
 function LegendsModal({fallen,onClose}){
   return (<Modal title={`🕯️ ${t("ui.legends")}`} onClose={onClose}>
     <div style={{fontSize:12,color:T.parchment,fontStyle:"italic",lineHeight:1.5,marginBottom:16,textAlign:"center"}}>
-      "Gone, but carved into the guild's memory. Each name a debt the living can never repay."</div>
+      {LANG==="tr"?"Gittiler, ama loncanın hafızasına kazındılar. Her isim, yaşayanların asla ödeyemeyeceği bir borç."
+       :"Gone, but carved into the guild's memory. Each name a debt the living can never repay."}</div>
     <div style={{display:"flex",flexDirection:"column",gap:10}}>
       {fallen.map((f,i)=>{ const c=CLASSES[f.cls];
         return (<div key={i} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"12px 13px",
@@ -3404,7 +3449,7 @@ function StorageView({state}){
     {["raw","mid","fin"].map(tg=>{ const grp=owned.filter(([k])=>ITEMS[k].tier===tg); if(!grp.length)return null;
       return (<div key={tg} style={{marginBottom:14}}>
         <div style={{fontSize:10,color:T.inkFaint,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>
-          {tg==="raw"?"Raw Materials":tg==="mid"?"Refined Goods":"Finished Goods"}</div>
+          {t("tier."+tg)}</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(72px,1fr))",gap:8}}>
           {grp.map(([k,v])=>(<div key={k} style={{background:T.panel,border:`1px solid ${T.border}`,borderRadius:9,padding:"10px 4px",textAlign:"center"}}>
             <div style={{fontSize:22}}>{ITEMS[k].icon}</div>
