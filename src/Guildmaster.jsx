@@ -949,7 +949,7 @@ const rint = (a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const pick = (arr)=>arr[Math.floor(Math.random()*arr.length)];
 const uid = ()=>Math.random().toString(36).slice(2,9);
 const rankForLevel = (lvl)=>{ let r=RANKS[0]; for(const rk of RANKS){ if(lvl>=rk.minLevel) r=rk; } return r; };
-const xpForLevel = (lvl)=>Math.floor(28*Math.pow(lvl,1.25));
+const xpForLevel = (lvl)=>Math.floor(14*Math.pow(lvl,1.25)); // seviye atlama 2 kat hızlı (eskiden 28)
 const fmtTime = (s)=>{ s=Math.max(0,Math.ceil(s)); const m=Math.floor(s/60); const ss=s%60; return m>0?`${m}m ${ss}s`:`${ss}s`; };
 const DANGER_LABELS = ["", "Very Safe", "Safe", "Risky", "Dangerous", "Deadly", "Lethal"];
 const DANGER_LABELS_TR = ["", "Çok Güvenli", "Güvenli", "Riskli", "Tehlikeli", "Ölümcül", "Mezar"];
