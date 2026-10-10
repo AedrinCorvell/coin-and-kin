@@ -401,7 +401,7 @@ const CLASSES = {
   // ===== UNIQUE heroes — appear on the board only very rarely, cost a fortune =====
   LoneWolf: { hp: 170, atk: 30, def: 18, spd: 16, icon: "🐺", role:"Lone Slayer", rare:true, unique:true, minRenown:0,
     desc: "A scarred knight clad all in black who fights alone and fears nothing. Immense power — but will only take an expedition solo, never in a party.",
-    perk:"Overwhelming might when alone", mod:{} },
+    perk:"+22% success when sent alone", mod:{} },
   Hawk: { hp: 120, atk: 24, def: 12, spd: 20, icon: "🦅", role:"Dark Falcon", rare:true, unique:true, minRenown:0,
     desc: "A charismatic, ambitious blade. Bonds with comrades in record time — yet their shadow poisons the bonds between everyone else.",
     perk:"Bonds fast, but sows discord", mod:{ partySuccess:0.10, partyLoot:0.08 } },
@@ -410,7 +410,7 @@ const CLASSES = {
     perk:"Dragon-slayer; lifts the whole party", mod:{ partySuccess:0.18, partyLoot:0.10 } },
   GoblinSlayer: { hp: 140, atk: 26, def: 20, spd: 15, icon: "🪓", role:"Goblin Bane", rare:true, unique:true, minRenown:0, soloRegion:"goblin_hills",
     desc: "A grim hunter who cares for nothing but slaying goblins. Works alone — but in the Goblin Hills, none are deadlier.",
-    perk:"Solo; devastating in the Goblin Hills", mod:{} },
+    perk:"+15% success when sent alone; +45% in the Goblin Hills", mod:{} },
 };
 const NORMAL_CLASSES = ["Warrior","Rogue","Mage","Ranger","Cleric"];
 const POSITIVE_TRAITS = [
@@ -472,8 +472,8 @@ const ITEMS = {
   scrap_iron:{name:"Scrap Iron",value:4,tier:"raw",icon:"⛓️"}, slime:{name:"Slime",value:3,tier:"raw",icon:"🫧"},
   iron_ore:{name:"Iron Ore",value:6,tier:"raw",icon:"🪨"}, goblin_ear:{name:"Goblin Ear",value:5,tier:"raw",icon:"👂"},
   crude_gem:{name:"Crude Gem",value:15,tier:"raw",icon:"💎"}, toxin_gland:{name:"Toxin Gland",value:9,tier:"raw",icon:"🫙"},
-  bog_iron:{name:"Bog Iron",value:7,tier:"raw",icon:"🪨"}, bone:{name:"Bone",value:4,tier:"raw",icon:"🦴"},
-  silver_ore:{name:"Silver Ore",value:12,tier:"raw",icon:"🪙"}, cursed_relic:{name:"Cursed Relic",value:30,tier:"raw",icon:"🔯"},
+  bog_iron:{name:"Bog Iron",value:7,tier:"raw",icon:"🟤"}, bone:{name:"Bone",value:4,tier:"raw",icon:"🦴"},
+  silver_ore:{name:"Silver Ore",value:12,tier:"raw",icon:"🥈"}, cursed_relic:{name:"Cursed Relic",value:30,tier:"raw",icon:"🔯"},
   orc_tusk:{name:"Orc Tusk",value:10,tier:"raw",icon:"🦷"}, steel_scrap:{name:"Steel Scrap",value:11,tier:"raw",icon:"🗡️"},
   frost_crystal:{name:"Frost Crystal",value:20,tier:"raw",icon:"❄️"}, yeti_fur:{name:"Yeti Fur",value:18,tier:"raw",icon:"🧊"},
   dragon_scale:{name:"Dragon Scale",value:50,tier:"raw",icon:"🐲"}, gold_ore:{name:"Gold Ore",value:35,tier:"raw",icon:"✨"},
@@ -490,10 +490,10 @@ const ITEMS = {
   carved_totem:{name:"Carved Forest Totem",value:55,tier:"raw",icon:"🪵"},
   rat_king_crown:{name:"Rat King's Crown",value:60,tier:"raw",icon:"👑"},
   chieftain_banner:{name:"Goblin Chieftain's Banner",value:85,tier:"raw",icon:"🚩"},
-  drowned_locket:{name:"Drowned Maiden's Locket",value:95,tier:"raw",icon:"📿"},
+  drowned_locket:{name:"Drowned Maiden's Locket",value:95,tier:"raw",icon:"🧿"},
   saints_finger:{name:"Saint's Finger Bone",value:130,tier:"raw",icon:"🦴"},
   warlord_skull:{name:"Orc Warlord's Skull",value:150,tier:"raw",icon:"💀"},
-  frozen_heart:{name:"Heart of the Mountain",value:210,tier:"raw",icon:"❄️"},
+  frozen_heart:{name:"Heart of the Mountain",value:210,tier:"raw",icon:"💠"},
   broken_seal:{name:"Broken Royal Seal",value:320,tier:"raw",icon:"🔱"},
   grimoire_page:{name:"Witch's Grimoire Page",value:400,tier:"raw",icon:"📜"},
   // ⚜️ class relics — earned from special requests when that rare class is in your guild; equipping grants a permanent boon
@@ -644,7 +644,7 @@ const TR_TRAIT = {
   Brave:"Cesur", Loyal:"Sadık", Genius:"Dâhi", Tough:"Dayanıklı", Lucky:"Şanslı", Swift:"Çevik",
   Charming:"Cazibeli", Hardy:"Sağlam", Studious:"Çalışkan", Nimble:"Atik", Scavenger:"Çöpçü",
   Frugal:"Tutumlu", Bold:"Atılgan", Cheerful:"Neşeli", Tireless:"Yorulmaz", Sociable:"Sosyal",
-  Restless:"Huzursuz", Hothead:"Kavgacı", Lightfingered:"Eli Uzun",
+  Restless:"Huzursuz", Hothead:"Kavgacı", Lightfingered:"Eli Uzun", Remorseful:"Pişman",
   Reckless:"Pervasız", Greedy:"Açgözlü", Arrogant:"Kibirli", Drunkard:"Ayyaş", Frail:"Cılız", Slow:"Yavaş",
   Cowardly:"Korkak", Clumsy:"Sakar", Lazy:"Tembel", Sickly:"Hastalıklı", Sluggish:"Ağır", Glutton:"Obur",
   Demanding:"Talepkâr", Timid:"Ürkek",
@@ -727,7 +727,7 @@ const TR_CLASS_PERK = {
   Paladin:"−%9 yaralanma & +%5 başarı", Necromancer:"+%12 başarı & +%8 ganimet",
   Assassin:"+%15 ganimet & %10 daha hızlı", Beastmaster:"+%6 başarı, ganimet & −%4 yaralanma",
   Monk:"−%11 yaralanma & +%4 başarı",
-  LoneWolf:"Yalnızken ezici güç", Hawk:"Hızlı bağ kurar ama fesat eker", Dragonborn:"Ejderha avcısı; tüm ekibi güçlendirir", GoblinSlayer:"Yalnız; Goblin Tepeleri'nde yıkıcı",
+  LoneWolf:"Yalnız gittiğinde +%22 başarı", Hawk:"Hızlı bağ kurar ama fesat eker", Dragonborn:"Ejderha avcısı; tüm ekibi güçlendirir", GoblinSlayer:"Yalnız gittiğinde +%15 başarı; Goblin Tepeleri'nde +%45",
 };
 const TR_TRAIT_DESC = {
   Brave:"+%10 tehlike başarısı", Loyal:"Maaş −%15", Genius:"+%15 TP", Tough:"+%20 can",
@@ -735,7 +735,7 @@ const TR_TRAIT_DESC = {
   Studious:"+%8 TP", Nimble:"Görevler %6 daha hızlı", Scavenger:"+%7 ganimet", Frugal:"Maaş −%8",
   Bold:"+%5 tehlike başarısı", Cheerful:"+%6 kira ödemesi",
   Tireless:"Seferlerde %40 daha az yorulur", Sociable:"Ev arkadaşlarına çabuk ısınır",
-  Restless:"Seferlerde %40 daha çok yorulur", Hothead:"Ev arkadaşlarıyla didişir", Lightfingered:"Maaş gününde kasadan para eksilebilir",
+  Restless:"Seferlerde %40 daha çok yorulur", Hothead:"Ev arkadaşlarıyla didişir", Lightfingered:"Maaş gününde kasadan para eksilebilir", Remorseful:"Eski bir borcu ödüyor: −%5 TP",
   Reckless:"+%15 yaralanma riski", Greedy:"Maaş +%20", Arrogant:"−%10 TP", Drunkard:"Meyhane hesabını hiç ödemez",
   Frail:"−%15 can", Slow:"Görevler %12 daha yavaş", Cowardly:"−%10 tehlike başarısı", Clumsy:"+%7 yaralanma riski",
   Lazy:"−%7 TP", Sickly:"−%8 can", Sluggish:"Görevler %6 daha yavaş", Glutton:"Kileri boşaltır — pansiyonun yarısını öder",
@@ -744,7 +744,8 @@ const TR_TRAIT_DESC = {
 };
 function clsDesc(c){ if(LANG==="tr" && TR_CLASS_DESC[c]) return TR_CLASS_DESC[c]; return (CLASSES[c]&&CLASSES[c].desc)||""; }
 function clsPerk(c){ if(LANG==="tr" && TR_CLASS_PERK[c]) return TR_CLASS_PERK[c]; return (CLASSES[c]&&CLASSES[c].perk)||""; }
-function traitDesc(n){ if(LANG==="tr" && TR_TRAIT_DESC[n]) return TR_TRAIT_DESC[n]; return TRAIT_DESC_EN[n]||n; }
+function traitDesc(n){ if(LANG==="tr" && TR_TRAIT_DESC[n]) return TR_TRAIT_DESC[n]; if(TRAIT_DESC_EN[n]) return TRAIT_DESC_EN[n];
+  const t=[...POSITIVE_TRAITS,...NEGATIVE_TRAITS].find(x=>x.name===n); return (t&&t.desc)||n; }
 const TR_REL = {
   "Romance":"Aşk", "Close Friend":"Yakın Dost", "Friend":"Dost", "Rival":"Rakip",
   "Bitter Rival":"Ezeli Rakip", "Mentor":"Akıl Hocası",
@@ -825,9 +826,9 @@ function freshMarket(){ const m={}; Object.keys(MARKET_CATS).forEach(c=>m[c]={pr
 // current sell price for one unit, rounded
 function unitPrice(item, market){
   const cat=catOf(item);
-  if(cat==="raw") return ITEMS[item].value; // raw materials sell at a stable fair price
-  const mult=(market&&market[cat]&&market[cat].price)||1.0;
-  return Math.max(1, Math.round(ITEMS[item].value * mult));
+  const dm=(market&&market.demand&&market.demand.item===item)?market.demand.mult:1; // realm news: this item is in demand
+  if(cat==="raw") return Math.round(ITEMS[item].value*dm); // raw materials sell at a stable fair price
+  return Math.max(1, Math.round(ITEMS[item].value * dm)); // fixed prices; only realm news moves them
 }
 
 // ==================== §DATA-REQUESTS · İSTEK PANOSU ====================
@@ -850,6 +851,29 @@ const OMENS = [
   { id:"plague",     mult:{church:1.4,commoners:1.3},  tr:"🤒 Kasabada salgın var — şifacılar da halk da malzemeye muhtaç.", en:"🤒 Plague in town — healers and common folk alike need supplies." },
   { id:"tournament", mult:{nobles:1.4},                tr:"🏇 Başkentte büyük turnuva var — soylular gösteriş peşinde.", en:"🏇 A grand tournament in the capital — the Nobles want to show off." },
 ];
+// Market-demand news: one item sells at double price at the merchants for this cycle
+const DEMAND_NEWS = [
+  { tr:"❄️ Kuzeyde kış sert geçiyor — tüccarlar {i} için iki kat ödüyor.", en:"❄️ A harsh winter up north — merchants pay double for {i}." },
+  { tr:"⛵ Liman şehrinden bir kervan geldi, {i} arıyor — fiyatı ikiye katlandı.", en:"⛵ A caravan from the port city is buying {i} — the price has doubled." },
+  { tr:"🏗️ Başkentte büyük bir inşaat var — {i} kapış kapış gidiyor.", en:"🏗️ A great building works in the capital — {i} is selling like mad." },
+  { tr:"🧪 Simyacılar {i} topluyor — tüccarlar bu dönem cömert.", en:"🧪 The alchemists are buying up {i} — merchants are generous this cycle." },
+];
+// Quiet days: nothing happens, the realm just breathes
+const QUIET_NEWS = [
+  { tr:"🌤️ Diyar sakin. Kasabada konuşulacak bir şey yok.", en:"🌤️ The realm is quiet. Nothing much to talk about in town." },
+  { tr:"🌧️ Üç gündür yağmur dinmedi; yollar çamur, meyhane dolu.", en:"🌧️ Three days of rain; the roads are mud and the tavern is full." },
+  { tr:"🐓 Pazarda bir horoz kaçtı, bütün kasaba peşinden koştu. Başka bir şey olmadı.", en:"🐓 A rooster escaped at the market and the whole town gave chase. Nothing else happened." },
+  { tr:"🍂 Hasat zamanı. Herkes tarlada, ortalık sessiz.", en:"🍂 Harvest time. Everyone is in the fields; the town is quiet." },
+  { tr:"📜 Tellal bu sabah meydanda esnedi. Haber yok.", en:"📜 The crier yawned in the square this morning. No news." },
+  { tr:"🌙 Dün gece dolunay vardı. Yaşlılar uğursuz der; kimse aldırmadı.", en:"🌙 Full moon last night. The old folk call it ill-omened; nobody cared." },
+];
+function newsText(rq){
+  if(!rq) return null;
+  const om=OMENS.find(o=>o.id===rq.omen); if(om) return {kind:"omen", text:LANG==="tr"?om.tr:om.en};
+  if(rq.demand && DEMAND_NEWS[rq.demand.news]){ const d=DEMAND_NEWS[rq.demand.news]; return {kind:"demand", text:(LANG==="tr"?d.tr:d.en).replace("{i}",itemName(rq.demand.item))}; }
+  if(rq.quiet!=null && QUIET_NEWS[rq.quiet]){ const q=QUIET_NEWS[rq.quiet]; return {kind:"quiet", text:LANG==="tr"?q.tr:q.en}; }
+  return null;
+}
 const TR_REQ = {
   nobles:{ desc:"Lüks ve nadir mallara en yüksek parayı öder." },
   church:{ desc:"Biraz az öder ama her teslimat loncana şöhret kazandırır." },
@@ -861,7 +885,17 @@ const REQ_DESC_EN = {
   commoners:"Everyday goods — easy to find, steady income.",
 };
 function reqDesc(g){ return LANG==="tr" ? TR_REQ[g].desc : REQ_DESC_EN[g]; }
-const favorMult = (f)=> 1 + Math.min(0.5, (f||0)*0.02);
+// Favor with each buyer group: 0..50, paid out in four steps (plus a perk at the top)
+const FAVOR_MAX = 50;
+const FAVOR_TIERS = [ {min:10,pay:0.10,tr:"Tanıdık",en:"Acquainted"}, {min:20,pay:0.20,tr:"Güvenilir",en:"Trusted"},
+  {min:35,pay:0.35,tr:"Sadık",en:"Loyal"}, {min:50,pay:0.50,tr:"Gözde",en:"Favored"} ];
+function favorTier(f){ let i=-1; FAVOR_TIERS.forEach((t,k)=>{ if((f||0)>=t.min) i=k; }); return i; }
+function favorTierName(i){ const t=FAVOR_TIERS[i]; return t ? (LANG==="tr"?t.tr:t.en) : (LANG==="tr"?"Yabancı":"Stranger"); }
+const favorMult = (f)=>{ const i=favorTier(f); return 1 + (i>=0?FAVOR_TIERS[i].pay:0); };
+const FAVOR_PERK = { nobles:{tr:"Gözde: nadir mallar için daha sık istek asarlar",en:"Favored: they post rare-goods requests more often"},
+  church:{tr:"Gözde: her teslimat +1 şöhret",en:"Favored: +1 renown per delivery"},
+  commoners:{tr:"Gözde: devriye geliri +%25",en:"Favored: patrol income +25%"} };
+const favorTop=(s,g)=>(((s.requests&&s.requests.favor)||{})[g]||0)>=FAVOR_MAX;
 function reqReward(r, favor, ti, lm){ return Math.round((r.base||0) * favorMult(favor) * (1+0.04*(ti||0)) * (lm||1)); }
 function reqRenown(r, tier){ return r.group==="church" ? 1+((tier||0)>=3?1:0) : 0; }
 // ==================== §RENOWN · ŞÖHRET UNVANLARI ====================
@@ -903,7 +937,8 @@ function genRequests(st, day, prev){
     const picks=[];
     const take=(arr,n,lk)=>{ for(const x of arr){ if(picks.length>=5||n<=0) break; if(used.has(x)) continue; used.add(x); picks.push({item:x,locked:lk}); n--; } };
     take(locked,2,true);
-    if(Math.random()<0.4) take(openRare,1,false);
+    if(g==="nobles" && prev && prev.favor && (prev.favor.nobles||0)>=FAVOR_MAX) take(openRare,2,false);
+    else if(Math.random()<0.4) take(openRare,1,false);
     take(open,5,false);
     take(openRare,5,false);
     take(locked,5,true);
@@ -924,11 +959,14 @@ function genRequests(st, day, prev){
     if(wants && !owned) list.push({ id:uid(), group:rr.group, need:rr.need.map(n=>({...n})), base:0, relic:rr.cls, done:false });
   });
   const favor = (prev&&prev.favor) ? {...prev.favor} : {nobles:0,church:0,commoners:0};
-  // half the time, something is happening in the realm
-  let omen=null;
-  if(Math.random()<0.5){ const o=pick(OMENS); omen=o.id;
+  // the realm's news: ~30% a request boom, ~20% a market demand, otherwise a quiet spell
+  let omen=null, demand=null, quiet=null; const roll=Math.random();
+  if(roll<0.3){ const o=pick(OMENS); omen=o.id;
     list.forEach(r=>{ const m=o.mult[r.group]; if(m && !r.relic){ r.base=Math.round(r.base*m); r.boost=m; } }); }
-  return { list, nextDay: day + REQ_REFRESH_DAYS, favor, bonusPaid:{}, omen };
+  else if(roll<0.5){ const cands=Object.keys(ITEMS).filter(k=>itemTier(k)<=tier && !isRareLoot(k));
+    if(cands.length) demand={ item:pick(cands), mult:2, news:rint(0,DEMAND_NEWS.length-1) }; else quiet=rint(0,QUIET_NEWS.length-1); }
+  else quiet=rint(0,QUIET_NEWS.length-1);
+  return { list, nextDay: day + REQ_REFRESH_DAYS, favor, bonusPaid:{}, omen, demand, quiet };
 }
 
 
@@ -944,6 +982,9 @@ const BUILDINGS = {
     {cost:0,wageMult:1},{cost:500,wageMult:0.95},{cost:1500,wageMult:0.9},{cost:4000,wageMult:0.85} ]},
   guild_herald:{ name:"Town Crier", group:"guild", icon:"📯", desc:"Spreads word of your guild — more candidates, and rarer ones.", levels:[
     {cost:0,recruitSlots:3,rareBoost:0},{cost:400,recruitSlots:4,rareBoost:15},{cost:1400,recruitSlots:4,rareBoost:30},{cost:4000,recruitSlots:5,rareBoost:50} ]},
+  // 🗼 Watchtower
+  watch_tower:{ name:"Watchtower", group:"guild", icon:"🗼", desc:"More watch posts: more heroes can patrol at once, and each earns a little more.", levels:[
+    {cost:0,patrolGold:1,patrolSlots:2},{cost:200,patrolGold:1.4,patrolSlots:3},{cost:600,patrolGold:1.8,patrolSlots:4},{cost:1700,patrolGold:2.1,patrolSlots:5},{cost:4200,patrolGold:2.5,patrolSlots:6} ]},
   monuments:{ name:"Monuments", group:"guild", icon:"🗿", needTier:5, desc:"Grand works that spread your guild's fame across the realm.", levels:[
     {cost:0,renownBonus:0},{cost:60000,renownBonus:20},{cost:120000,renownBonus:50},{cost:250000,renownBonus:100} ]},
   // 🛏️ Dormitory — split into three separate upgrade lines
@@ -977,9 +1018,6 @@ const BUILDINGS = {
     {cost:0,speedMult:1},{cost:300,speedMult:0.95},{cost:900,speedMult:0.9},{cost:2400,speedMult:0.85},{cost:6000,speedMult:0.8} ]},
   stable_carts:{ name:"Pack Carts", group:"stables", icon:"🛒", desc:"More room to haul — more loot comes home.", levels:[
     {cost:0,lootBonus:0},{cost:250,lootBonus:0.05},{cost:800,lootBonus:0.10},{cost:2200,lootBonus:0.15},{cost:5500,lootBonus:0.20} ]},
-  // 🗼 Watchtower
-  watch_tower:{ name:"Watchtower", icon:"🗼", desc:"More watch posts: more heroes can patrol at once, and each earns a little more.", levels:[
-    {cost:0,patrolGold:1,patrolSlots:2},{cost:200,patrolGold:1.4,patrolSlots:3},{cost:600,patrolGold:1.8,patrolSlots:4},{cost:1700,patrolGold:2.1,patrolSlots:5},{cost:4200,patrolGold:2.5,patrolSlots:6} ]},
 };
 const BUILDING_GROUPS = {
   guild:{ name:"Guild Management", icon:"🏰", desc:"The paperwork, coin and reputation that keep a guild running." },
@@ -1020,6 +1058,20 @@ const dangerColor = (d)=> d<=1?T.green : d<=2?"#b8c45b" : d<=3?T.gold : d<=4?"#d
 
 // Estimate party success & injury for a region — must mirror the tick resolution formula.
 // ==== ONE source of truth for expedition odds — used by the real dice roll AND the on-screen estimate ====
+// ==== Hero combat stats: grow with level and rank, keep each class's shape ====
+// Attack → success · Defense → injury · Speed → trip length + slipping away unhurt · HP → surviving a deadly blow, healing
+const STAT_GROWTH = { atk:0.035, def:0.05, spd:0.01 };
+function heroStats(a){ const c=CLASSES[a.cls]||CLASSES.Warrior; const L=Math.max(1,a.level||1), rm=1+0.05*(a.rankIndex||0);
+  const g=(base,k)=>Math.round(base*(1+STAT_GROWTH[k]*(L-1))*rm);
+  return { atk:g(c.atk,"atk"), def:g(c.def,"def"), spd:g(c.spd,"spd"), hp:a.maxHp||c.hp }; }
+// toughness compared with an "average" hero of the same level and rank (1.0 = average)
+function hpRatio(a){ const L=Math.max(1,a.level||1); return (a.maxHp||100)/(100*Math.pow(1.06,L-1)*Math.pow(1.12,a.rankIndex||0)); }
+const statSucc = (st)=> (st.atk-12)*0.0068;
+const statInjCut = (st)=> (st.def-10)*0.0025;
+const escapeChance = (st)=> Math.max(0, Math.min(0.25, (st.spd-8)*0.012));
+const lastStandChance = (a)=> Math.max(0.05, Math.min(0.45, 0.15+(hpRatio(a)-1)*0.3));
+const healMult = (a)=>{ const r=hpRatio(a); return r>=1.2?0.85 : r<0.85?1.1 : 1; };
+const heroPower = (a)=>{ const st=heroStats(a); return a.level*2.5 + (st.atk+st.def)/2; };
 function partyContext(party, s){
   let partySuccess=0, partyLoot=0, partyInjury=0;
   party.forEach(a=>{ const m=CLASSES[a.cls].mod||{}; partySuccess+=m.partySuccess||0; partyLoot+=m.partyLoot||0; partyInjury+=m.partyInjury||0; });
@@ -1033,29 +1085,29 @@ function partyContext(party, s){
   return { partySuccess, partyLoot, partyInjury, relBonus, beastBonus, tavernSucc };
 }
 function memberOdds(a, party, region, ctx, s){
-  const cs=CLASSES[a.cls];
-  let succ = 0.65 + (a.level/100) + ctx.tavernSucc + ctx.partySuccess + ctx.relBonus + ctx.beastBonus;
+  const cs=CLASSES[a.cls]; const st=heroStats(a);
+  let succ = 0.65 + (a.level/200) + ctx.tavernSucc + ctx.partySuccess + ctx.relBonus + ctx.beastBonus;
   if(a.cls==="LoneWolf" && party.length===1) succ += 0.22; // the wolf is devastating alone
   if(a.cls==="GoblinSlayer" && party.length===1){ succ += 0.15; if(region.id==="goblin_hills") succ += 0.30; }
   succ += posMod(a,"dangerSuccess") + (a.neg.mod.dangerSuccess||0);
-  succ += (cs.atk-12)*0.005 - region.danger*0.04;
+  succ += statSucc(st) - region.danger*0.04;
   if(a.grief && (s.elapsed||0) < a.grief) succ -= 0.08; // grieving lowers focus
   if(a.fatigue>=70) succ -= 0.12; else if(a.fatigue>=40) succ -= 0.05; // exhaustion dulls performance
   succ += (a.bonusSucc||0) + (a.goblinMastery && region.id==="goblin_hills" ? 0.15 : 0); // earned through personal stories
   const ceil = region.danger>=5 ? 0.90 : region.danger>=3 ? 0.94 : 0.97; // deadly places stay risky
   succ = Math.max(0.2, Math.min(ceil, succ));
   const inj = Math.max(0.02, legendMod(s).injury - (bLv(s.buildings,"inf_herbs").injuryCut||0) + 0.12 + region.danger*0.05 + (a.neg.mod.injuryChance||0)
-    + ctx.partyInjury - (cs.def-10)*0.004 - (a.boon==="holyArmor"?0.10:0) - (a.boon==="prayerBeads"?0.07:0) - (a.bonusInj||0));
+    + ctx.partyInjury - statInjCut(st) - (a.boon==="holyArmor"?0.10:0) - (a.boon==="prayerBeads"?0.07:0) - (a.bonusInj||0));
   let dc=0; // on a failed + injured roll in dangerous places, injury may become death
-  if(region.danger>=3){ dc=(region.danger-2)*0.035 + (a.neg.mod.injuryChance||0)*0.5; if(a.status==="injured") dc+=0.05; dc+=ctx.partyInjury*0.3; dc=Math.max(0,Math.min(0.30,dc)); }
-  return { succ, inj, dc };
+  if(region.danger>=3){ dc=(region.danger-2)*0.04 + (a.neg.mod.injuryChance||0)*0.5; if(a.status==="injured") dc+=0.05; dc+=ctx.partyInjury*0.3; dc=Math.max(0,Math.min(0.30,dc)); }
+  return { succ, inj, dc, esc:escapeChance(st), ls:lastStandChance(a) };
 }
 function estimateOutcome(party, region, s){
   if(!party.length) return null;
   const ctx=partyContext(party, s);
   let succSum=0, pNoInj=1, pNoDeath=1;
-  party.forEach(a=>{ const o=memberOdds(a,party,region,ctx,s); succSum+=o.succ; const pInj=(1-o.succ)*o.inj; pNoInj*=1-pInj;
-    pNoDeath*=1-pInj*(a.boon==="boneRelic"?0:o.dc); });
+  party.forEach(a=>{ const o=memberOdds(a,party,region,ctx,s); succSum+=o.succ; const pInj=(1-o.succ)*o.inj*(1-o.esc); pNoInj*=1-pInj;
+    pNoDeath*=1-pInj*(a.boon==="boneRelic"?0:o.dc*(1-o.ls)); });
   return { success:Math.round(succSum/party.length*100), injury:Math.round((1-pNoInj)*100), death:Math.round((1-pNoDeath)*100), relBonus:ctx.relBonus };
 }
 const outcomeColor=(pct)=> pct>=75?T.green : pct>=55?T.gold : T.red;
@@ -1144,7 +1196,7 @@ function rollClass(renown, exclude){
   exclude = exclude || [];
   // ultra-rare unique heroes: tiny flat chance on any roll
   const uniques=Object.keys(CLASSES).filter(k=>CLASSES[k].unique && !exclude.includes(k));
-  if(uniques.length && Math.random() < 0.02) return pick(uniques); // ~2% per board slot roll
+  if(uniques.length && renown>=50 && Math.random() < 0.02) return pick(uniques); // ~2% per slot, once the guild has a bit of a name
   const rares=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && !CLASSES[k].unique && renown>=CLASSES[k].minRenown);
   // chance of a rare recruit scales with renown, capped at 35%
   if(rares.length && Math.random() < Math.min(0.35, renown/200)) return pick(rares);
@@ -1323,7 +1375,7 @@ const BIG_EVENTS = [
     }
   },
   {
-    id:"plague", weight:7, when:s=>s.adventurers.length>=2,
+    id:"plague", weight:7, when:s=>false, // now the multi-part "Salgın" arc
     build:(s)=>({ title:LANG==="tr"?"Loncada Hastalık":"Sickness in the Hall", icon:"🤒",
       text:LANG==="tr"?`Ashford'da bir ateş yayılıyor. Bazı maceracıların hastalandı. Nasıl karşılık verirsin?`:`A fever spreads through Ashford. Some of your adventurers have fallen ill. How do you respond?`,
       choices:[
@@ -1433,8 +1485,11 @@ const BIG_EVENTS = [
       const rom=findBondedPair(s,(sc,rt)=>rt&&rt.type==="Romance"); if(!rom) return false;
       const[A,B]=rom; return s.adventurers.some(c=>c.id!==A.id&&c.id!==B.id&&(getRel(s.rels,c.id,A.id)>=50||getRel(s.rels,c.id,B.id)>=50));
     },
-    build:(s)=>{ const rom=findBondedPair(s,(sc,rt)=>rt&&rt.type==="Romance"); const[A,B]=rom;
-      const third=s.adventurers.find(c=>c.id!==A.id&&c.id!==B.id&&(getRel(s.rels,c.id,A.id)>=50||getRel(s.rels,c.id,B.id)>=50));
+    build:(s)=>{ let A,B,third; // findBondedPair picks at random, so look until we land on a pair that has a third wheel
+      for(let k=0;k<40 && !third;k++){ const rom=findBondedPair(s,(sc,rt)=>rt&&rt.type==="Romance"); if(!rom) continue; [A,B]=rom;
+        third=s.adventurers.find(c=>c.id!==A.id&&c.id!==B.id&&(getRel(s.rels,c.id,A.id)>=50||getRel(s.rels,c.id,B.id)>=50)); }
+      if(!third) return { title:LANG==="tr"?"Sessiz Bir Gece":"A Quiet Night", icon:"🌙", text:LANG==="tr"?"Salonda kimsenin kimseye söyleyecek bir şeyi yok bu gece.":"No one in the hall has anything to say to anyone tonight.",
+        choices:[{label:LANG==="tr"?"İyi geceler":"Good night", resolve:()=>({})}] };
       const pinedFor = getRel(s.rels,third.id,A.id)>=getRel(s.rels,third.id,B.id)?A:B; const spurned=pinedFor.id===A.id?B:A;
       return { title:LANG==="tr"?"Kıskanç Bir Yürek":"A Jealous Heart", icon:"💔", _a:third.id, _b:spurned.id,
         text:LANG==="tr"?`${third.name} uzun zamandır ${pinedFor.name}'e gönül veriyor — ama o ${spurned.name}'i seviyor. Gerginlik loncayı zehirliyor. Bunu nasıl ele alırsın?`:`${third.name} has long harbored feelings for ${pinedFor.name} — who loves ${spurned.name} instead. The tension is poisoning the hall. How do you handle it?`,
@@ -1524,7 +1579,7 @@ const LEGENDARY_EVENTS = [
       ] })
   },
   {
-    id:"rival_guild", weight:1, when:s=>s.renown>=25,
+    id:"rival_guild", weight:1, when:s=>false, // replaced by the "Demir Kurtlar" arc
     build:(s)=>({ title:LANG==="tr"?"Rakibin Meydan Okuması":"The Rival's Challenge", icon:"⚔️",
       text:LANG==="tr"?`Rakip bir lonca efendisi sırıtarak salonuna giriyor. "Namın yükseliyor. Hangi loncanın daha büyük olduğunu çözelim — şampiyonlar yarışına 600A bahis. Yoksa korkuyor musun?"`:`A rival guildmaster strides into your hall, smirking. "Your name grows loud. Let us settle which guild is greater — a wager of 600G on a contest of champions. Or are you afraid?"`,
       choices:[
@@ -1613,7 +1668,7 @@ function bloodPrice(ns, dead){ let gold=0, ren=0;
 // Apply an event result patch to the (mutable) next-state ns
 function applyEventPatch(ns, res){
   if(!res) return;
-  if(res.marketSet) ns.market = res.marketSet;
+  if(res.marketSet) ns.market = {...res.marketSet, demand:((ns.market||{}).demand)||null};
   if(res.gold) ns.gold = res.gold>0 ? ns.gold + res.gold : Math.max(Math.min(ns.gold,0), ns.gold + res.gold); // events never push you into debt, nor erase it
   if(res.renown) ns.renown = Math.max(0, ns.renown + res.renown);
   if(res.give){ ns.inventory={...ns.inventory}; ns.inventory[res.give.item]=(ns.inventory[res.give.item]||0)+res.give.qty; }
@@ -1634,8 +1689,8 @@ function applyEventPatch(ns, res){
   if(res.grantXp){ ns.adventurers=ns.adventurers.map(a=>{ if(!res.grantXp.ids.includes(a.id)) return a; const na={...a,xp:a.xp+res.grantXp.amount}; levelUpHero(na, ns.day); return na; }); }
   if(res.story){ ns.adventurers=ns.adventurers.map(a=>{ const st=res.story.find(x=>x.id===a.id); if(!st) return a; const na={...a}; na.chronicle=[...(a.chronicle||[]),{d:ns.day,tr:st.tr,en:st.en}].slice(-16); return na; }); }
   if(res.leave){ ns.retired=[...(ns.retired||[])]; ns.adventurers.filter(a=>res.leave.includes(a.id)).forEach(d=>{
-      const c=[...(d.chronicle||[]), {d:ns.day, tr:"Kırgın, loncadan ayrılıp gitti.", en:"Left the guild, bitter."}];
-      ns.retired.unshift({ name:d.name, cls:d.cls, level:d.level, day:ns.day, kind:"left", chronicle:c }); });
+      const c=[...(d.chronicle||[]), {d:ns.day, ...(res.leaveNote||{tr:"Kırgın, loncadan ayrılıp gitti.", en:"Left the guild, bitter."})}];
+      ns.retired.unshift({ name:d.name, cls:d.cls, level:d.level, day:ns.day, kind:res.leaveKind||"left", chronicle:c }); });
     ns.adventurers=ns.adventurers.filter(a=>!res.leave.includes(a.id)); }
   if(res.retire){ const r=res.retire; const a=ns.adventurers.find(x=>x.id===r.id);
     if(a){ const c=[...(a.chronicle||[])];
@@ -1659,6 +1714,17 @@ function applyEventPatch(ns, res){
   if(res.heroMod){ const hm=res.heroMod; ns.adventurers=ns.adventurers.map(a=>{ if(a.id!==hm.id) return a; const na={...a,...(hm.set||{})};
       Object.entries(hm.add||{}).forEach(([k,v])=>{ na[k]=(na[k]||0)+v; }); return na; }); }
   if(res.bonds){ ns.rels={...ns.rels}; res.bonds.forEach(b=>bumpRel(ns.rels,b.a,b.b,b.delta,ns.elapsed)); }
+  if(res.favor && ns.requests){ const f={...(ns.requests.favor||{})}; Object.entries(res.favor).forEach(([g,d])=>{ f[g]=Math.max(0,Math.min(FAVOR_MAX,(f[g]||0)+d)); }); ns.requests={...ns.requests,favor:f}; }
+  if(res.grief){ ns.adventurers=ns.adventurers.map(a=>a.id===res.grief.id?{...a,grief:(ns.elapsed||0)+res.grief.secs}:a); }
+  if(res.revealBoss){ const t=guildTier(ns); const pool=BOSSES.filter(b=>!(ns.bossUnlocked||{})[b.id] && REGIONS.some(r=>r.id===b.region && r.tier<=t));
+    if(pool.length){ const b=pick(pool); ns.bossUnlocked={...(ns.bossUnlocked||{}),[b.id]:true}; } }
+  if(res.recruit){ const r=res.recruit; const nh=makeAdventurer(guildTier(ns), r.cls||pick(NORMAL_CLASSES), 0, uniquesInPlay(ns), true);
+    if(r.id) nh.id=r.id; if(r.name) nh.name=r.name;
+    if(r.level && r.level!==nh.level){ const f=Math.pow(1.06,r.level-nh.level); nh.level=r.level; nh.maxHp=Math.floor(nh.maxHp*f); nh.hp=nh.maxHp; nh.rankIndex=eligibleRankIndex(r.level); nh.wage=3+r.level*2; }
+    nh.joinDay=ns.day; nh.chronicle=[{d:ns.day, ...(r.chron||{tr:"Loncaya katıldı.",en:"Joined the guild."})}];
+    ns.adventurers=[...ns.adventurers, nh];
+    if(r.bondWith){ ns.rels={...ns.rels}; bumpRel(ns.rels, nh.id, r.bondWith.id, r.bondWith.delta, ns.elapsed); } }
+  if(res.arc) applyArcStep(ns, res.arc);
   if(res.storyStep){ const {cls,path}=res.storyStep; const prev=(ns.stories||{})[cls]||{stage:0,path:[]}; const h=(ns.adventurers||[]).find(a=>a.cls===cls);
     ns.stories={...(ns.stories||{}), [cls]:{stage:(prev.stage||0)+1, lastDay:ns.day, path:[...(prev.path||[]),path], fallenAt:(ns.fallen||[]).length, runsAt:h?(h.runs||0):0}};
     if(((prev.stage||0)+1)>=3){ ns._pendingAch=[...(ns._pendingAch||[]),"a_story"]; } }
@@ -1807,7 +1873,7 @@ function legendMod(s){ const cr=(s&&s.crises)||{}; const won=(id)=>(cr[id]||{}).
 function bossSupplies(b){ return Math.round((b.reward.gold||0)*0.15/10)*10; }
 function crisisSupplies(C){ return Math.round(C.gold*0.1/100)*100; }
 function isSoloHero(a){ return !!a && (a.cls==="LoneWolf"||a.cls==="GoblinSlayer") && !a.curseBroken; }
-function heroCrisisPower(a){ const c=CLASSES[a.cls]||{atk:12,def:10}; return a.level*3 + c.atk + c.def + (a.rankIndex||0)*5; }
+function heroCrisisPower(a){ const st=heroStats(a); return a.level*2 + st.atk + st.def + (a.rankIndex||0)*5; }
 // requirement checklist + odds for a crisis stage with a given party
 function crisisOdds(C, stIdx, party, s, esc){
   const st=C.stages[stIdx];
@@ -2075,6 +2141,329 @@ function storyCheck(s){
   return null;
 }
 
+// ==================== §ARCS · ÇOK PARÇALI OLAY ZİNCİRLERİ ====================
+// Multi-part events that unfold over several days. State lives in s.arcs (serializable):
+//   { id, key, stage, chapter, data, ready, nextDay, task, startDay }
+// A task is real work: { kind:"expedition", region, minParty, deadline, done, failTo } or { kind:"deliver", item, qty, deadline, done, failTo }
+const L2=(tr,en)=>LANG==="tr"?tr:en;
+const arcGold=(s)=>150*(guildTier(s)+1);
+const rnId=(id)=>regionName(REGIONS.find(r=>r.id===id)||{name:id});
+function openRegionsFor(s){ const t=guildTier(s); return REGIONS.filter(r=>r.tier<=t); }
+const arcHome=(s)=>(s.adventurers||[]).filter(a=>a.status!=="questing");
+const arcFind=(s,id)=>(s.adventurers||[]).find(a=>a.id===id);
+const notUnique=(a)=>!(CLASSES[a.cls]&&CLASSES[a.cls].unique);
+const AW=(to,extra)=>({ arc:{ to, ...(extra||{}) } });
+function partyText(d){ const p=(d.party||[]); return p.length? (p.length>2? `${p.slice(0,2).join(", ")} ${L2("ve diğerleri","and the others")}` : p.join(L2(" ve "," and "))) : L2("Ekip","The party"); }
+function partyStory(s,d,tr,en){ return (d.partyIds||[]).filter(id=>arcFind(s,id)).map(id=>({id,tr,en})); }
+
+const ARCS = {
+  // 🐫 THE LOST CARAVAN
+  caravan: { icon:"🐫", repeat:50, name:{tr:"Kayıp Kervan",en:"The Lost Caravan"},
+    can:(s)=> s.day>=3 && openRegionsFor(s).length ? { region: pick(openRegionsFor(s)).id } : null,
+    stages:{
+      start:(s,a)=>({ title:L2("Kayıp Kervan","The Lost Caravan"),
+        text:L2(`Tozlu, yorgun bir tüccar salona dalıyor. "Adım Orsin Vell. Kervanım üç gün önce ${rnId(a.data.region)} yolunda kayboldu. Altı araba, on iki adam. Muhafızlar kılını kıpırdatmıyor. Siz yardım edersiniz, değil mi?"`,
+          `A dusty, exhausted merchant bursts into the hall. "My name is Orsin Vell. My caravan vanished on the road through ${rnId(a.data.region)} three days ago. Six wagons, twelve men. The guards won't lift a finger. You'll help, won't you?"`),
+        choices:[
+          { label:L2("Kervanı bulacağız","We'll find your caravan"), detail:L2(`5 gün içinde ${rnId(a.data.region)} bölgesine bir ekip yolla`,`Send a party to ${rnId(a.data.region)} within 5 days`),
+            resolve:()=>({ ...AW("found",{task:{kind:"expedition",region:a.data.region,days:5,failTo:"toolate"}}), msg:L2("🐫 Orsin'e söz verdin. Kervanın izini sürmek için bir ekip yollaman gerek.","🐫 You gave Orsin your word. Send a party to pick up the caravan's trail.") }) },
+          { label:L2(`Önce ücret (+${Math.round(arcGold(s)/2)}A)`,`Payment first (+${Math.round(arcGold(s)/2)}G)`), detail:L2("Orsin öder ama bunu unutmaz","Orsin pays, but he won't forget it"),
+            resolve:(st)=>({ gold:Math.round(arcGold(st)/2), ...AW("found",{data:{paid:true},task:{kind:"expedition",region:a.data.region,days:5,failTo:"toolate"}}), msg:L2("🐫 Orsin dişlerini sıkarak keseyi uzattı. Şimdi sıra sende.","🐫 Orsin handed over the purse through gritted teeth. Your move.") }) },
+          { label:L2("Bizim işimiz değil","Not our business"), detail:L2("Zincir burada biter","The story ends here"),
+            resolve:()=>({ ...AW(null), msg:L2("🐫 Orsin başını önüne eğip çıktı. Kapıdan çıkarken bir şey mırıldandı; duyamadın.","🐫 Orsin bowed his head and left, muttering something you didn't catch.") }) } ] }),
+      found:(s,a)=>({ title:L2("Haydut Kampı","The Bandit Camp"),
+        text:L2(`${partyText(a.data)}, ${rnId(a.data.region)} bölgesinde kervanın yakılmış arabalarını buldu. İzler bir haydut kampına gidiyor. Kampta zincire vurulmuş birkaç kervancı var: Orsin'in adamları.`,
+          `${partyText(a.data)} found the caravan's burnt wagons in ${rnId(a.data.region)}. The tracks lead to a bandit camp, where a few caravaneers sit in chains: Orsin's men.`),
+        choices:[
+          { label:L2("Kampa baskın","Raid the camp"), detail:L2("Adamları kurtar; biri yaralanabilir","Free the men; someone may get hurt"),
+            resolve:(st)=>{ const ids=(a.data.partyIds||[]).filter(id=>{ const h=arcFind(st,id); return h && h.status!=="questing"; }); const hurt=ids.length && Math.random()<0.5 ? [pick(ids)] : [];
+              return { injure:hurt, ...AW("saved",{wait:1}), msg:L2(`⚔️ Gece baskını! Kervancılar kurtarıldı.${hurt.length?` ${arcFind(st,hurt[0]).name} yaralandı.`:""}`,`⚔️ A night raid! The caravaneers are free.${hurt.length?` ${arcFind(st,hurt[0]).name} was hurt.`:""}`) }; } },
+          { label:L2(`Fidye öde (${arcGold(s)}A)`,`Pay the ransom (${arcGold(s)}G)`), detail:L2("Kan dökülmez","No blood spilled"),
+            resolve:(st)=> st.gold<arcGold(st) ? { ...AW("saved",{wait:1}), msg:L2("💰 Kesede o kadar altın yoktu. Ekip baskına mecbur kaldı ve neyse ki kazandı.","💰 The purse came up short. The party had to raid the camp, and luckily won.") }
+              : { gold:-arcGold(st), ...AW("ransom",{wait:1}), msg:L2("💰 Fidye ödendi, kervancılar serbest.","💰 The ransom was paid; the caravaneers are free.") } },
+          { label:L2("Malları al, adamları bırak","Take the goods, leave the men"), detail:L2("Kârlı ama kirli","Profitable, but dirty"),
+            resolve:(st)=>({ gold:Math.round(arcGold(st)*1.5), renown:-2, ...AW("looted",{wait:2}), msg:L2("📦 Kervanın malları loncanın ambarına girdi. Zincirdeki adamlar arkanızdan baktı.","📦 The caravan's goods went into your warehouse. The men in chains watched you go.") }) } ] }),
+      saved:(s,a)=>({ title:L2("Orsin'in Teşekkürü","Orsin's Thanks"),
+        text:L2(`Orsin, kurtarılan adamlarıyla birlikte kapında. Gözleri dolu. "Size borcumu ödeyemem${a.data.paid?", gerçi peşin almıştınız":""}... ama deneyeceğim." Kasabada herkes bu hikâyeyi anlatıyor.`,
+          `Orsin stands at your door with his rescued men, eyes wet. "I can never repay you${a.data.paid?", though you did take your fee up front":""}... but I'll try." The whole town is telling the story.`),
+        choices:[ { label:L2("Yolun açık olsun, Orsin","Safe roads, Orsin"),
+          resolve:(st)=>({ gold:Math.round(arcGold(st)*(a.data.paid?0.8:1.6)), renown:3, favor:{commoners:3}, story:partyStory(st,a.data,"Orsin Vell'in kervancılarını haydutlardan kurtardı.","Rescued Orsin Vell's caravaneers from bandits."),
+            ...AW(null), msg:L2("🐫 Orsin bir kese altın bıraktı. Halk loncanı daha sıcak anıyor.","🐫 Orsin left a purse of gold. The common folk speak warmly of your guild.") }) } ] }),
+      ransom:(s,a)=>({ title:L2("Boş Kese","An Empty Purse"),
+        text:L2("Kervancılar evlerine döndü. Orsin teşekkür etti ama kesesi boştu; malların çoğu haydutlarda kaldı. \"Bir gün,\" dedi, \"bir gün ödeyeceğim.\"","The caravaneers made it home. Orsin thanked you, but his purse was empty; most of the goods stayed with the bandits. \"One day,\" he said, \"one day I'll repay you.\""),
+        choices:[ { label:L2("Önemli olan adamlar","The men are what matter"), resolve:(st)=>({ gold:Math.round(arcGold(st)*0.5), renown:2, ...AW(null), msg:L2("🐫 Orsin ilk kazancını sana getirdi. Az ama yürekten.","🐫 Orsin brought you his first earnings. Not much, but heartfelt.") }) } ] }),
+      looted:(s,a)=>({ title:L2("Kasaba Konuşuyor","The Town Talks"),
+        text:L2("Orsin, mallarının loncanın ambarında olduğunu öğrendi. Meydanda bağırıyor; artık herkes biliyor.","Orsin found out his goods are in your warehouse. He is shouting in the square; now everyone knows."),
+        choices:[
+          { label:L2("Umurumda değil","I don't care"), resolve:()=>({ ...AW(null), msg:L2("🐫 Orsin kasabadan ayrıldı. Hikâyesi kalmadı.","🐫 Orsin left town. His story did not.") }) },
+          { label:L2(`Mallarını geri ver (−${arcGold(s)}A)`,`Give it back (−${arcGold(s)}G)`), detail:L2("Geç de olsa","Better late than never"),
+            resolve:(st)=>({ gold:-arcGold(st), renown:3, ...AW(null), msg:L2("🐫 Mallar geri verildi. Orsin hiçbir şey demedi, sadece başını salladı.","🐫 The goods went back. Orsin said nothing, only nodded.") }) } ] }),
+      toolate:(s,a)=>({ title:L2("Çok Geç","Too Late"),
+        text:L2("Kimse zamanında yola çıkmadı. Bir hafta sonra kervanın izleri yağmurla silindi; Orsin de kasabadan kayboldu.","No one set out in time. A week later the rain washed out the caravan's tracks, and Orsin vanished from town."),
+        choices:[ { label:L2("Olan oldu","What's done is done"), resolve:()=>({ renown:-1, ...AW(null), msg:L2("🐫 Kasabada loncanın verdiği sözü tutmadığı konuşuluyor.","🐫 The town says your guild broke its word.") }) } ] }),
+    } },
+
+  // 🕵️ THE WAREHOUSE THIEF
+  thief: { icon:"🕵️", repeat:45, name:{tr:"Ambar Hırsızı",en:"The Warehouse Thief"},
+    can:(s)=>{ const inv=Object.entries(s.inventory||{}).filter(([k,v])=>v>=3).sort((x,y)=>y[1]-x[1]); if(s.day<5 || (s.adventurers||[]).length<3 || !inv.length) return null;
+      return { item:inv[0][0], qty:Math.max(2,Math.min(8,Math.floor(inv[0][1]/3))) }; },
+    stages:{
+      start:(s,a)=>({ title:L2("Ambar Hırsızı","The Warehouse Thief"),
+        text:L2(`Sabah ambarı sayan kâtip yüzü bembeyaz geldi: ${a.data.qty}× ${itemName(a.data.item)} yok. Kapı kırılmamış, kilit sağlam.`,`The clerk who counts the warehouse came in pale this morning: ${a.data.qty}× ${itemName(a.data.item)} are gone. The door is unbroken, the lock intact.`),
+        choices:[
+          { label:L2("Gece nöbeti tut","Keep a night watch"), detail:L2("Hırsızı suçüstü yakala","Catch the thief in the act"),
+            resolve:(st)=>{ const thieves=(st.adventurers||[]).filter(h=>h.neg&&h.neg.mod&&h.neg.mod.thief&&notUnique(h)); const cands=(st.adventurers||[]).filter(notUnique);
+              const culprit = thieves.length ? pick(thieves) : (Math.random()<0.3 && cands.length ? pick(cands) : null);
+              return { take:{item:a.data.item,qty:a.data.qty}, ...AW("caught",{wait:2,data:{culprit:culprit?culprit.id:null}}), msg:L2("🕵️ Nöbetçiler ambarın önüne yerleşti.","🕵️ Guards took up posts by the warehouse.") }; } },
+          { label:L2("Kilidi değiştir, unut gitsin","Change the lock, forget it"), detail:"−50"+t("top.goldUnit"),
+            resolve:()=>({ take:{item:a.data.item,qty:a.data.qty}, gold:-50, ...AW(null), msg:L2("🔒 Yeni kilit takıldı. Bir daha bir şey kaybolmadı. Galiba.","🔒 A new lock went on. Nothing else went missing. Probably.") }) } ] }),
+      caught:(s,a)=>{ const h=a.data.culprit?arcFind(s,a.data.culprit):null;
+        if(a.data.culprit && h) return { title:L2("Fenerin Işığında","In the Lantern Light"),
+          text:L2(`Gece yarısı ambarın arka penceresinden bir gölge süzüldü. Feneri kaldırdığında karşında ${h.name} vardı, kolunda bir torba ${itemName(a.data.item)}.`,`At midnight a shadow slipped through the warehouse's back window. When you raised the lantern, there stood ${h.name}, a sack of ${itemName(a.data.item)} under one arm.`),
+          choices:[
+            { label:L2("Loncadan kov","Throw them out"), detail:L2("Mallar geri gelir","The goods come back"),
+              resolve:()=>({ give:{item:a.data.item,qty:a.data.qty}, leave:[h.id], leaveNote:{tr:"Ambardan çalarken yakalandı ve loncadan kovuldu.",en:"Caught stealing from the warehouse and thrown out."}, ...AW(null), msg:L2(`🕵️ ${h.name} gece yarısı eşyalarını toplayıp gitti.`,`🕵️ ${h.name} packed up and left in the night.`) }) },
+            { label:L2("Maaşından kes","Dock their wages"), detail:L2("Mallar geri gelir, kimse bilmez","Goods return, no one else knows"),
+              resolve:()=>({ give:{item:a.data.item,qty:a.data.qty}, story:[SL(h,"Ambardan çalarken yakalandı; borcunu maaşından ödedi.","Caught stealing from the warehouse; paid it back from their wages.")], ...AW(null), msg:L2(`🕵️ ${h.name} bir ay boyunca maaş gününde yere baktı.`,`🕵️ For a month, ${h.name} stared at the floor every payday.`) }) },
+            { label:L2("Affet","Forgive them"), detail:L2("Belki bir şansı hak ediyordur","Maybe they deserve a chance"),
+              resolve:()=>({ ...AW("redemption",{wait:4}), msg:L2(`🕵️ ${h.name}'e hiçbir şey demedin. Sadece feneri söndürüp gittin.`,`🕵️ You said nothing to ${h.name}. You just put out the lantern and left.`) }) } ] };
+        return { title:L2("Küçük Hırsız","The Little Thief"),
+          text:L2(`Nöbetin ikinci gecesi yakaladığın hırsız... on yaşında bir çocuktu. Sıska, korkmuş, kucağında ${itemName(a.data.item)}. "Kardeşlerim aç," dedi.`,`On the second night of the watch, the thief you caught was... a ten-year-old child. Skinny, terrified, clutching ${itemName(a.data.item)}. "My brothers are hungry," they said.`),
+          choices:[
+            { label:L2("Çırak olarak al","Take them on as an apprentice"), detail:L2("Loncada büyüsün","Let them grow up in the guild"),
+              resolve:()=>({ recruit:{level:1, chron:{tr:"Ambardan çalarken yakalandı; lonca onu çırak olarak aldı.",en:"Caught stealing from the warehouse; the guild took them in as an apprentice."}}, ...AW(null), msg:L2("🧒 Çocuk loncanın en genç üyesi oldu. Kardeşlerine her hafta ekmek gidiyor.","🧒 The child became the guild's youngest member. Bread goes to their brothers every week.") }) },
+            { label:L2("Yiyecek ver, bırak gitsin","Give them food and let them go"), detail:"−30"+t("top.goldUnit"),
+              resolve:()=>({ gold:-30, ...AW("orphan",{wait:4}), msg:L2("🍞 Çocuk bir torba ekmekle karanlığa koştu.","🍞 The child ran off into the dark with a sack of bread.") }) },
+            { label:L2("Muhafızlara teslim et","Hand them to the guards"), resolve:()=>({ renown:1, ...AW(null), msg:L2("⚖️ Muhafızlar çocuğu götürdü. Kasaba loncayı düzenin yanında gördü. Sen o gece iyi uyumadın.","⚖️ The guards took the child away. The town saw a guild that stands for order. You did not sleep well that night.") }) } ] }; },
+      redemption:(s,a)=>{ const h=arcFind(s,a.data.culprit); if(!h) return null;
+        return { title:L2("Ödenen Borç","A Debt Repaid"),
+          text:L2(`${h.name} bir sabah kapına geldi, elinde bir kese. "Ne çaldıysam fazlasıyla. Ve... teşekkürler." O günden beri kasadan tek kuruş eksilmedi.`,`One morning ${h.name} came to your door with a purse. "Everything I took, and more. And... thank you." Not a coin has gone missing since.`),
+          choices:[ { label:L2("Kese senin olsun","Keep it"), detail:L2("Sadakat altından değerli","Loyalty is worth more than gold"),
+              resolve:(st)=>({ heroMod:{id:h.id,set:{neg:{name:"Remorseful",desc:"Works off an old debt: −5% XP",mod:{xpMult:0.95}}},add:{bonusSucc:0.03}}, story:[SL(h,"Affedildi ve bir daha hiç çalmadı.","Was forgiven and never stole again.")], ...AW(null),
+                msg:L2(`💛 ${h.name} keseyi geri cebine koydu, gözleri dolu. Artık "Eli Uzun" değil; loncaya borçlu olduğunu hiç unutmayacak.`,`💛 ${h.name} pocketed the purse, eyes wet. No longer light-fingered, and never forgetting what the guild did.`) }) },
+            { label:L2("Keseyi al","Take the purse"), resolve:(st)=>({ gold:arcGold(st), heroMod:{id:h.id,set:{neg:{name:"Remorseful",desc:"Works off an old debt: −5% XP",mod:{xpMult:0.95}}}}, ...AW(null), msg:L2(`💰 ${h.name} borcunu ödedi. Defter kapandı.`,`💰 ${h.name} paid the debt. The ledger is closed.`) }) } ] }; },
+      orphan:(s,a)=>({ title:L2("Çocuk Geri Döndü","The Child Returns"),
+        text:L2(`Çocuk geri döndü, bu kez çalmaya değil. "Ormanda bir şey gördüm," dedi soluk soluğa. "Büyük bir şey. Size söylemem lazımdı."`,`The child came back, not to steal this time. "I saw something in the woods," they panted. "Something big. I had to tell you."`),
+        choices:[ { label:L2("Teşekkür et","Thank them"), resolve:(st)=>({ revealBoss:true, gold:20, ...AW(null), msg:L2("🧒 Çocuk gördüğünü anlattı. Bir avın izi belirdi; Görevler ekranına bak.","🧒 The child told you what they saw. A hunt is on; check the Quests screen.") }) } ] }),
+    } },
+
+  // 🗺️ THE OLD MAP
+  map: { icon:"🗺️", repeat:70, name:{tr:"Eski Harita",en:"The Old Map"},
+    can:(s)=>{ const rs=openRegionsFor(s); if(guildTier(s)<1 || s.day<6 || rs.length<3) return null; const byD=[...rs].sort((x,y)=>y.danger-x.danger);
+      const r3=byD[0]; const rest=rs.filter(r=>r.id!==r3.id); const r1=pick(rest); const r2=pick(rest.filter(r=>r.id!==r1.id)||rest);
+      const finder=(s.adventurers||[]).slice().sort((x,y)=>(y.runs||0)-(x.runs||0))[0];
+      return finder ? { r1:r1.id, r2:(r2||r1).id, r3:r3.id, finder:finder.id, finderName:finder.name } : null; },
+    stages:{
+      start:(s,a)=>({ title:L2("Eski Harita","The Old Map"),
+        text:L2(`${a.data.finderName} bir seferden döndüğünde cebinden yırtık, eski bir parşömen çıkardı. "Bir haydudun üstündeydi." Üzerinde silik çizgiler ve tek bir işaret var: ${rnId(a.data.r1)}.`,`Back from an expedition, ${a.data.finderName} pulled a torn old parchment from a pocket. "It was on a bandit." Faded lines, and a single mark: ${rnId(a.data.r1)}.`),
+        choices:[
+          { label:L2("Peşine düşelim","Let's follow it"), detail:L2(`6 gün içinde ${rnId(a.data.r1)} bölgesine ekip yolla`,`Send a party to ${rnId(a.data.r1)} within 6 days`),
+            resolve:()=>({ ...AW("piece2",{task:{kind:"expedition",region:a.data.r1,days:6,failTo:"lost"}}), msg:L2("🗺️ Harita masaya serildi. İlk işaret bekliyor.","🗺️ The map is spread on the table. The first mark awaits.") }) },
+          { label:L2(`Antikacıya sat (+${Math.round(arcGold(s)/2)}A)`,`Sell it to an antiquarian (+${Math.round(arcGold(s)/2)}G)`), resolve:(st)=>({ gold:Math.round(arcGold(st)/2), ...AW(null), msg:L2("🗺️ Antikacı haritayı aldı ve gözleri parladı. Belki de fazla ucuza verdin.","🗺️ The antiquarian's eyes lit up. Maybe you sold it too cheap.") }) } ] }),
+      piece2:(s,a)=>({ title:L2("İkinci Parça","The Second Piece"),
+        text:L2(`${partyText(a.data)}, ${rnId(a.data.r1)} bölgesinde işaretli kayanın altında ikinci parçayı buldu. İki parça yan yana gelince yol ${rnId(a.data.r2)} bölgesini gösteriyor.`,`${partyText(a.data)} found the second piece under a marked stone in ${rnId(a.data.r1)}. Put together, the two pieces point to ${rnId(a.data.r2)}.`),
+        choices:[
+          { label:L2("Devam","Keep going"), detail:L2(`6 gün içinde ${rnId(a.data.r2)} bölgesine ekip yolla`,`Send a party to ${rnId(a.data.r2)} within 6 days`),
+            resolve:(st)=>({ story:partyStory(st,a.data,"Eski haritanın ikinci parçasını buldu.","Found the second piece of the old map."), ...AW("final",{task:{kind:"expedition",region:a.data.r2,days:6,failTo:"lost"}}) }) },
+          { label:L2(`Yeter, sat (+${arcGold(s)}A)`,`Enough, sell it (+${arcGold(s)}G)`), resolve:(st)=>({ gold:arcGold(st), ...AW(null), msg:L2("🗺️ İki parça iyi para etti.","🗺️ Two pieces fetched a good price.") }) } ] }),
+      final:(s,a)=>({ title:L2("Harita Tamam","The Map Is Whole"),
+        text:L2(`Son parça ${rnId(a.data.r2)} bölgesinden geldi. Harita tamam: ${rnId(a.data.r3)} bölgesinin derinliklerinde, adı silinmiş bir hazine. Kenara bir not düşülmüş: "Yolu tek başına kimse bulamaz."`,`The last piece came from ${rnId(a.data.r2)}. The map is whole: a nameless treasure deep in ${rnId(a.data.r3)}. A note in the margin: "No one finds the way alone."`),
+        choices:[
+          { label:L2("Büyük keşif","The great expedition"), detail:L2(`8 gün içinde ${rnId(a.data.r3)} bölgesine en az 3 kişilik bir ekip yolla`,`Send a party of 3+ to ${rnId(a.data.r3)} within 8 days`),
+            resolve:()=>({ ...AW("treasure",{task:{kind:"expedition",region:a.data.r3,minParty:3,days:8,failTo:"lost"}}), msg:L2("🗺️ Lonca büyük keşfe hazırlanıyor.","🗺️ The guild prepares for the great expedition.") }) },
+          { label:L2(`Haritayı Soylulara sat (+${arcGold(s)*2}A)`,`Sell the map to the Nobles (+${arcGold(s)*2}G)`), resolve:(st)=>({ gold:arcGold(st)*2, favor:{nobles:4}, ...AW(null), msg:L2("👑 Bir dük haritayı fahiş bir fiyata aldı.","👑 A duke bought the map for a small fortune.") }) } ] }),
+      treasure:(s,a)=>({ title:L2("Unutulmuş Hazine","The Forgotten Hoard"),
+        text:L2(`${partyText(a.data)}, ${rnId(a.data.r3)} bölgesinden ağır sandıklarla döndü. Eski bir kralın unutulmuş hazinesi: altın, mücevher ve üzerinde loncanın adının yazılmasını bekleyen bir mühür yüzük.`,`${partyText(a.data)} came back from ${rnId(a.data.r3)} hauling heavy chests. An old king's forgotten hoard: gold, jewels, and a signet ring waiting for your guild's name.`),
+        choices:[ { label:L2("Lonca hazinesine!","Into the guild coffers!"),
+          resolve:(st)=>{ const reg=REGIONS.find(r=>r.id===a.data.r3); const rare=reg&&(reg.loot||[]).find(l=>l.rare);
+            return { gold:arcGold(st)*4, renown:5, give:rare?{item:rare.item,qty:1}:undefined, story:partyStory(st,a.data,"Eski haritanın hazinesini buldu.","Found the old map's treasure."), ...AW(null), msg:L2("💎 Hazine sayıldı, sayıldı, sayıldı… Bu hikâye meyhanede yıllarca anlatılacak.","💎 The hoard was counted, and counted, and counted… The tavern will tell this one for years.") }; } } ] }),
+      lost:(s,a)=>({ title:L2("İz Soğudu","The Trail Went Cold"),
+        text:L2("Zamanında kimse yola çıkmadı. Harita parçaları bir çekmecede sararıp kaldı.","No one set out in time. The pieces of the map yellowed in a drawer."),
+        choices:[ { label:L2("Olsun","Oh well"), resolve:()=>({ ...AW(null) }) } ] }),
+    } },
+
+  // 🐺 THE IRON WOLVES (rival guild)
+  rival: { icon:"🐺", name:{tr:"Demir Kurtlar",en:"The Iron Wolves"},
+    can:(s)=> guildTier(s)>=2 && (s.renown||0)>=40 ? { region:[...openRegionsFor(s)].sort((x,y)=>y.danger-x.danger)[0].id } : null,
+    stages:{
+      start:(s,a)=>({ title:L2("Demir Kurtlar","The Iron Wolves"),
+        text:L2(`Kasabaya yeni bir lonca geldi: Demir Kurtlar. Ustaları Varg Demirdiş meydanda bağırıyor: "Bu kasabaya tek lonca yeter. Bakalım kim kalacak."`,`A new guild has come to town: the Iron Wolves. Their master, Varg Irontooth, shouts in the square: "This town has room for one guild. Let's see who stays."`),
+        choices:[
+          { label:L2(`Hoş geldin hediyesi (−${Math.round(arcGold(s)/3)}A)`,`Send a welcome gift (−${Math.round(arcGold(s)/3)}G)`), detail:L2("Dostça başla","Start friendly"),
+            resolve:(st)=>({ gold:-Math.round(arcGold(st)/3), ...AW("poach",{wait:3,data:{tone:"friendly"}}), msg:L2("🎁 Varg hediyeyi aldı ve tek kaşını kaldırdı.","🎁 Varg accepted the gift and raised an eyebrow.") }) },
+          { label:L2("Görmezden gel","Ignore them"), resolve:()=>({ ...AW("poach",{wait:3,data:{tone:"neutral"}}) }) },
+          { label:L2("Meydan oku","Challenge them"), detail:L2("Kasaba seni izliyor","The town is watching"),
+            resolve:()=>({ renown:1, ...AW("poach",{wait:2,data:{tone:"hostile"}}), msg:L2("🐺 Meydanda Varg'ın yüzüne güldün. Kalabalık alkışladı.","🐺 You laughed in Varg's face in the square. The crowd cheered.") }) } ] }),
+      poach:(s,a)=>{ const h=(s.adventurers||[]).filter(notUnique).sort((x,y)=>y.level-x.level)[0];
+        if(!h) return { title:L2("Demir Kurtlar","The Iron Wolves"), text:L2("Varg'ın adamları salonda dolaştı ama ayartacak kimseyi bulamadılar.","Varg's men prowled the hall but found no one worth luring."), choices:[{label:L2("Devam","Go on"),resolve:()=>({...AW("contest",{wait:2})})}] };
+        return { title:L2("Cazip Teklif","A Tempting Offer"),
+          text:L2(`Varg'ın adamları ${h.name}'i meyhanede köşeye sıkıştırmış: iki katı maaş, kendi odası ve Demir Kurtlar'da bir yüzbaşılık. ${h.name} sana bakıyor.`,`Varg's men have cornered ${h.name} in the tavern: double pay, a private room and a captaincy in the Iron Wolves. ${h.name} looks at you.`),
+          choices:[
+            { label:L2("Maaşını artır","Raise their pay"), detail:L2(`Kalıcı maaş zammı (+${Math.max(3,Math.round((h.wage||10)*0.5))}A/gün)`,`Permanent raise (+${Math.max(3,Math.round((h.wage||10)*0.5))}G/day)`),
+              resolve:()=>({ heroMod:{id:h.id,add:{wage:Math.max(3,Math.round((h.wage||10)*0.5))}}, story:[SL(h,"Demir Kurtlar'ın teklifini geri çevirdi.","Turned down the Iron Wolves' offer.")], ...AW("contest",{wait:3}), msg:L2(`💰 ${h.name} teklifi geri çevirdi.`,`💰 ${h.name} turned the offer down.`) }) },
+            { label:L2("Sadakatine güven","Trust their loyalty"), detail:L2("Loncada güçlü bağları varsa kalır","Stays if their bonds here are strong"),
+              resolve:(st)=>{ const bonds=(st.adventurers||[]).filter(o=>o.id!==h.id && getRel(st.rels||{},h.id,o.id)>=30).length; const loyal=[h.pos,h.pos2].some(p=>p&&p.name==="Loyal");
+                const stays = loyal || bonds>=2 || Math.random()<0.35;
+                return stays ? { story:[SL(h,"Demir Kurtlar'ın teklifini güldü geçti: \"Ailemi bırakmam.\"","Laughed off the Iron Wolves' offer: \"I don't leave family.\"")], ...AW("contest",{wait:3}), msg:L2(`🤝 ${h.name} güldü: "Ailemi bırakmam." Teklif masada kaldı.`,`🤝 ${h.name} laughed: "I don't leave family." The offer stayed on the table.`) }
+                  : { leave:[h.id], leaveNote:{tr:"Demir Kurtlar'a geçti.",en:"Joined the Iron Wolves."}, ...AW("contest",{wait:3}), msg:L2(`🐺 ${h.name} ertesi sabah Demir Kurtlar'ın formasıyla görüldü.`,`🐺 The next morning ${h.name} was seen in Iron Wolves colors.`) }; } },
+            { label:L2("Gitmesine izin ver","Let them go"), resolve:()=>({ leave:[h.id], leaveNote:{tr:"Demir Kurtlar'a geçti.",en:"Joined the Iron Wolves."}, ...AW("contest",{wait:3}), msg:L2(`🐺 ${h.name} eşyalarını topladı. Kimse bir şey demedi.`,`🐺 ${h.name} packed up. No one said a word.`) }) } ] }; },
+      contest:(s,a)=>({ title:L2("Kasabanın Loncası","The Town's Guild"),
+        text:L2(`Kasabanın ileri gelenleri bir yarış açtı: ${rnId(a.data.region)} bölgesine ilk kim ekip sokarsa, kasabanın resmi loncası o olacak. Varg sırıtıyor. "${a.data.tone==="hostile"?"Bu sefer meydanda gülemeyeceksin.":"Yetişebilirseniz."}"`,`The town elders have called a race: whoever gets a party into ${rnId(a.data.region)} first becomes the town's official guild. Varg grins. "${a.data.tone==="hostile"?"You won't be laughing in the square this time.":"If you can keep up."}"`),
+        choices:[
+          { label:L2("Kabul","Accept"), detail:L2(`6 gün içinde ${rnId(a.data.region)} bölgesine ekip yolla`,`Send a party to ${rnId(a.data.region)} within 6 days`),
+            resolve:()=>({ ...AW("victory",{task:{kind:"expedition",region:a.data.region,days:6,failTo:"defeat"}}), msg:L2("🏁 Yarış başladı.","🏁 The race is on.") }) },
+          { label:L2("Bu oyuna girmeyiz","We won't play this game"), resolve:()=>({ ...AW("defeat",{wait:1}) }) } ] }),
+      victory:(s,a)=>{ const fr=a.data.tone==="friendly";
+        return { title:L2("Zafer","Victory"),
+          text: fr ? L2(`Varg, ${partyText(a.data)} döndüğünde meydanda bekliyordu. Uzun süre sustu, sonra elini uzattı. "İyi lonca. Kasaba sizin. Bende de size layık bir savaşçı var; artık sizinle yürüsün."`,`Varg was waiting in the square when ${partyText(a.data)} returned. He was silent a long while, then held out his hand. "Good guild. The town is yours. And I have a fighter worthy of you; let them march with you now."`)
+            : L2("Demir Kurtlar bir gece sessizce kasabayı terk etti. Meydanda asılı bayrakları sabaha kadar rüzgârda dalgalandı, sonra biri onları indirdi.","The Iron Wolves left town quietly one night. Their banners flapped in the square until dawn, until someone took them down."),
+          choices:[ { label:L2("Kasaba bizim","The town is ours"),
+            resolve:(st)=>({ renown:6, gold:Math.round(arcGold(st)*(fr?1:1.5)), favor:{nobles:2,church:2,commoners:2}, recruit: fr ? {level:Math.max(5,guildTier(st)*6+rint(0,4)), chron:{tr:"Demir Kurtlar'dan bir dostluk armağanı olarak loncaya katıldı.",en:"Joined from the Iron Wolves as a token of friendship."}} : undefined,
+              story:partyStory(st,a.data,"Demir Kurtlar'la yarışı kazandı.","Won the race against the Iron Wolves."), ...AW(null), msg:L2("🏆 Loncan artık kasabanın resmi loncası.","🏆 Your guild is now the town's official guild.") }) } ] }; },
+      defeat:(s,a)=>({ title:L2("Yenilgi","Defeat"),
+        text:L2("Demir Kurtlar zaferle döndü. Kasaba onları alkışlıyor; istek panosundaki işlerin bir kısmı artık onlara gidiyor.","The Iron Wolves came back victorious. The town cheers them, and some of the board's work now goes their way."),
+        choices:[ { label:L2("Bir dahaki sefere","Next time"), resolve:()=>({ renown:-3, favor:{nobles:-4,church:-4,commoners:-4}, ...AW(null), msg:L2("🐺 Varg meydanda kadeh kaldırıyor. Bu sefer onun günü.","🐺 Varg raises a cup in the square. Today is his day.") }) } ] }),
+    } },
+
+  // 💌 A SWEETHEART IN TOWN
+  lover: { icon:"💌", repeat:55, name:{tr:"Kasabalı Sevgili",en:"A Sweetheart in Town"},
+    can:(s)=>{ const c=arcHome(s).filter(a=>notUnique(a) && a.level>=4 && !(s.rels && Object.keys(s.rels).some(k=>k.includes(a.id) && (s.rels[k].score||0)>=80)));
+      if(!c.length || s.day<6) return null; const h=pick(c); return { hero:h.id, lover:pick(FIRST_NAMES) }; },
+    stages:{
+      start:(s,a)=>{ const h=arcFind(s,a.data.hero); if(!h) return null;
+        return { title:L2("Kasabalı Sevgili","A Sweetheart in Town"),
+          text:L2(`${h.name} son günlerde akşamları ortadan kayboluyor. Sonunda sır çıktı: kasabanın fırıncısı ${a.data.lover} ile görüşüyor. Bütün salon biliyormuş; bir tek sen bilmiyormuşsun.`,`${h.name} has been vanishing every evening. At last the secret is out: they're seeing ${a.data.lover}, the town baker. The whole hall knew; only you didn't.`),
+          choices:[
+            { label:L2("Mutluluklar dile","Wish them well"), resolve:()=>({ heroMod:{id:h.id,set:{fatigue:0}}, ...AW("decision",{wait:4}), msg:L2(`💌 ${h.name} kulaklarına kadar kızardı.`,`💌 ${h.name} blushed to the ears.`) }) },
+            { label:L2("Salona davet et","Invite them to the hall"), detail:L2("Herkes tanışsın","Let everyone meet"),
+              resolve:(st)=>{ const hm=arcHome(st); const bonds=[]; hm.forEach(o=>{ if(o.id!==h.id) bonds.push({a:h.id,b:o.id,delta:3}); }); return { bonds, ...AW("decision",{wait:3}), msg:L2(`🥖 ${a.data.lover} salona taze ekmekle geldi. Gece şarkılarla bitti.`,`🥖 ${a.data.lover} came to the hall with fresh bread. The night ended in song.`) }; } },
+            { label:L2("Görevini unutmasın","Remind them of their duty"), detail:L2("Loncanın işleri önce gelir","Guild business comes first"),
+              resolve:(st)=>({ grief:{id:h.id,secs:240}, ...AW("decision",{wait:4,data:{cold:true}}), msg:L2(`😶 ${h.name} başını salladı ama gözleri başka yerdeydi.`,`😶 ${h.name} nodded, but their eyes were elsewhere.`) }) } ] }; },
+      decision:(s,a)=>{ const h=arcFind(s,a.data.hero); if(!h) return null; const wed=Math.round(arcGold(s)/2);
+        return { title:L2("Büyük Soru","The Big Question"),
+          text:L2(`${h.name} bir akşam yanına geldi, sesi titriyor. "${a.data.lover} ile evlenmek istiyorum. Ama ${a.data.lover} kuzeyde, ailesinin yanında yaşamak istiyor... Ne dersin?"`,`One evening ${h.name} came to you, voice shaking. "I want to marry ${a.data.lover}. But ${a.data.lover} wants to live up north, near family... What do you say?"`),
+          choices:[
+            { label:L2(`Evlenin, burada kalın (−${wed}A düğün)`,`Marry, and stay here (−${wed}G wedding)`), detail:L2(`${a.data.lover} kabul eder mi?`,`Will ${a.data.lover} agree?`),
+              resolve:(st)=>{ const ok=Math.random()<(a.data.cold?0.35:0.75);
+                if(!ok) return { gold:-wed, ...AW("heartbreak",{wait:3,data:{roll:Math.random()}}), msg:L2(`💔 ${a.data.lover} düğün masasında başını iki yana salladı. Kuzey ya da hiç.`,`💔 At the wedding table ${a.data.lover} shook their head. The north, or nothing.`) };
+                const bonds=arcHome(st).filter(o=>o.id!==h.id).map(o=>({a:h.id,b:o.id,delta:3}));
+                return { gold:-wed, bonds, heroMod:{id:h.id,add:{bonusSucc:0.03}}, story:[SL(h,`${a.data.lover} ile evlendi; düğünü lonca yaptı.`,`Married ${a.data.lover}; the guild threw the wedding.`)], ...AW(null), msg:L2(`💒 ${h.name} ile ${a.data.lover} lonca salonunda evlendi. Bütün kasaba oradaydı.`,`💒 ${h.name} and ${a.data.lover} married in the guild hall. The whole town came.`) }; } },
+            { label:L2("Git, mutlu ol","Go, be happy"), detail:L2(`${h.name} loncadan ayrılır`,`${h.name} leaves the guild`),
+              resolve:()=>({ renown:2, leave:[h.id], leaveNote:{tr:`${a.data.lover} ile evlenip kuzeye yerleşti.`,en:`Married ${a.data.lover} and settled up north.`}, leaveKind:"retired", ...AW(null), msg:L2(`🌄 ${h.name} bir sabah kuzeye doğru yola çıktı. Kapıda dönüp el salladı.`,`🌄 One morning ${h.name} set off north, turning at the gate to wave.`) }) },
+            { label:L2("Lonca önce gelir","The guild comes first"), detail:L2("Kalır ama…","They stay, but…"),
+              resolve:()=>({ grief:{id:h.id,secs:360}, ...AW("heartbreak",{wait:4,data:{roll:Math.random()}}), msg:L2(`😞 ${h.name} hiçbir şey demedi.`,`😞 ${h.name} said nothing.`) }) } ] }; },
+      heartbreak:(s,a)=>{ const h=arcFind(s,a.data.hero); if(!h) return null; const goes=(a.data.roll||0)<0.5;
+        return goes ? { title:L2("Boş Yatak","An Empty Bed"), text:L2(`Bir sabah ${h.name}'in yatağı boştu. Masada kısa bir not: "Üzgünüm. Onsuz yapamadım."`,`One morning ${h.name}'s bed was empty. A short note on the table: "I'm sorry. I couldn't do it without them."`),
+            choices:[ { label:L2("…","…"), resolve:()=>({ leave:[h.id], leaveNote:{tr:`Bir gece ${a.data.lover} için loncadan sessizce ayrıldı.`,en:`Slipped away one night to be with ${a.data.lover}.`}, ...AW(null) }) } ] }
+          : { title:L2("Kırık Kalp","A Broken Heart"), text:L2(`${h.name} kaldı. Bir süre kimseyle konuşmadı, sonra acısını kılıcına verdi. Avluda en geç yatan, en erken kalkan o artık.`,`${h.name} stayed. For a while they spoke to no one, then poured the pain into the blade. Now they are the last to bed and the first up in the yard.`),
+            choices:[ { label:L2("Yanında ol","Be there for them"), resolve:()=>({ heroMod:{id:h.id,add:{bonusSucc:0.02}}, story:[SL(h,"Kalbi kırıldı ama loncada kaldı.","Heartbroken, but stayed with the guild.")], ...AW(null) }) } ] }; },
+    } },
+
+  // 👣 THE LOST SIBLING
+  sibling: { icon:"👣", repeat:70, name:{tr:"Kapıdaki Yabancı",en:"The Stranger at the Gate"},
+    can:(s)=>{ const c=arcHome(s).filter(a=>notUnique(a) && a.level>=6); if(!c.length || s.day<8) return null; const h=pick(c);
+      return { hero:h.id, heroName:h.name, sib:`${pick(FIRST_NAMES)} ${h.name.split(" ").slice(1).join(" ")||""}`.trim() }; },
+    stages:{
+      start:(s,a)=>{ const h=arcFind(s,a.data.hero); if(!h) return null;
+        return { title:L2("Kapıdaki Yabancı","The Stranger at the Gate"),
+          text:L2(`Kapıda toz toprak içinde genç biri var. "${h.name}'i arıyorum. Ben ${a.data.sib}... kardeşiyim." ${h.name} uzun süre ona bakıyor. Sonra yavaşça başını sallıyor.`,`A young stranger stands at the gate, covered in dust. "I'm looking for ${h.name}. I'm ${a.data.sib}... their sibling." ${h.name} stares a long while. Then slowly nods.`),
+          choices:[
+            { label:L2("Loncaya kabul et","Welcome them to the guild"), detail:L2("Kardeşler aynı çatı altında","Siblings under one roof"),
+              resolve:()=>{ const sibId=uid(); return { recruit:{id:sibId, name:a.data.sib, level:Math.max(1,Math.floor(h.level/3)), bondWith:{id:h.id,delta:45}, chron:{tr:`Kardeşi ${h.name}'i bulmak için loncaya geldi.`,en:`Came to the guild looking for their sibling, ${h.name}.`}},
+                story:[SL(h,`Kardeşi ${a.data.sib} kapıda belirdi.`,`Their sibling ${a.data.sib} turned up at the gate.`)], ...AW("past",{wait:4,data:{sibId}}), msg:L2(`👣 ${a.data.sib} loncaya katıldı. ${h.name} o gece uzun süre konuştu.`,`👣 ${a.data.sib} joined the guild. ${h.name} talked late into the night.`) }; } },
+            { label:L2("Bir gece kalsın","Let them stay one night"), detail:L2("Sonra yollarına","Then on their way"),
+              resolve:()=>({ gold:-20, story:[SL(h,`Kardeşi ${a.data.sib}'i bir gece ağırlayıp uğurladı.`,`Hosted their sibling ${a.data.sib} for a night, then saw them off.`)], ...AW(null), msg:L2(`👣 ${a.data.sib} sabah erkenden gitti. ${h.name} kapıda uzun süre durdu.`,`👣 ${a.data.sib} left at dawn. ${h.name} stood at the gate a long time.`) }) } ] }; },
+      past:(s,a)=>{ const sib=arcFind(s,a.data.sibId); const h=arcFind(s,a.data.hero); if(!sib) return null; const debt=arcGold(s);
+        return { title:L2("Eski Hesaplar","Old Debts"),
+          text:L2(`Üç atlı kapına dayandı. "${sib.name} bize ${debt} altın borçlu. Ya parayı ya da onu alırız." ${sib.name} başını eğiyor${h?`; ${h.name} kılıcının kabzasını tutuyor`:""}.`,`Three riders are at your gate. "${sib.name} owes us ${debt} gold. The money, or them." ${sib.name} hangs their head${h?`; ${h.name}'s hand is on the sword hilt`:""}.`),
+          choices:[
+            { label:L2(`Borcu öde (−${debt}A)`,`Pay the debt (−${debt}G)`), detail:L2("Temiz bir başlangıç","A clean start"),
+              resolve:(st)=> st.gold<debt ? { injure:[sib.id], renown:1, ...AW(null), msg:L2("💰 Kese yetmedi. Atlılarla kılıç konuştu; kazandınız ama kardeş yaralandı.","💰 The purse fell short. Swords did the talking; you won, but the sibling was hurt.") }
+                : { gold:-debt, bonds:h?[{a:h.id,b:sib.id,delta:10}]:[], heroMod:{id:sib.id,add:{bonusSucc:0.03}}, story:[SL(sib,"Lonca eski borcunu ödedi; bunu hiç unutmayacak.","The guild paid off their old debt; they'll never forget it.")], ...AW(null), msg:L2(`🤝 Atlılar keseyi alıp gitti. ${sib.name} sana minnetle baktı.`,`🤝 The riders took the purse and left. ${sib.name} looked at you with gratitude.`) } },
+            { label:L2("Kılıçla cevap ver","Answer with steel"), detail:L2("Biri yaralanabilir","Someone may get hurt"),
+              resolve:(st)=>{ const pool=[h,sib].filter(Boolean).filter(x=>x.status!=="questing"); const hurt=pool.length&&Math.random()<0.5?[pick(pool).id]:[];
+                return { injure:hurt, renown:2, ...AW(null), msg:L2(`⚔️ Atlılar kanlar içinde geri kaçtı. Kasaba loncanın kendi insanına sahip çıktığını konuşuyor.${hurt.length?` ${arcFind(st,hurt[0]).name} yaralandı.`:""}`,`⚔️ The riders fled, bloodied. The town says your guild stands by its own.${hurt.length?` ${arcFind(st,hurt[0]).name} was hurt.`:""}`) }; } },
+            { label:L2("Onu teslim et","Hand them over"), detail:h?L2(`${h.name} bunu unutmaz`,`${h.name} won't forget this`):"",
+              resolve:()=>({ leave:[sib.id], leaveNote:{tr:"Alacaklılara teslim edildi.",en:"Was handed over to the creditors."}, grief: h?{id:h.id,secs:480}:undefined, ...AW(null), msg:L2(`⛓️ ${sib.name} atlıların arasında götürüldü.${h?` ${h.name} o gün kimseyle konuşmadı.`:""}`,`⛓️ ${sib.name} was led away between the riders.${h?` ${h.name} spoke to no one that day.`:""}`) }) } ] }; },
+    } },
+
+  // 🤒 THE PLAGUE (can return)
+  plague: { icon:"🤒", name:{tr:"Salgın",en:"The Plague"}, repeat:40,
+    can:(s)=> s.day>=8 && arcHome(s).length>=3 ? { qty:10+5*guildTier(s) } : null,
+    stages:{
+      start:(s,a)=>({ title:L2("Salgın","The Plague"),
+        text:L2(`Kasabada öksürük yayılıyor. Önce fırıncı, sonra demirci yattı. Bu sabah loncada da ateşler içinde uyananlar var.`,`A cough is spreading through town. First the baker took to bed, then the smith. This morning some in the guild woke up burning with fever.`),
+        choices:[
+          { label:L2("Kiliseye yardım et","Help the Church"), detail:L2(`5 gün içinde ${a.data.qty}× ${itemName("herb")} teslim et`,`Deliver ${a.data.qty}× ${itemName("herb")} within 5 days`),
+            resolve:(st)=>({ sicken:arcHome(st).slice(0,2).map(x=>x.id), ...AW("cured",{task:{kind:"deliver",item:"herb",qty:a.data.qty,days:5,failTo:"spread"}}), msg:L2("⛪ Rahibe Ilse otları bekliyor. Teslimatı Salon'daki Süren Olaylar kutusundan yapabilirsin.","⛪ Sister Ilse is waiting for the herbs. Deliver them from the Ongoing Events box in the Hall.") }) },
+          { label:L2("Kapıları kapat","Shut the gates"), detail:L2("Salgın loncaya uğramadan geçebilir","The plague may pass you by"),
+            resolve:(st)=>({ sicken:arcHome(st).slice(0,1).map(x=>x.id), ...AW(Math.random()<0.5?"passed":"spread",{wait:3}) }) } ] }),
+      spread:(s,a)=>({ title:L2("Salgın Yayılıyor","The Plague Spreads"),
+        text:L2(`Salgın yayıldı. Kilise avlusunda yer kalmadı. Rahibe Ilse kapında: "${a.data.qty}× ${itemName("herb")}. Başka çaremiz yok."`,`The plague has spread. There's no room left in the churchyard. Sister Ilse is at your door: "${a.data.qty}× ${itemName("herb")}. We have no other hope."`),
+        choices:[
+          { label:L2("Getireceğiz","We'll bring them"), detail:L2("4 gün içinde teslim et","Deliver within 4 days"),
+            resolve:(st)=>({ sicken:arcHome(st).slice(0,2).map(x=>x.id), ...AW("cured",{task:{kind:"deliver",item:"herb",qty:a.data.qty,days:4,failTo:"toll"}}) }) },
+          { label:L2("Elimizden gelen bu kadar","This is all we can do"), resolve:()=>({ ...AW("toll",{wait:2}) }) } ] }),
+      cured:(s,a)=>({ title:L2("Çanlar Çalıyor","The Bells Ring"),
+        text:L2("Şifalı otlar kaynayan kazanlara gitti; üç gün sonra ilk hasta ayağa kalktı. Kilise çanları loncanın adına çaldı.","The herbs went into the boiling cauldrons; three days later the first patient stood up. The church bells rang in your guild's name."),
+        choices:[ { label:L2("Şükürler olsun","Thank the heavens"), resolve:()=>({ renown:4, favor:{church:5}, healAll:true, ...AW(null), msg:L2("🔔 Salgın geçti. Kilise loncanı unutmayacak.","🔔 The plague has passed. The Church will not forget your guild.") }) } ] }),
+      passed:(s,a)=>({ title:L2("Kapalı Kapılar","Shut Gates"),
+        text:L2("Kapılar kapalı kaldı ve salgın loncaya uğramadan kasabadan geçti. Ama kasaba, kapılarını kapatan loncayı da unutmadı.","The gates stayed shut and the plague passed the guild by. But the town did not forget the guild that shut its gates."),
+        choices:[ { label:L2("Hayatta kaldık","We survived"), resolve:()=>({ renown:-1, healAll:true, ...AW(null) }) } ] }),
+      toll:(s,a)=>({ title:L2("Bedel","The Toll"),
+        text:L2("Salgın kendi kendine söndü ama arkasında boş evler bıraktı. Kasaba loncadan daha fazlasını beklemişti.","The plague burned itself out, leaving empty houses behind. The town had expected more from your guild."),
+        choices:[ { label:L2("…","…"), resolve:()=>({ renown:-2, favor:{commoners:-3,church:-3}, healAll:true, ...AW(null) }) } ] }),
+    } },
+};
+
+// apply an arc step returned from a choice (inside applyEventPatch)
+function applyArcStep(ns, st){
+  const arcs=[...(ns.arcs||[])]; const i=arcs.findIndex(a=>a.id===st.id); if(i<0) return;
+  const a={...arcs[i], data:{...arcs[i].data, ...(st.data||{})}};
+  if(st.to==null){ arcs.splice(i,1); ns.arcs=arcs; ns.arcDone={...(ns.arcDone||{}),[a.key]:ns.day}; ns.stats={...(ns.stats||{}),arcs:((ns.stats&&ns.stats.arcs)||0)+1}; return; }
+  a.stage=st.to; a.chapter=(a.chapter||1)+1; a.ready=false; a.nextDay=ns.day+(st.wait==null?2:st.wait);
+  a.task = st.task ? {...st.task, deadline:ns.day+st.task.days, done:false} : null;
+  arcs[i]=a; ns.arcs=arcs;
+}
+// daily bookkeeping: deadlines, readiness, new arcs
+function arcsDaily(ns, offline){
+  if(ns.arcs && ns.arcs.length) ns.arcs=ns.arcs.map(a=>{
+    if(offline) return a.task&&!a.task.done ? {...a,task:{...a.task,deadline:a.task.deadline+1}} : a; // the clock stops while you're away
+    if(a.task){ if(a.task.done) return {...a,ready:true}; if(ns.day>a.task.deadline) return {...a,stage:a.task.failTo,task:null,ready:true,chapter:(a.chapter||1)+1}; return a; }
+    if(!a.ready && ns.day>=(a.nextDay||0)) return {...a,ready:true}; return a; });
+  if(!offline && (ns.arcs||[]).length<2 && ns.day>=(ns.nextArcDay||4) && Math.random()<0.5){
+    const done=ns.arcDone||{};
+    const cands=Object.entries(ARCS).filter(([k,d])=>!(ns.arcs||[]).some(a=>a.key===k) && (done[k]==null || (d.repeat && ns.day-done[k]>=d.repeat)));
+    for(const [k,d] of cands.sort(()=>Math.random()-0.5)){ const data=d.can(ns); if(!data) continue;
+      ns.arcs=[...(ns.arcs||[]), {id:uid(),key:k,stage:"start",chapter:1,data,ready:true,nextDay:ns.day,task:null,startDay:ns.day}]; ns.nextArcDay=ns.day+rint(6,9); break; }
+  }
+}
+// build the event for the first ready arc (null if none)
+function arcCheck(ns){
+  for(const a of (ns.arcs||[])){ if(!a.ready) continue; const def=ARCS[a.key]; const fn=def&&a.stage&&def.stages[a.stage];
+    const ev = fn ? fn(ns,a) : null;
+    if(!ev){ ns.arcs=(ns.arcs||[]).filter(x=>x.id!==a.id); ns.arcDone={...(ns.arcDone||{}),[a.key]:ns.day}; continue; } // story can't go on (hero gone etc.)
+    return { id:"arc_"+a.key, kind:"arc", uid:uid(), icon:def.icon, chapter:a.chapter||1, arcName:LANG==="tr"?def.name.tr:def.name.en, title:ev.title, text:ev.text,
+      choices:ev.choices.map(c=>({...c, resolve:(st)=>{ const r={...(c.resolve(st)||{})}; r.arc={...(r.arc||{to:null}), id:a.id}; return r; }})) };
+  }
+  return null;
+}
+// mark expedition tasks done when a party comes back from the right region
+function arcsOnQuest(ns, region, party, failed){
+  if(!ns.arcs || !ns.arcs.length) return;
+  const alive=party.filter(a=>!a.dead);
+  ns.arcs=ns.arcs.map(ar=>{ const t=ar.task; if(!t||t.done||t.kind!=="expedition"||t.region!==region.id) return ar;
+    if(failed>=party.length || party.length<(t.minParty||1)) return ar;
+    return {...ar, task:{...t,done:true}, data:{...ar.data, party:alive.map(a=>a.name), partyIds:alive.map(a=>a.id)}}; });
+}
+// deliver goods for a deliver task (pure; used by the Hall panel and the bot)
+function arcDeliver(s, arcId){
+  const ar=(s.arcs||[]).find(a=>a.id===arcId); const t=ar&&ar.task; if(!t||t.kind!=="deliver"||t.done) return s;
+  if((s.inventory[t.item]||0)<t.qty) return s;
+  const inv={...s.inventory}; inv[t.item]-=t.qty; if(inv[t.item]<=0) delete inv[t.item];
+  return {...s, inventory:inv, arcs:s.arcs.map(a=>a.id===arcId?{...a,task:{...t,done:true}}:a)};
+}
+
 // ==================== §ACHIEVE · BAŞARIMLAR (İLERİDE) ====================
 // Plan: ~60 (çoğu komik isimli) başarım. Sağ üstteki lonca ikonuna basınca
 // açılan bir ekranda listelenir; koşulu sağlanınca kilidi açılır + bildirim.
@@ -2086,7 +2475,7 @@ const ACHIEVEMENTS = [
   { id:"a_firsthire", icon:"🤝", name:{en:"Fresh Blood",tr:"Taze Kan"}, desc:{en:"Hire your first adventurer",tr:"İlk maceracını işe al"}, check:s=>s.adventurers.length>=1 },
   { id:"a_firstquest", icon:"🗺️", name:{en:"Off You Pop",tr:"Hadi Bakalım"}, desc:{en:"Send your first expedition",tr:"İlk seferini yolla"}, check:s=>(s.stats&&s.stats.quests>=1) },
   { id:"a_firstcraft", icon:"📋", name:{en:"Honest Work",tr:"Alın Teri"}, desc:{en:"Fill your first request",tr:"İlk isteği karşıla"}, check:s=>(s.stats&&s.stats.requests>=1) },
-  { id:"a_firstsale", icon:"💰", name:{en:"Cha-Ching",tr:"Şıngır Şıngır"}, desc:{en:"Make your first sale",tr:"İlk satışını yap"}, check:s=>(s.stats&&s.stats.sold>=1) },
+  { id:"a_firstsale", icon:"📈", name:{en:"Right on Time",tr:"Tam Zamanında"}, desc:{en:"Sell 10 goods while they're in demand",tr:"Talep gören bir maldan 10 tane sat"}, check:s=>((s.stats&&s.stats.demandSold)||0)>=10 },
   // --- Altın kilometre taşları ---
   { id:"a_gold1k", icon:"🪙", name:{en:"Pocket Change",tr:"Cep Harçlığı"}, desc:{en:"Hold 1,000 gold",tr:"1.000 altın biriktir"}, check:s=>s.gold>=1000 },
   { id:"a_gold10k", icon:"💵", name:{en:"Comfortably Off",tr:"Eli Yüzü Düzgün"}, desc:{en:"Hold 10,000 gold",tr:"10.000 altın biriktir"}, check:s=>s.gold>=10000 },
@@ -2115,6 +2504,7 @@ const ACHIEVEMENTS = [
   { id:"a_crisis_throne", icon:"👑", name:{en:"Kingmakers",tr:"Kral Yapıcılar"}, desc:{en:"End the War of the Crown",tr:"Taht Kavgası krizini sona erdir"}, check:s=>((s.crises||{}).throne||{}).status==="won" },
   { id:"a_crisis_void", icon:"🌌", name:{en:"Sealers of the Rift",tr:"Yarığı Mühürleyenler"}, desc:{en:"Seal the Void Rift",tr:"Boşluk Yarığı'nı mühürle"}, check:s=>((s.crises||{}).void||{}).status==="won" },
   { id:"a_finale", icon:"🌅", name:{en:"The Legend of the Guild",tr:"Loncanın Efsanesi"}, desc:{en:"Resolve all four realm crises",tr:"Dört diyar krizinin hepsini çöz"}, check:s=>CRISES.every(C=>((s.crises||{})[C.id]||{}).status==="won") },
+  { id:"a_arcs", icon:"🧵", name:{en:"Spinner of Tales",tr:"Hikâye Örücü"}, desc:{en:"See 3 multi-part events through to the end",tr:"3 olay zincirini sonuna kadar götür"}, check:s=>((s.stats&&s.stats.arcs)||0)>=3 },
   { id:"a_story", icon:"📜", name:{en:"A Tale Worth Telling",tr:"Anlatmaya Değer"}, desc:{en:"Complete a legendary hero's personal story",tr:"Bir efsanevi kahramanın kişisel hikâyesini tamamla"}, check:s=>Object.values(s.stories||{}).some(x=>x.stage>=3) },
   { id:"a_allstories", icon:"📚", name:{en:"The Four Legends",tr:"Dört Efsane"}, desc:{en:"Complete all four personal stories",tr:"Dört kişisel hikâyenin hepsini tamamla"}, check:s=>Object.keys(STORY_HEROES).every(c=>((s.stories||{})[c]||{}).stage>=3) },
   { id:"a_debt", icon:"💸", name:{en:"Living on Credit",tr:"Veresiye Hayat"}, desc:{en:"Fall into debt",tr:"Borca gir"}, check:s=>s.gold<0 },
@@ -2156,7 +2546,7 @@ const ACHIEVEMENTS = [
   { id:"a_craft250", icon:"🏦", name:{en:"Merchant Prince",tr:"Tüccar Prensi"}, desc:{en:"Fill 100 requests",tr:"100 isteği karşıla"}, check:s=>(s.stats&&s.stats.requests>=100) },
   { id:"a_quest50", icon:"🧭", name:{en:"Frequent Flyer",tr:"Sık Yolcu"}, desc:{en:"Complete 50 expeditions",tr:"50 sefer tamamla"}, check:s=>(s.stats&&s.stats.quests>=50) },
   { id:"a_quest200", icon:"🗺️", name:{en:"Been There, Done That",tr:"Gördük Geçirdik"}, desc:{en:"Complete 200 expeditions",tr:"200 sefer tamamla"}, check:s=>(s.stats&&s.stats.quests>=200) },
-  { id:"a_smith", icon:"🌟", name:{en:"Everyone's Favorite",tr:"Herkesin Gözdesi"}, desc:{en:"Max out favor with any buyer group",tr:"Bir alıcı grubunun gözdesi ol (en üst itibar)"}, check:s=>!!(s.requests&&s.requests.favor&&Object.values(s.requests.favor).some(f=>f>=25)) },
+  { id:"a_smith", icon:"🌟", name:{en:"Everyone's Favorite",tr:"Herkesin Gözdesi"}, desc:{en:"Max out favor with any buyer group",tr:"Bir alıcı grubunun gözdesi ol (en üst itibar)"}, check:s=>!!(s.requests&&s.requests.favor&&Object.values(s.requests.favor).some(f=>f>=FAVOR_MAX)) },
   // --- Komik / durum ---
   { id:"a_broke", icon:"🕳️", name:{en:"Down Bad",tr:"Dibi Gördük"}, desc:{en:"Drop below 20 gold",tr:"20 altının altına düş"}, check:s=>s.started&&s.gold<20 },
   { id:"a_hoarder", icon:"📦", name:{en:"Pack Rat",tr:"İstifçi"}, desc:{en:"Fill your warehouse",tr:"Ambarını doldur"}, check:s=>{const cap=BUILDINGS.warehouse.levels[s.buildings.warehouse].capacity;const cnt=Object.values(s.inventory||{}).reduce((a,b)=>a+b,0);return cnt>=cap;} },
@@ -2214,7 +2604,7 @@ function stepGame(s, offline){
       ns.stats.maxParty = Math.max(ns.stats.maxParty||0, q.party.length);
       const ctx = partyContext(party, ns);
       const { partyLoot, partyInjury } = ctx;
-      let lootGained={}, leveled=[], injured=[], died=[], failed=0, storageFull=false;
+      let lootGained={}, leveled=[], injured=[], died=[], escaped=[], failed=0, storageFull=false, revealedBoss=null;
       party.forEach(a=>{
         const cs=CLASSES[a.cls];
         const odds = memberOdds(a, party, region, ctx, ns);
@@ -2246,11 +2636,15 @@ function stepGame(s, offline){
           const xpBase = (35+region.danger*18) * (1 + region.duration/200) * (1+(bLv(ns.buildings,"train_mentor").xpBonus||0)) * mentorBonus(ns).xpMult; // longer trips grant more growth
           const xpGain = Math.floor(xpBase*(posMul(a,"xpMult"))*((a.neg.mod.xpMult||1))*xpMultRel);
           a.xp += xpGain;
-                const didLevel = levelUpHero(a, ns.day)>0;
-          if(didLevel) leveled.push(a.name+" → Lv"+a.level);
+          const stB=heroStats(a);
+          const didLevel = levelUpHero(a, ns.day)>0;
+          if(didLevel){ const stA=heroStats(a); const gains=[["⚔️",stA.atk-stB.atk],["🛡️",stA.def-stB.def],["💨",stA.spd-stB.spd]].filter(x=>x[1]>0).map(x=>x[0]+"+"+x[1]).join(" ");
+            leveled.push(a.name+" → Lv"+a.level+(gains?` (${gains})`:"")); }
         } else {
           failed++;
           if(Math.random()<odds.inj){
+           if(odds.esc>0 && Math.random()<odds.esc){ escaped.push(a.name); } // quick feet: slipped away unhurt
+           else {
             // on a failed roll in dangerous regions, injury can instead become death
             const deathChance = odds.dc;
             if(deathChance>0 && Math.random()<deathChance){
@@ -2260,16 +2654,22 @@ function stepGame(s, offline){
                 a.boon=null; a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*40*(bLv(ns.buildings,"inf_ward").injuryMult||1)); a.hp=Math.max(1,Math.floor(a.maxHp*0.2));
                 injured.push(a.name);
                 logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`☠️ ${a.name} ölmeliydi — ama Kemik Emaneti parçalanıp onu ölümün eşiğinden geri çekti.`:`☠️ ${a.name} should have died — but the Bone Relic shattered and wrenched them back from death's door.`});
+              } else if(Math.random()<odds.ls){
+                // sheer toughness: a deadly blow that didn't quite kill
+                a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*80*(bLv(ns.buildings,"inf_ward").injuryMult||1)); a.hp=1; injured.push(a.name);
+                chron(a, ns.day, ()=>LANG==="tr"?`${regionName(region)} bölgesinde ölümcül bir darbe aldı ama ayakta kaldı.`:`Took a deadly blow in ${regionName(region)} and stayed standing.`);
+                logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`🛡️ ${a.name} son nefesinde ayakta kaldı — ağır yaralı ama hayatta.`:`🛡️ ${a.name} stayed standing with their last breath — badly hurt, but alive.`});
               } else {
                 if(offline){ a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*80); a.hp=1; injured.push(a.name); }
                       else { a.dead=true; died.push(a); }
               }
             } else {
-              a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*40*(bLv(ns.buildings,"inf_ward").injuryMult||1));
+              a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*40*(bLv(ns.buildings,"inf_ward").injuryMult||1)*healMult(a));
               a.hp=Math.max(1,Math.floor(a.maxHp*0.3));
               if(region.danger>=3) chron(a, ns.day, ()=>LANG==="tr"?`${regionName(region)} bölgesinde ağır yaralandı.`:`Badly wounded in ${regionName(region)}.`);
               injured.push(a.name);
             }
+           }
           }
         }
         if(!a.dead && a.status!=="injured"){ a.status="idle"; a.task="rest"; }
@@ -2381,16 +2781,20 @@ function stepGame(s, offline){
         ns.bossUnlocked = ns.bossUnlocked || {...(s.bossUnlocked||{})};
         const candidates=(BOSS_BY_REGION[region.id]||[]).filter(b=>!ns.bossUnlocked[b.id]);
         for(const b of candidates){
-          if(Math.random()<b.unlockChance){
-            ns.bossUnlocked[b.id]=true;
+          if(Math.random()<b.unlockChance*1.6){
+            ns.bossUnlocked[b.id]=true; revealedBoss=b;
             logAdds.push({t:ns.elapsed, msg:LANG==="tr"?`${b.icon} Söylentiler yayılıyor: ${regionName(region)} bölgesinde ${bossName(b)} görülmüş! Görevler ekranından avlanabilir.`:`${b.icon} Word spreads: ${bossName(b)} stalks ${regionName(region)}! Hunt it from the Quests screen.`});
             break; // at most one reveal per run
           }
         }
       }
       if(leveled.length) logAdds.push({t:ns.elapsed, msg:`⬆️ ${leveled.join(", ")}.`});
+      if(escaped.length) logAdds.push({t:ns.elapsed, msg:LANG==="tr"?`💨 ${escaped.join(", ")} işler kötüye gidince son anda sıyrılıp kaçtı — burnu bile kanamadı.`:`💨 ${escaped.join(", ")} slipped away at the last moment when things went wrong — not a scratch.`});
       if(injured.length){ logAdds.push({t:ns.elapsed, msg:LANG==="tr"?`🩸 ${injured.join(", ")} yaralandı — ${regionName(region)} bölgesinde bir çatışma kötü gitti (tehlike ${region.danger}/6). İyileşiyor.`:`🩸 ${injured.join(", ")} hurt — a fight went badly in ${regionName(region)} (danger ${region.danger}/6). Recovering.`});
-        ns.injuryAlert={ names:injured.slice(), region:region.name, id:uid() }; }
+        }
+      arcsOnQuest(ns, region, party, failed);
+      if(!died.length){ const lootN=Object.values(lootGained).reduce((x,y)=>x+y,0);
+        ns.questAlert={ region:region.name, icon:region.icon, ok:party.length-failed, total:party.length, loot:lootN, injured:injured.slice(), leveled:leveled.length, boss:!!q.bossId, reveal:revealedBoss?{icon:revealedBoss.icon,name:bossName(revealedBoss)}:null, id:uid() }; }
       died.forEach(d=>{
         logAdds.push({t:ns.elapsed, msg:LANG==="tr"?`💀 ${d.name}, Lv ${d.level} ${clsName(d.cls)}, ${regionName(region)} bölgesinde düştü. Efsaneler Salonu'nda anılacak.`:`💀 ${d.name}, Lv ${d.level} ${clsName(d.cls)}, fell in ${regionName(region)}. They will be remembered in the Hall of Legends.`});
       });
@@ -2402,7 +2806,7 @@ function stepGame(s, offline){
         if(boss){
           // party power = sum of (level + attack) of survivors who returned
           const survivors=q.party.map(id=>ns.adventurers.find(a=>a.id===id)).filter(a=>a&&a.status!=="dead");
-          const power=survivors.reduce((sum,a)=>sum + a.level*3 + CLASSES[a.cls].atk, 0);
+          const power=survivors.reduce((sum,a)=>sum + heroPower(a), 0);
           const ratio=power/boss.power;
           const winChance=Math.max(0.05,Math.min(0.95, ratio-0.35)); // need clear power edge to be safe
           const won=Math.random()<winChance;
@@ -2469,7 +2873,7 @@ function stepGame(s, offline){
         if(na.hp<na.maxHp){ na.hp=Math.min(na.maxHp,na.hp+Math.ceil(na.maxHp*(0.02+(bLv(ns.buildings||s.buildings,"dorm_bath").healBonus||0)))); taskChanged=true; } }
             else if(t==="train"){ na.xp=(na.xp||0)+(bLv(ns.buildings||s.buildings,"train_dummies").trainXp||3)+mentorBonus(s).trainXp; taskChanged=true; workTire(2);
               const gained=levelUpHero(na, ns.day); if(gained) logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⬆️ ${na.name} talimde Lv ${na.level} oldu.`:`⬆️ ${na.name} reached Lv ${na.level} in training.`}); }
-      else if(t==="patrol"){ patrolGold+=(bLv(ns.buildings||s.buildings,"watch_tower").patrolGold||1); patrolCount++; taskChanged=true; workTire(3); }
+      else if(t==="patrol"){ patrolGold+=(bLv(ns.buildings||s.buildings,"watch_tower").patrolGold||1)*(favorTop(s,"commoners")?1.25:1); patrolCount++; taskChanged=true; workTire(3); }
       return na;
     });
     if(taskChanged||patrolGold>0) ns.adventurers=adv3;
@@ -2527,8 +2931,9 @@ function stepGame(s, offline){
     // ---- request board: fresh requests every 3 days ----
     if(!ns.requests || !Array.isArray(ns.requests.list) || ns.day >= (ns.requests.nextDay||0)){
       ns.requests = genRequests(ns, ns.day, ns.requests);
+      ns.market = {...(ns.market||{}), demand: ns.requests.demand||null};
             logAdds.push({t:ns.elapsed,msg:LANG==="tr"?"📋 İstek panosuna yeni istekler asıldı — soylular, kilise ve halk seni bekliyor.":"📋 New requests are pinned to the board — nobles, church and commoners await."});
-            { const om=OMENS.find(o=>o.id===ns.requests.omen); if(om) logAdds.push({t:ns.elapsed,msg:LANG==="tr"?om.tr:om.en}); }
+            { const nw=newsText(ns.requests); if(nw && nw.kind!=="quiet") logAdds.push({t:ns.elapsed,msg:nw.text}); }
     }
     // ---- passive relationship drift: adventurers living together at the hall ----
     const home = (ns.adventurers||s.adventurers).filter(a=>a.status!=="questing");
@@ -2572,6 +2977,8 @@ function stepGame(s, offline){
       }
     }
     // ---- EVENT SYSTEM: roughly every few days something happens ----
+    arcsDaily(ns, offline);
+    if(!offline && !ns.pendingEvent){ const ae=arcCheck(ns); if(ae) ns.pendingEvent=ae; }
     if(!offline && !ns.pendingEvent){ const sev=storyCheck(ns); if(sev) ns.pendingEvent=sev; }
   if(!ns.pendingEvent && Math.random()<0.40){
       const roll=offline ? 1 : Math.random(); // while away, only small self-resolving events happen
@@ -2626,7 +3033,7 @@ function stepGame(s, offline){
           ns.adventurers=ns.adventurers.filter(a=>!a.dead);
           { const bp=bloodPrice(ns, died); if(bp) logAdds.push({t:ns.elapsed,msg:bp}); }
           const nb=died.slice().sort((x,y)=>y.level-x.level)[0];
-          ns.deathAlert={ name:nb.name, cls:nb.cls, level:nb.level, region:(LANG==="tr"?C.name.tr:C.name.en), count:died.length, eulogy:LANG==="tr"?`${crisisName(C)} sırasında, diyar için düştü.`:`Fell for the realm during ${crisisName(C)}.`, id:uid() };
+          ns.deathAlert={ crisis:true, name:nb.name, cls:nb.cls, level:nb.level, region:(LANG==="tr"?C.name.tr:C.name.en), count:died.length, eulogy:LANG==="tr"?`${crisisName(C)} sırasında, diyar için düştü.`:`Fell for the realm during ${crisisName(C)}.`, id:uid() };
         }
         const deadTxt = died.length ? (LANG==="tr"?` Kayıplar: ${died.map(d=>d.name).join(", ")}.`:` Lost: ${died.map(d=>d.name).join(", ")}.`) : "";
         if(won){
@@ -2674,9 +3081,9 @@ function stepGame(s, offline){
     if(newly.length){ const last=ACH_BY_ID[newly[newly.length-1]]; if(last) ns._achToast={id:uid(), ach:last, count:newly.length}; }
   }
   { const ti=titleIndex(ns.renown);
-    if(ti>=3 && !ns.uniqueOffered){ ns.uniqueOffered=true; const ex=uniquesInPlay(ns); const pool=Object.keys(STORY_HEROES).filter(c=>!ex.includes(c));
+    if(ti>=2 && !ns.uniqueOffered){ ns.uniqueOffered=true; const ex=uniquesInPlay(ns); const pool=Object.keys(STORY_HEROES).filter(c=>!ex.includes(c));
       if(pool.length){ const u=makeAdventurer(guildTier(ns), pick(pool), ns.renown, ex); ns.recruits=[u, ...(ns.recruits||[])];
-        logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⭐ Ünün diyarın öbür ucuna ulaştı. Efsanevi biri — ${u.name} — aday panosunda seni bekliyor!`:`⭐ Your fame has reached the far ends of the realm. A legend — ${u.name} — awaits you on the recruit board!`}); } }
+        logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⭐ Adın bölgede dolaşmaya başladı ve kulaktan kulağa yayıldı. Efsanevi biri — ${u.name} — aday panosunda seni bekliyor!`:`⭐ Your name has started to travel. A legend — ${u.name} — awaits you on the recruit board!`}); } }
     if(ti>(ns.titleSeen||0)){ ns.titleSeen=ti;
       logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`🎺 Loncanın adı yayılıyor! Artık "${titleName(ti)}" bir lonca olarak anılıyorsun.`:`🎺 Your name spreads! The guild is now "${titleName(ti)}".`}); } }
   if(logAdds.length){ ns.log = [...logAdds.reverse(), ...s.log].slice(0,40); }
@@ -2704,7 +3111,7 @@ function catchUp(s){
     loot:Math.max(0,Object.values(ns.inventory||{}).reduce((a,b)=>a+b,0)-before.inv)+((prev&&prev.loot)||0),
     renown:(ns.renown||0)-before.renown+((prev&&prev.renown)||0), id:uid() };
   const stats2 = steps>=3600 ? {...(ns.stats||{}), longAway:true} : ns.stats;
-  return {...ns, stats:stats2, realTime:now, _away: steps>=60 ? away : prev };
+  return {...ns, stats:stats2, realTime:now, questAlert:null, _away: steps>=60 ? away : prev };
 }
 
 export default function Guildmaster(){
@@ -2774,7 +3181,7 @@ export default function Guildmaster(){
     const now = Date.now();
     const doSave = ()=>{
       try{
-        const { pendingEvent, deathAlert, injuryAlert, _achToast, _away, ...clean } = state;
+        const { pendingEvent, deathAlert, injuryAlert, questAlert, _achToast, _away, _eventResult, ...clean } = state;
         clean.saveVersion = SAVE_VERSION;
         localStorage.setItem(SAVE_KEY, JSON.stringify(clean));
         lastSaveRef.current = Date.now();
@@ -2809,12 +3216,18 @@ export default function Guildmaster(){
   // watch for injuries → toast
   const lastInjuryId = useRef(null);
   useEffect(()=>{
-    if(state.injuryAlert && state.injuryAlert.id!==lastInjuryId.current){
-      lastInjuryId.current = state.injuryAlert.id;
-      const n=state.injuryAlert.names;
-      notify(LANG==="tr"?`🩸 ${n.length>1?n.length+" maceracı":n[0]} ${regionName(state.injuryAlert.region)} bölgesinde yaralandı!`:`🩸 ${n.length>1?n.length+" adventurers were":n[0]+" was"} hurt in ${regionName(state.injuryAlert.region)}!`);
+    const q=state.questAlert;
+    if(q && q.id!==lastInjuryId.current){
+      lastInjuryId.current = q.id;
+      const tr=LANG==="tr", rn=regionName(q.region), clean=q.ok===q.total && !q.injured.length;
+      const head = clean ? (tr?`✅ ${rn} seferi döndü`:`✅ Back from ${rn}`) : q.ok>=Math.ceil(q.total/2) ? (tr?`⚠️ ${rn} zor geçti`:`⚠️ ${rn} was rough`) : (tr?`❌ ${rn} kötü gitti`:`❌ ${rn} went badly`);
+      const parts=[ `${q.ok}/${q.total} ${tr?"başarılı":"succeeded"}`, `${q.loot} ${tr?"ganimet":"loot"}` ];
+      if(q.injured.length) parts.push(`🩸 ${q.injured.length>2?q.injured.length+(tr?" yaralı":" hurt"):q.injured.join(", ")+(tr?" yaralı":" hurt")}`);
+      if(q.leveled) parts.push(`⬆️ ${q.leveled} ${tr?"seviye":"level-up"}`);
+      if(q.reveal) parts.push(`${q.reveal.icon} ${q.reveal.name} ${tr?"görüldü! Görevler'den avla.":"spotted! Hunt it from Quests."}`);
+      notify(`${head} · ${parts.join(" · ")}`);
     }
-  }, [state.injuryAlert]);
+  }, [state.questAlert]);
 
   // watch for unlocked achievements → toast
   const lastAchId = useRef(null);
@@ -2838,6 +3251,11 @@ export default function Guildmaster(){
       applyEventPatch(ns, res);
       ns.pendingEvent=null;
       if(res.msg) ns.log=[{t:ns.elapsed,msg:res.msg},...s.log].slice(0,40);
+      // outcome card so the choice visibly lands
+      const items=[]; if(res.give) items.push(`+${res.give.qty}× ${itemName(res.give.item)}`); if(res.take) items.push(`−${res.take.qty}× ${itemName(res.take.item)}`); if(res.sell) items.push(`−${res.sell.qty}× ${itemName(res.sell.item)}`);
+      ns._eventResult={ id:uid(), icon:pe.icon, title:pe.title, choice:choice.label, msg:res.msg||"", gold:Math.round(ns.gold-s.gold), renown:(ns.renown||0)-(s.renown||0),
+        items, dead:s.adventurers.length-ns.adventurers.length>0 ? s.adventurers.filter(a=>!ns.adventurers.some(b=>b.id===a.id)).map(a=>a.name) : [],
+        joined:ns.adventurers.filter(a=>!s.adventurers.some(b=>b.id===a.id)).map(a=>a.name) };
       return ns;
     });
     setEventModal(null);
@@ -2859,14 +3277,24 @@ export default function Guildmaster(){
     };
   }
 
-  const notify = useCallback((msg)=>{ setToast(msg); setTimeout(()=>setToast(null), 2600); }, []);
+  const toastTimer=useRef(null);
+  const notify = useCallback((msg)=>{ setToast(msg); clearTimeout(toastTimer.current); toastTimer.current=setTimeout(()=>setToast(null), String(msg).length>50?4200:2600); }, []);
 
   // ---- main game tick (1s) ----
   useEffect(()=>{
+    // While the app is in the background the guild does NOT tick live: the gap is processed on return
+    // by catchUp() under offline rules (no deaths, decisions wait) and a "while you were away" report.
+    const bg={ v: typeof document!=="undefined" && document.hidden };
+    const onVis=()=>{ bg.v=document.hidden; };
+    document.addEventListener("visibilitychange", onVis);
+    let capSub=null;
+    import("@capacitor/app").then(m=>{ try{ const r=m.App.addListener("appStateChange",({isActive})=>{ bg.v=!isActive; }); capSub=r; }catch(e){} }).catch(()=>{});
     tickRef.current = setInterval(()=>{
+      if(bg.v) return;
       setState(s=>catchUp(s));
     }, 1000);
-    return ()=>clearInterval(tickRef.current);
+    return ()=>{ clearInterval(tickRef.current); document.removeEventListener("visibilitychange", onVis);
+      try{ Promise.resolve(capSub).then(h=>h&&h.remove&&h.remove()); }catch(e){} };
   }, []);
 
   const api = { state, setState, notify, newGame, lang, switchLang };
@@ -2934,7 +3362,7 @@ export default function Guildmaster(){
             <div style={{fontSize:18,fontWeight:700,color:T.parchment,marginBottom:6}}>{deathModal.name}</div>
             <div style={{fontSize:13,color:T.inkDim,marginBottom:4}}>Lv {deathModal.level} {CLASSES[deathModal.cls]?CLASSES[deathModal.cls].icon:""} {clsName(deathModal.cls)}</div>
             <div style={{fontSize:13,color:T.ink,lineHeight:1.5,marginBottom:deathModal.eulogy?10:20}}>
-              {t("death.lostIn").replace("{region}", regionName(deathModal.region)).replace("{others}", deathModal.count>1?(LANG==="tr"?`, ${deathModal.count-1} yoldaşıyla birlikte`:`, along with ${deathModal.count-1} other${deathModal.count-1>1?"s":""}`):"")}</div>
+              {(deathModal.crisis?(LANG==="tr"?"{region} sırasında düştü{others}. Yaptıkları artık Efsaneler Salonu'na kazındı.":"Fell during {region}{others}. Their deeds are now carved into the Hall of Legends."):t("death.lostIn")).replace("{region}", regionName(deathModal.region)).replace("{others}", deathModal.count>1?(LANG==="tr"?`, ${deathModal.count-1} yoldaşıyla birlikte`:`, along with ${deathModal.count-1} other${deathModal.count-1>1?"s":""}`):"")}</div>
             {deathModal.eulogy && <div style={{fontSize:12,color:"#e07a9c",fontStyle:"italic",lineHeight:1.5,marginBottom:20}}>{deathModal.eulogy}</div>}
             <button onClick={()=>setDeathModal(null)} style={{width:"100%",background:`linear-gradient(${T.gold},${T.goldDim})`,
               color:"#211705",border:"none",borderRadius:9,padding:"12px",fontWeight:700,fontSize:14,fontFamily:font}}>{t("death.honor")}</button>
@@ -2950,6 +3378,7 @@ export default function Guildmaster(){
             <div style={{fontSize:42,textAlign:"center",marginBottom:12,filter:"drop-shadow(0 0 14px rgba(224,162,60,.4))"}}>{eventModal.icon}</div>
             {eventModal.kind==="legendary" && <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:T.gold,textAlign:"center",marginBottom:6}}>{LANG==="tr"?"Efsanevi Olay":"Legendary Event"}</div>}
             {eventModal.kind==="story" && <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:"#c9a0e0",textAlign:"center",marginBottom:6}}>📜 {LANG==="tr"?"Kişisel Hikâye":"Personal Story"}</div>}
+            {eventModal.kind==="arc" && <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:"#d9a55a",textAlign:"center",marginBottom:6}}>🧵 {eventModal.arcName} · {LANG==="tr"?`Bölüm ${eventModal.chapter}`:`Chapter ${eventModal.chapter}`}</div>}
             <div style={{fontSize:17,fontWeight:700,color:T.parchment,textAlign:"center",marginBottom:10}}>{eventModal.title}</div>
             <div style={{fontSize:13,color:T.ink,lineHeight:1.55,marginBottom:18,textAlign:"center",fontStyle:"italic"}}>{eventModal.text}</div>
             <div style={{display:"flex",flexDirection:"column",gap:9}}>
@@ -2964,6 +3393,20 @@ export default function Guildmaster(){
           </div>
         </div>
       )}
+      {!eventModal && state._eventResult && (()=>{ const r=state._eventResult; const tr=LANG==="tr";
+        const chips=[]; if(r.gold) chips.push([r.gold>0?T.green:T.red,`💰 ${r.gold>0?"+":"−"}${Math.abs(r.gold)}${t("top.goldUnit")}`]);
+        if(r.renown) chips.push([r.renown>0?T.green:T.red,`★ ${r.renown>0?"+":"−"}${Math.abs(r.renown)} ${tr?"şöhret":"renown"}`]);
+        r.items.forEach(x=>chips.push([x[0]==="+"?T.green:T.red,`🎒 ${x}`])); r.joined.forEach(n=>chips.push([T.green,`🤝 ${n}`])); r.dead.forEach(n=>chips.push([T.red,`💀 ${n}`]));
+        return <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.72)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:60,padding:16,animation:"fadeUp .2s"}}>
+          <div style={{background:"radial-gradient(circle at 50% 25%,#241c15,#15100A)",border:`1px solid ${T.borderLit}`,borderRadius:14,padding:"22px 20px",maxWidth:380,width:"100%",boxShadow:"0 10px 40px rgba(0,0,0,.6)"}}>
+            <div style={{fontSize:34,textAlign:"center",marginBottom:6}}>{r.icon}</div>
+            <div style={{fontSize:10,letterSpacing:2,textTransform:"uppercase",color:T.gold,textAlign:"center",marginBottom:4}}>{tr?"Sonuç":"Outcome"}</div>
+            <div style={{fontSize:15,fontWeight:700,color:T.parchment,textAlign:"center",marginBottom:4}}>{r.title}</div>
+            <div style={{fontSize:11,color:T.inkDim,textAlign:"center",marginBottom:12}}>{tr?"Kararın":"Your choice"}: <b style={{color:T.gold}}>{r.choice}</b></div>
+            {r.msg && <div style={{fontSize:13,color:T.ink,lineHeight:1.55,textAlign:"center",marginBottom:12}}>{r.msg}</div>}
+            {chips.length>0 && <div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",marginBottom:14}}>{chips.map(([c,txt],i)=><span key={i} style={{fontSize:12,fontWeight:700,color:c,border:`1px solid ${c}`,borderRadius:20,padding:"3px 10px"}}>{txt}</span>)}</div>}
+            <GoldBtn onClick={()=>setState(s=>({...s,_eventResult:null}))} style={{width:"100%"}}>{tr?"Tamam":"Okay"}</GoldBtn>
+          </div></div>; })()}
       {showAch && <AchievementsModal achieved={state.achieved} onClose={()=>setShowAch(false)} />}
     </div>
   );
@@ -3125,6 +3568,11 @@ function IntroSequence({onBegin}){
   );
 }
 
+// what the next payday will roughly do to the coffers (rent + board − wages; thefts not included)
+function paydayNet(s){ const dorm=bLv(s.buildings,"dorm_comfort"), tav=bLv(s.buildings,"tav_cellar"); let net=0;
+  (s.adventurers||[]).forEach(a=>{ net += Math.round(dorm.rentPerHead*posMul(a,"rentMult")) + Math.round(tav.foodPerHead*(a.neg.mod.foodMult??1))
+    - Math.round(a.wage*posMul(a,"wageMult")*(a.neg.mod.wageMult||1)*(bLv(s.buildings,"guild_accountant").wageMult||1)*legendMod(s).wage); });
+  (s.mentors||[]).forEach(m=>{ net -= Math.round((m.wage||10)*0.5); }); return net; }
 function TopBar({state,onAchievements}){
   const tier = BUILDINGS.treasury.levels[state.buildings.treasury].tier;
   const rank = RANKS[tier];
@@ -3156,7 +3604,8 @@ function TopBar({state,onAchievements}){
       <div style={{flex:1,height:5,background:"#0e0a07",borderRadius:3,overflow:"hidden",border:`1px solid ${T.border}`}}>
         <div style={{width:`${Math.round(progress*100)}%`,height:"100%",background:`linear-gradient(90deg,${T.goldDim},${T.gold})`,transition:"width .9s linear"}}/>
       </div>
-      <span style={{fontSize:10,color:T.inkFaint,minWidth:64,textAlign:"right"}}>{t("top.nextPayday")}{LANG==="tr"?":":""} {fmtTime(secsLeft)}</span>
+      {(()=>{ const net=paydayNet(state); const short=state.gold+net<0;
+        return <span style={{fontSize:10,color:short?T.red:T.inkFaint,minWidth:64,textAlign:"right",fontWeight:short?700:400}}>{short?"⚠️ ":""}{t("top.nextPayday")}{LANG==="tr"?":":""} {fmtTime(secsLeft)} · {net>=0?"+":"−"}{Math.abs(net)}{t("top.goldUnit")}</span>; })()}
     </div>
   </header>);
 }
@@ -3171,7 +3620,8 @@ function NavBar({tab,setTab,state}){
         <button key={k} onClick={()=>setTab(k)} style={{flex:1,background:tab===k?T.panel2:"transparent",
           border:"none",borderTop:`2px solid ${tab===k?T.gold:"transparent"}`,padding:"8px 2px 7px",
           color:tab===k?T.gold:T.inkDim,display:"flex",flexDirection:"column",alignItems:"center",gap:2,minWidth:0}}>
-          <span style={{fontSize:17}}>{ic}</span><span style={{fontSize:9,letterSpacing:.3,maxWidth:"100%",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t(lb)}</span>
+          <span style={{fontSize:17,position:"relative"}}>{ic}{k==="quests" && (()=>{ const hunting=new Set((state.quests||[]).map(q=>q.bossId).filter(Boolean)); const n=Object.entries(state.bossUnlocked||{}).filter(([id,v])=>v&&!hunting.has(id)).length;
+            return n>0 ? <span style={{position:"absolute",top:-4,right:-10,background:"#c0392b",color:"#fff",fontSize:9,fontWeight:700,borderRadius:8,padding:"0 4px",lineHeight:"14px"}}>{n}</span> : null; })()}</span><span style={{fontSize:9,letterSpacing:.3,maxWidth:"100%",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t(lb)}</span>
         </button>))}
     </div>
   </nav>);
@@ -3247,10 +3697,26 @@ function HallView({state,setTab,setState,notify,newGame,lang,switchLang}){
           <div style={{fontSize:10,color:T.gold}}>🗝️ {invCount}</div><div style={{fontSize:9,color:T.inkFaint}}>{t("hall.storage")}</div></button>
       </div>
     </div>
+    {(state.arcs||[]).length>0 && <Panel style={{marginBottom:12,border:`1px solid #6b5230`}}>
+      <SectionTitle sub={LANG==="tr"?"Birkaç günde açılan hikâyeler":"Stories that unfold over days"}>🧵 {LANG==="tr"?"Süren Olaylar":"Ongoing Events"}</SectionTitle>
+      {(state.arcs||[]).map(ar=>{ const def=ARCS[ar.key]; if(!def) return null; const tk=ar.task; const left=tk?Math.max(0,tk.deadline-state.day):0; const tr=LANG==="tr";
+        let line, act=null;
+        if(tk && !tk.done && tk.kind==="expedition") line=<>{tr?`🗺️ ${rnId(tk.region)} bölgesine ${tk.minParty?`en az ${tk.minParty} kişilik `:""}ekip yolla`:`🗺️ Send a ${tk.minParty?`${tk.minParty}+ `:""}party to ${rnId(tk.region)}`}</>;
+        else if(tk && !tk.done && tk.kind==="deliver"){ const have=state.inventory[tk.item]||0; line=<>{tr?`🎒 ${tk.qty}× ${itemName(tk.item)} teslim et (elinde ${have})`:`🎒 Deliver ${tk.qty}× ${itemName(tk.item)} (you have ${have})`}</>;
+          act=<GoldBtn onClick={()=>{ setState(s=>arcDeliver(s,ar.id)); notify(tr?"🎒 Teslim edildi!":"🎒 Delivered!"); }} disabled={have<tk.qty} style={{padding:"6px 10px",fontSize:12}}>{tr?"Teslim Et":"Deliver"}</GoldBtn>; }
+        else line=<span style={{color:T.inkFaint}}>{tr?"⏳ Bir sonraki gelişme yolda…":"⏳ The next turn is on its way…"}</span>;
+        return (<div key={ar.id} style={{display:"flex",gap:10,alignItems:"center",padding:"8px 0",borderTop:`1px solid ${T.border}`}}>
+          <div style={{fontSize:22}}>{def.icon}</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontSize:13,fontWeight:700,color:T.ink}}>{tr?def.name.tr:def.name.en} <span style={{fontSize:10,color:T.inkFaint,fontWeight:400}}>· {tr?`Bölüm ${ar.chapter||1}`:`Chapter ${ar.chapter||1}`}</span></div>
+            <div style={{fontSize:11,color:T.inkDim}}>{line}</div>
+            {tk && !tk.done && <div style={{fontSize:10,color:left<=1?T.red:T.gold}}>{left===0?(tr?"⏱️ Bugün son gün!":"⏱️ Last day!"):(tr?`⏱️ ${left} gün kaldı`:`⏱️ ${left} day${left===1?"":"s"} left`)}</div>}
+          </div>{act}</div>); })}
+    </Panel>}
     <Panel style={{marginBottom:12}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
         <SectionTitle sub={t("hall.recentFirst")}>{t("hall.ledger")}</SectionTitle>
-        <button onClick={()=>setShowSettings(true)} style={{background:"none",border:`1px solid ${T.border}`,color:T.inkDim,borderRadius:7,padding:"5px 9px",fontSize:13}}>⚙️</button>
+        <button onClick={()=>setShowSettings(true)} style={{background:"#2a2016",border:`1px solid ${T.goldDim}`,color:T.gold,borderRadius:8,padding:"6px 11px",fontSize:13,fontWeight:700,display:"flex",alignItems:"center",gap:5}}><span style={{fontSize:16}}>⚙️</span>{t("ui.settings")}</button>
       </div>
       <div style={{maxHeight:440,overflowY:"auto",display:"flex",flexDirection:"column",gap:6}}>
         {state.log.length===0 && <div style={{fontSize:12,color:T.inkFaint,padding:"8px 0"}}>{t("hall.ledgerEmpty")}</div>}
@@ -3416,7 +3882,7 @@ function FameShop({state,setState,notify,onClose}){
         style={{flex:1,background:"#0e0a07",border:`1px solid ${T.border}`,borderRadius:8,color:T.ink,padding:"8px 10px",fontSize:12,fontFamily:font}}/>
       <GoldBtn onClick={()=>{ const m=motto.trim(); if(!m) return; spend(5, s=>({...s,motto:m}), LANG==="tr"?`📜 Yeni lonca sözü: "${m}"`:`📜 New guild motto: "${m}"`); }} disabled={!motto.trim()||sp<5} style={{padding:"7px 10px",fontSize:12}}>★5</GoldBtn>
     </div>
-    <SectionTitle sub={LANG==="tr"?"Bir kerelik işler":"One-off favors"}>✨ {LANG==="tr"?"Lonca Hizmetleri":"Guild Favors"}</SectionTitle>
+    <SectionTitle sub={LANG==="tr"?"İstediğin kadar kullanabilirsin":"Use as often as you like"}>✨ {LANG==="tr"?"Lonca Hizmetleri":"Guild Favors"}</SectionTitle>
     <Item icon="🍖" cost={15} title={LANG==="tr"?"Büyük Ziyafet":"Grand Feast"} desc={LANG==="tr"?"Evdeki herkesin yorgunluğu sıfırlanır, aralarındaki bağlar ısınır.":"Everyone at home is fully rested, and bonds between them warm."}
       disabled={home.length===0} onBuy={()=>spend(15, s=>{ const ns={...s, adventurers:s.adventurers.map(a=>a.status!=="questing"?{...a,fatigue:0}:a), rels:{...s.rels}};
         const hm=ns.adventurers.filter(a=>a.status!=="questing"); for(let i=0;i<hm.length;i++) for(let j=i+1;j<hm.length;j++) bumpRel(ns.rels,hm[i].id,hm[j].id,3,s.elapsed); return ns; },
@@ -3425,13 +3891,30 @@ function FameShop({state,setState,notify,onClose}){
       disabled={!state.adventurers.some(a=>a.grief && state.elapsed<a.grief)} onBuy={()=>spend(6, s=>({...s, adventurers:s.adventurers.map(a=>({...a,grief:0}))}),
         LANG==="tr"?"🕯️ Düşenler için mumlar yakıldı. Yas tutanlar biraz olsun huzur buldu.":"🕯️ Candles were lit for the fallen. The grieving found some peace.")}/>
     <Item icon="📜" cost={20} title={LANG==="tr"?"Kraliyet Beratı":"Royal Writ"} desc={LANG==="tr"?"İstek panosu hemen yenilenir (itibarın korunur).":"The request board refreshes right now (favor is kept)."}
-      onBuy={()=>spend(20, s=>({...s, requests:genRequests(s, s.day, s.requests)}), LANG==="tr"?"📜 Bir kraliyet beratıyla panoya yeni istekler asıldı.":"📜 A royal writ pinned fresh requests to the board.")}/>
+      onBuy={()=>spend(20, s=>{ const rq=genRequests(s, s.day, s.requests); return {...s, requests:rq, market:{...(s.market||{}), demand:rq.demand||null}}; }, LANG==="tr"?"📜 Bir kraliyet beratıyla panoya yeni istekler asıldı.":"📜 A royal writ pinned fresh requests to the board.")}/>
     <Item icon="📯" cost={12} title={LANG==="tr"?"Tellala Bahşiş":"Tip the Crier"} desc={LANG==="tr"?"Aday panosu yenilenir; açtığın nadir sınıflardan biri mutlaka gelir.":"The recruit board refreshes with at least one rare class you've unlocked."}
       onBuy={()=>spend(12, s=>{ const tier=BUILDINGS.treasury.levels[s.buildings.treasury].tier; const ex=uniquesInPlay(s);
         const rares=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && !CLASSES[k].unique && (s.renown||0)>=CLASSES[k].minRenown);
         const out=[]; const n=bLv(s.buildings,"guild_herald").recruitSlots||3;
         for(let i=0;i<n;i++){ const a = (i===0 && rares.length) ? makeAdventurer(tier,pick(rares),s.renown,ex) : makeAdventurer(tier,null,s.renown,ex); if(CLASSES[a.cls].unique) ex.push(a.cls); out.push(a); }
         return {...s, recruits:out}; }, LANG==="tr"?"📯 Tellal meydanda loncanı öve öve bitiremedi. Yeni adaylar kapıda.":"📯 The crier sang your praises in the square. New candidates are at the door.")}/>
+    <Item icon="🩹" cost={10} title={LANG==="tr"?"Saray Hekimi":"Court Physician"} desc={LANG==="tr"?"Evdeki bütün yaralılar hemen ayağa kalkar.":"Every wounded hero at home is back on their feet at once."}
+      disabled={!state.adventurers.some(a=>a.status==="injured")} onBuy={()=>spend(10, s=>({...s, adventurers:s.adventurers.map(a=>a.status==="injured"?{...a,status:"idle",task:"rest",hp:a.maxHp,injuryUntil:0}:a)}),
+        LANG==="tr"?"🩹 Saray hekimi loncaya uğradı. Yaralılar sargılarını çıkardı.":"🩹 The court physician paid a visit. The wounded are out of their bandages.")}/>
+    <Item icon="🎓" cost={12} title={LANG==="tr"?"Usta Dersi":"Master's Lesson"} desc={LANG==="tr"?"Ünlü bir kılıç ustası bir gün ders verir: evdeki herkes bir seviyenin dörtte biri kadar TP kazanır.":"A famed swordmaster teaches for a day: everyone at home gains a quarter of a level in XP."}
+      disabled={home.length===0} onBuy={()=>spend(12, s=>({...s, adventurers:s.adventurers.map(a=>{ if(a.status==="questing") return a; const na={...a,xp:a.xp+Math.floor(xpForLevel(a.level+1)*0.25)}; levelUpHero(na,s.day); return na; })}),
+        LANG==="tr"?"🎓 Ünlü bir usta avluda bütün gün ders verdi. Herkes bir şeyler kaptı.":"🎓 A famed master taught in the yard all day. Everyone picked something up.")}/>
+    {(()=>{ const tier=guildTier(state); const pool=BOSSES.filter(b=>!(state.bossUnlocked||{})[b.id] && REGIONS.some(r=>r.id===b.region && r.tier<=tier));
+      return <Item icon="🔍" cost={15} title={LANG==="tr"?"İz Sürücü":"Tracker"} desc={LANG==="tr"?"Bir iz sürücü tutulur: açık bölgelerden birinde bir boss'un yerini bulur.":"Hire a tracker: they find a boss lurking in one of your open regions."}
+        disabled={pool.length===0} onBuy={()=>spend(15, s=>{ const b=pick(pool); return {...s, bossUnlocked:{...(s.bossUnlocked||{}),[b.id]:true},
+          log:[{t:s.elapsed,msg:LANG==="tr"?`${b.icon} İz sürücü döndü: ${regionName(REGIONS.find(r=>r.id===b.region))} bölgesinde ${bossName(b)} var. Görevler'den avlanabilir.`:`${b.icon} The tracker is back: ${bossName(b)} lurks in ${regionName(REGIONS.find(r=>r.id===b.region))}. Hunt it from Quests.`},...s.log].slice(0,40)}; },
+          LANG==="tr"?"🔍 İz sürücü yola çıktı ve döndü.":"🔍 The tracker set out — and came back.")}/>; })()}
+    <Item icon="🍷" cost={8} title={LANG==="tr"?"Barış Sofrası":"Table of Peace"} desc={LANG==="tr"?"Evde birbirine diş bileyenler aynı sofraya oturtulur; aradaki soğukluk biraz azalır.":"Those at home who can't stand each other share a table; the chill eases a little."}
+      disabled={home.length<2} onBuy={()=>spend(8, s=>{ const ns={...s, rels:{...s.rels}}; const hm=s.adventurers.filter(a=>a.status!=="questing");
+        for(let i=0;i<hm.length;i++) for(let j=i+1;j<hm.length;j++){ if(getRel(ns.rels,hm[i].id,hm[j].id)<0) bumpRel(ns.rels,hm[i].id,hm[j].id,8,s.elapsed); } return ns; },
+        LANG==="tr"?"🍷 Barış sofrası kuruldu. Kimse kimseye sarılmadı ama kimse kimseyi de bıçaklamadı.":"🍷 A table of peace was set. Nobody hugged — but nobody stabbed anyone either.")}/>
+    <Item icon="💰" cost={10} title={LANG==="tr"?"Hayırsever Bağışı":"Patron's Gift"} desc={LANG==="tr"?`Ününe hayran bir tüccar loncaya bağış yapar: +${200+250*guildTier(state)}${t("top.goldUnit")}.`:`A merchant who admires your name makes a donation: +${200+250*guildTier(state)}${t("top.goldUnit")}.`}
+      onBuy={()=>spend(10, s=>({...s, gold:s.gold+200+250*guildTier(s)}), LANG==="tr"?"💰 Bir hayırsever tüccar loncaya bir kese altın bıraktı.":"💰 An admiring merchant left a purse of gold for the guild.")}/>
     <div style={{fontSize:11,color:T.inkFaint,marginTop:12,lineHeight:1.5}}>🏷️ {LANG==="tr"?"Kahramanlarına lakap takmak için onların kartını aç (★8).":"To give a hero an epithet, open their card (★8)."}</div>
   </Modal>);
 }
@@ -3584,7 +4067,7 @@ function statusLabel(a){ if(a.status==="questing")return "⛏️ "+t("status.onE
 function StatRow({label,value,icon,note}){ return (
   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 0",borderBottom:`1px solid ${T.border}`}}>
     <span style={{fontSize:12,color:T.inkDim}}>{icon} {label}</span>
-    <span style={{fontSize:13,fontWeight:700,color:T.ink}}>{value}{note&&<span style={{fontSize:10,color:T.inkFaint,fontWeight:400,marginLeft:5}}>{note}</span>}</span>
+    <span style={{textAlign:"right"}}><span style={{fontSize:13,fontWeight:700,color:T.ink}}>{value}</span>{note&&<span style={{display:"block",fontSize:10,color:T.inkFaint,fontWeight:400}}>{note}</span>}</span>
   </div>); }
 
 function AdvDetailModal({a,rels,roster,setState,stories,onClose,onDismiss}){
@@ -3618,14 +4101,19 @@ function AdvDetailModal({a,rels,roster,setState,stories,onClose,onDismiss}){
       background:"#0e0a07",border:`1px solid ${T.border}`,borderRadius:8,padding:11}}>{clsDesc(a.cls)}</div>
     <SectionTitle>{t("adv.combatStats")}</SectionTitle>
     <div style={{marginBottom:14}}>
-      <StatRow icon="❤️" label={t("stat.maxHp")} value={a.maxHp} note={hpMult!==1?`(${hpMult>1?"+":""}${Math.round((hpMult-1)*100)}% ${t("stat.fromTrait")})`:""}/>
-      <StatRow icon="⚔️" label={t("stat.attack")} value={c.atk}/>
-      <StatRow icon="🛡️" label={t("stat.defense")} value={c.def}/>
-      <StatRow icon="💨" label={t("stat.speed")} value={c.spd} note={t("stat.questPace")}/>
+      {(()=>{ const st=heroStats(a); const tr=LANG==="tr";
+        const P=(v,neg)=>{ const n=Math.round(v*100); const sg=n<0?"−":"+"; return tr?`${sg}%${Math.abs(n)}`:`${sg}${Math.abs(n)}%`; };
+        const pace=Math.round((st.spd-10)*1.2);
+        return <>
+      <StatRow icon="❤️" label={t("stat.maxHp")} value={a.maxHp} note={(tr?`ölümcül darbede ayakta kalma %${Math.round(lastStandChance(a)*100)}`:`${Math.round(lastStandChance(a)*100)}% to survive a deadly blow`)+(hpMult!==1?` · ${hpMult>1?"+":""}${Math.round((hpMult-1)*100)}% ${t("stat.fromTrait")}`:"")}/>
+      <StatRow icon="⚔️" label={t("stat.attack")} value={st.atk} note={tr?`başarı ${P(statSucc(st))}`:`success ${P(statSucc(st))}`}/>
+      <StatRow icon="🛡️" label={t("stat.defense")} value={st.def} note={tr?`yaralanma ${P(-statInjCut(st))}`:`injury ${P(-statInjCut(st))}`}/>
+      <StatRow icon="💨" label={t("stat.speed")} value={st.spd} note={tr?`kaçış %${Math.round(escapeChance(st)*100)} · sefer ${pace>=0?"−":"+"}%${Math.abs(pace)}`:`escape ${Math.round(escapeChance(st)*100)}% · trips ${pace>=0?"−":"+"}${Math.abs(pace)}%`}/>
+      <div style={{fontSize:10,color:T.inkFaint,marginTop:4}}>{tr?"Statlar seviye ve rütbeyle büyür.":"Stats grow with level and rank."}</div></>; })()}
     </div>
     <SectionTitle>{t("adv.classPerk")}</SectionTitle>
     <div style={{fontSize:12,color:T.green,marginBottom:14,background:"rgba(111,174,111,.08)",
-      border:`1px solid ${T.green}`,borderRadius:8,padding:"8px 11px"}}>✦ {clsPerk(a.cls)} <span style={{color:T.inkDim}}>{t("adv.perkParty")}</span></div>
+      border:`1px solid ${T.green}`,borderRadius:8,padding:"8px 11px"}}>✦ {clsPerk(a.cls)} {!(a.cls==="LoneWolf"||a.cls==="GoblinSlayer"||a.cls==="Hawk") && <span style={{color:T.inkDim}}>{t("adv.perkParty")}</span>}</div>
     <SectionTitle>{t("adv.traits")} {a.pos3?<span style={{color:T.gold,fontSize:10}}>★ {LANG==="tr"?"üç erdemle kutsanmış":"gifted with three virtues"}</span>:a.pos2 ? <span style={{color:T.gold,fontSize:10}}>★ {t("adv.twoVirtues")}</span>:null}</SectionTitle>
     <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
       <div style={{fontSize:12,color:T.ink,background:"rgba(111,174,111,.08)",border:`1px solid ${T.green}`,borderRadius:8,padding:"8px 11px"}}>
@@ -3803,7 +4291,7 @@ function QuestsView({state,setState,notify}){
 
   const dispatch=(region,partyIds,repeat,bossId)=>{
     const speed=Math.min(...partyIds.map(id=>{const a=state.adventurers.find(x=>x.id===id);
-      const spdBonus=1-(CLASSES[a.cls].spd-10)*0.012; // higher speed stat → shorter trips
+      const spdBonus=1-(heroStats(a).spd-10)*0.012; // higher speed stat → shorter trips
       return posMul(a,"speedMult")*(a.neg.mod.speedMult||1)*Math.max(0.7,spdBonus);}));
     const dur=Math.round(region.duration*speed*(bLv(state.buildings,"stable_horses").speedMult||1)*legendMod(state).speed);
     const rep=bossId?1:Math.max(1,repeat||1); // bosses are one-shot, no auto-repeat
@@ -3856,7 +4344,8 @@ function QuestsView({state,setState,notify}){
         <div style={{fontSize:24}}>{r.icon}</div>
         <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:T.ink}}>{regionName(r)}</div>
           <div style={{fontSize:11,color:T.inkDim}}>~{fmtTime(r.duration)} · <span style={{color:dangerColor(r.danger)}}>● {dangerName(r.danger)}</span></div>
-          <div style={{fontSize:10,color:T.inkFaint,marginTop:2}}>{t("quest.loot")} {r.loot.map(l=>ITEMS[l.item].icon).join(" ")}</div></div>
+          <div style={{fontSize:10,color:T.inkFaint,marginTop:2}}>{t("quest.loot")} {r.loot.map(l=>ITEMS[l.item].icon).join(" ")}</div>
+          {(state.arcs||[]).filter(ar=>ar.task&&!ar.task.done&&ar.task.kind==="expedition"&&ar.task.region===r.id).map(ar=><div key={ar.id} style={{fontSize:10,color:"#d9a55a",fontWeight:700,marginTop:3}}>🧵 {LANG==="tr"?ARCS[ar.key].name.tr:ARCS[ar.key].name.en}{ar.task.minParty?(LANG==="tr"?` · en az ${ar.task.minParty} kişi`:` · ${ar.task.minParty}+ heroes`):""} · {LANG==="tr"?`${Math.max(0,ar.task.deadline-state.day)} gün`:`${Math.max(0,ar.task.deadline-state.day)}d`}</div>)}</div>
         <div style={{color:T.gold,fontSize:18}}>›</div>
       </div></button>))}
     {locked.map(r=>(<div key={r.id} style={{opacity:.4,marginBottom:10,background:T.panel,border:`1px solid ${T.border}`,borderRadius:10,padding:13,
@@ -3890,7 +4379,7 @@ function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,gstate,savedPar
   const est=estimateOutcome(selParty,region,gstate);
   const tTier = selParty.length>1 && rels ? teamTier(rels, selParty) : 0;
   // boss power estimate
-  const bossPower = boss ? selParty.reduce((sum,a)=>sum + a.level*3 + CLASSES[a.cls].atk, 0) : 0;
+  const bossPower = boss ? selParty.reduce((sum,a)=>sum + heroPower(a), 0) : 0;
   const bossWinPct = boss ? Math.round(Math.max(5,Math.min(95,(bossPower/boss.power-0.35)*100))) : 0;
   // relationship note for the selected party
   let relNote=null;
@@ -4123,17 +4612,21 @@ function RequestBoard({state,setState,notify}){
     if(!canFill(r)) return;
     const favor=(rq.favor||{})[r.group]||0;
     const gold=r.relic?0:reqReward(r,favor,titleIndex(state.renown),legendMod(state).reqPay);
-    const ren=reqRenown(r,tier);
+    const ren=reqRenown(r,tier) + (!r.relic && r.group==="church" && favor>=FAVOR_MAX ? 1 : 0);
     setState(s=>{
       const R=s.requests; if(!R) return s;
       const cur=R.list.find(x=>x.id===r.id); if(!cur||cur.done) return s;
       if(!cur.need.every(n=>(s.inventory[n.item]||0)>=n.qty)) return s;
       const inv={...s.inventory}; cur.need.forEach(n=>{ inv[n.item]-=n.qty; if(inv[n.item]<=0) delete inv[n.item]; });
       const list=R.list.map(x=>x.id===cur.id?{...x,done:true}:x);
-      const fav={...(R.favor||{})}; fav[cur.group]=Math.min(25,(fav[cur.group]||0)+1);
+      const fav={...(R.favor||{})}; const fBefore=fav[cur.group]||0; fav[cur.group]=Math.min(FAVOR_MAX,fBefore+1);
       let gold2=gold, renown2=ren, adventurers=s.adventurers;
       const logs=[];
       const gName=catName(cur.group);
+      { const ti0=favorTier(fBefore), ti1=favorTier(fav[cur.group]);
+        if(ti1>ti0){ const ft=FAVOR_TIERS[ti1];
+          logs.push(LANG==="tr"?`🤝 ${gName} artık loncana "${ft.tr}" gözüyle bakıyor — istek ödülleri +%${Math.round(ft.pay*100)}.${ti1===FAVOR_TIERS.length-1?" "+FAVOR_PERK[cur.group].tr+".":""}`
+            :`🤝 The ${gName} now see your guild as "${ft.en}" — request pay +${Math.round(ft.pay*100)}%.${ti1===FAVOR_TIERS.length-1?" "+FAVOR_PERK[cur.group].en+".":""}`); } }
       if(cur.relic){
         const rr=RELIC_REQUESTS.find(x=>x.cls===cur.relic);
         const cands=s.adventurers.filter(a=>a.cls===rr.cls && !a.boon).sort((a,b)=>b.level-a.level);
@@ -4172,9 +4665,11 @@ function RequestBoard({state,setState,notify}){
         {readyCount>0 && <div style={{fontSize:10,color:T.green,fontWeight:700}}>✓ {readyCount} {LANG==="tr"?"hazır":"ready"}</div>}
       </div>
     </Panel>
-    {(()=>{ const om=OMENS.find(o=>o.id===rq.omen); return om ? <Panel style={{marginBottom:12,border:`1px solid ${T.gold}`,background:"linear-gradient(135deg,#2a2112,#1c140d)"}}>
-      <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:T.gold,marginBottom:4}}>🌍 {LANG==="tr"?"Diyardan Haberler":"News of the Realm"}</div>
-      <div style={{fontSize:12,color:T.ink,lineHeight:1.5}}>{LANG==="tr"?om.tr:om.en}</div></Panel> : null; })()}
+    {(()=>{ const nw=newsText(rq); if(!nw) return null; const quiet=nw.kind==="quiet";
+      return <Panel style={{marginBottom:12,border:`1px solid ${quiet?T.border:T.gold}`,background:quiet?T.panel:"linear-gradient(135deg,#2a2112,#1c140d)"}}>
+      <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:quiet?T.inkFaint:T.gold,marginBottom:4}}>🌍 {LANG==="tr"?"Diyardan Haberler":"News of the Realm"}</div>
+      <div style={{fontSize:12,color:quiet?T.inkDim:T.ink,lineHeight:1.5}}>{nw.text}</div>
+      {nw.kind==="demand" && <div style={{fontSize:10,color:T.green,marginTop:4}}>📈 {LANG==="tr"?"Tüccarlar sekmesinde geçerli, pano yenilenene kadar.":"Applies at the Merchants until the board refreshes."}</div>}</Panel>; })()}
     {REQ_GROUPS.map(g=>{
       const items=rq.list.filter(r=>r.group===g);
       const regular=items.filter(r=>!r.relic);
@@ -4183,9 +4678,11 @@ function RequestBoard({state,setState,notify}){
       return (<div key={g} style={{marginBottom:16}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:4}}>
           <div style={{fontSize:13,fontWeight:700,color:T.gold}}>{MARKET_CATS[g].icon} {catName(g)} <span style={{fontSize:11,color:T.inkFaint,fontWeight:400}}>· {doneN}/{regular.length}</span></div>
-          <div style={{fontSize:10,color:fm>0?T.green:T.inkFaint}}>{LANG==="tr"?"İtibar":"Favor"} {favor}/25{fm>0?(LANG==="tr"?` · ödül +%${fm}`:` · pay +${fm}%`):""}</div>
+          <div style={{fontSize:10,color:fm>0?T.green:T.inkFaint}}>{(()=>{ const fi=favorTier(favor), nx=FAVOR_TIERS[fi+1];
+            return <>{LANG==="tr"?"İtibar":"Favor"} {favor}/{FAVOR_MAX} · <b>{favorTierName(fi)}</b>{fm>0?(LANG==="tr"?` · ödül +%${fm}`:` · pay +${fm}%`):""}{nx?<span style={{color:T.inkFaint}}>{LANG==="tr"?` · sıradaki ${nx.min}`:` · next at ${nx.min}`}</span>:null}</>; })()}</div>
         </div>
-        <div style={{fontSize:11,color:T.inkDim,marginBottom:8}}>{reqDesc(g)}</div>
+        <div style={{fontSize:11,color:T.inkDim,marginBottom:FAVOR_PERK[g]?2:8}}>{reqDesc(g)}</div>
+        {FAVOR_PERK[g] && <div style={{fontSize:10,color:favor>=FAVOR_MAX?T.green:T.inkFaint,marginBottom:8}}>{favor>=FAVOR_MAX?"★ ":"☆ "}{LANG==="tr"?FAVOR_PERK[g].tr:FAVOR_PERK[g].en}</div>}
         {items.length===0 && <div style={{fontSize:11,color:T.inkFaint}}>{LANG==="tr"?"Şu an istek yok.":"No requests right now."}</div>}
         {items.map(r=>{ const ok=canFill(r); const gold=reqReward(r,favor,titleIndex(state.renown),legendMod(state).reqPay); const ren=reqRenown(r,tier);
           const rr=r.relic?RELIC_REQUESTS.find(x=>x.cls===r.relic):null;
@@ -4229,7 +4726,8 @@ function MarketView({state,setState,notify}){
       const m={...(s.market||freshMarket())};
       if(cat!=="raw"){ const cur=(m[cat]&&m[cat].price)||1.0; m[cat]={price:Math.max(0.6, cur - n*0.008)}; }
       return {...s,gold:s.gold+gain,inventory:inv,market:m,renown:s.renown+trophyRenown(item)*n,
-        stats:{...(s.stats||{quests:0,sold:0,maxParty:0}),sold:((s.stats&&s.stats.sold)||0)+1},
+        stats:{...(s.stats||{quests:0,sold:0,maxParty:0}),sold:((s.stats&&s.stats.sold)||0)+1,
+          demandSold:((s.stats&&s.stats.demandSold)||0)+((s.market&&s.market.demand&&s.market.demand.item===item)?n:0)},
         log:[{t:s.elapsed,msg:LANG==="tr"?`${n}× ${itemName(item)} ${gain}A'ya satıldı.`:`Sold ${n}× ${itemName(item)} for ${gain}G.`},...s.log].slice(0,40)}; });
     notify(LANG==="tr"?`+${gain}A`:`+${gain}G`); Audio.play("sell");
   };
@@ -4238,7 +4736,8 @@ function MarketView({state,setState,notify}){
     setState(s=>{ const m={...(s.market||freshMarket())};
       // bulk dump depresses every category that was sold
       owned.forEach(([k,v])=>{ const cat=catOf(k); if(cat==="raw")return; const cur=(m[cat]&&m[cat].price)||1.0; m[cat]={price:Math.max(0.6,cur-v*0.008)}; });
-      return {...s,gold:s.gold+gain,inventory:{},market:m,renown:s.renown+owned.reduce((a,[k,v])=>a+trophyRenown(k)*v,0),
+      const dItem=s.market&&s.market.demand&&s.market.demand.item; const dq=dItem?(s.inventory[dItem]||0):0;
+      return {...s,gold:s.gold+gain,inventory:{},market:m,stats:{...(s.stats||{}),demandSold:((s.stats&&s.stats.demandSold)||0)+dq},renown:s.renown+owned.reduce((a,[k,v])=>a+trophyRenown(k)*v,0),
         log:[{t:s.elapsed,msg:LANG==="tr"?`Tüm stok ${gain}A'ya satıldı.`:`Sold entire stock for ${gain}G.`},...s.log].slice(0,40)}; }); notify(LANG==="tr"?`Her şey satıldı: +${gain}A`:`Sold everything: +${gain}G`); };
   const total=owned.reduce((a,[k,v])=>a+unitPrice(k,mkt)*v,0);
   const hasMoodGoods=owned.some(([k])=>catOf(k)!=="raw");
@@ -4249,7 +4748,7 @@ function MarketView({state,setState,notify}){
         <div style={{fontSize:22,fontWeight:700,color:T.ink}}>{total.toLocaleString()}{t("top.goldUnit")}</div></div>
       <GoldBtn onClick={sellAll} disabled={total<=0}>{t("market.sellAll")}{total>0?` · ${total.toLocaleString()}${t("top.goldUnit")}`:""}</GoldBtn>
     </Panel>
-    {hasMoodGoods && <><SectionTitle sub={t("market.pricesSub")}>{t("market.pricesToday")}</SectionTitle>
+    {false && <><SectionTitle sub={t("market.pricesSub")}>{t("market.pricesToday")}</SectionTitle>
     <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
       {Object.entries(MARKET_CATS).filter(([cat])=>cat!=="raw").map(([cat,info])=>{ const p=(mkt[cat]&&mkt[cat].price)||1.0;
         const pct=Math.round(p*100); const hot=p>=1.15, cold=p<=0.85;
@@ -4270,8 +4769,8 @@ function MarketView({state,setState,notify}){
           return (<Panel key={k} style={{marginBottom:8}}>
           <div style={{display:"flex",gap:10,alignItems:"center"}}>
             <div style={{fontSize:20}}>{ITEMS[k].icon}</div>
-            <div style={{flex:1}}><div style={{fontWeight:700,fontSize:13}}>{itemName(k)}</div>
-              <div style={{fontSize:11,color:T.inkDim}}>×{v} · <span style={{color:up?T.green:down?T.red:T.inkDim,fontWeight:700}}>{price}{t("top.goldUnit")}</span> {LANG==="tr"?"adet":"each"} {up?"▲":down?"▼":""}{catOf(k)!=="raw"?<span style={{color:T.inkFaint}}> · {MARKET_CATS[catOf(k)].icon} {catName(catOf(k))}</span>:""}</div></div>
+            <div style={{flex:1}}><div style={{fontWeight:700,fontSize:13}}>{itemName(k)}{mkt.demand&&mkt.demand.item===k?<span style={{fontSize:10,color:T.green,fontWeight:700}}> · 📈 {LANG==="tr"?"talep var ×2":"in demand ×2"}</span>:null}</div>
+              <div style={{fontSize:11,color:T.inkDim}}>×{v} · <span style={{color:up?T.green:down?T.red:T.inkDim,fontWeight:700}}>{price}{t("top.goldUnit")}</span> {LANG==="tr"?"adet":"each"} {up?"▲":down?"▼":""}</div></div>
             <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"flex-end"}}>
               <GhostBtn onClick={()=>sell(k,1)} style={{padding:"7px 9px"}}>+1</GhostBtn>
               {v>=5 && <GhostBtn onClick={()=>sell(k,5)} style={{padding:"7px 9px"}}>+5</GhostBtn>}
