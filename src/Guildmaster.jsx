@@ -46,14 +46,13 @@ const STR = {
   "tab.hall":      { en:"Hall",       tr:"Salon" },
   "tab.advs":      { en:"Advs",       tr:"Maceracılar" },
   "tab.quests":    { en:"Quests",     tr:"Görevler" },
-  "tab.craft":     { en:"Craft",      tr:"Üretim" },
-  "tab.market":    { en:"Market",     tr:"Pazar" },
+  "tab.requests":  { en:"Requests",   tr:"İstekler" },
+  "tab.market":    { en:"Merchants",  tr:"Tüccarlar" },
   "tab.store":     { en:"Store",      tr:"Depo" },
   "tab.build":     { en:"Build",      tr:"İnşa" },
   // ---- hall / dashboard ----
   "hall.adventurers": { en:"Adventurers", tr:"Maceracılar" },
   "hall.expeditions": { en:"Expeditions", tr:"Seferler" },
-  "hall.crafting":    { en:"Crafting",    tr:"Üretim" },
   "hall.storage":     { en:"Storage",     tr:"Depo" },
   "hall.itemsHeld":   { en:"items held",  tr:"eşya var" },
   "hall.idle":        { en:"idle",        tr:"boşta" },
@@ -67,12 +66,12 @@ const STR = {
   "tut.hireHow":      { en:"Open ⚔️ Adventurers → tap a recruit to hire them.", tr:"⚔️ Maceracılar'ı aç → bir adayı işe almak için dokun." },
   "tut.quest":        { en:"Send them on an expedition", tr:"Onları sefere yolla" },
   "tut.questHow":     { en:"Open 🗺️ Quests → pick a region → choose a party → dispatch.", tr:"🗺️ Görevler'i aç → bir bölge seç → ekip kur → yolla." },
-  "tut.sell":         { en:"Sell loot at the Market", tr:"Ganimeti Pazar'da sat" },
-  "tut.sellHow":      { en:"Loot fills your storage. Open ⚖️ Market to turn it into gold.", tr:"Ganimet depona dolar. ⚖️ Pazar'ı açıp altına çevir." },
+  "tut.sell":         { en:"Sell loot to the Merchants", tr:"Ganimeti Tüccarlar'a sat" },
+  "tut.sellHow":      { en:"Loot fills your storage. Open ⚖️ Merchants to turn it into gold.", tr:"Ganimet depona dolar. ⚖️ Tüccarlar'ı açıp altına çevir." },
   "tut.upgrade":      { en:"Upgrade a building", tr:"Bir binayı yükselt" },
   "tut.upgradeHow":   { en:"Open 🏰 Build → upgrade the Treasury to unlock new regions.", tr:"🏰 İnşa'yı aç → yeni bölgeler için Hazine'yi yükselt." },
-  "tut.craft":        { en:"Craft something to sell", tr:"Satmak için bir şey üret" },
-  "tut.craftHow":     { en:"Open ⚒️ Craft → tap a recipe → your idle heroes will make it.", tr:"⚒️ Üretim'i aç → bir tarife dokun → boştaki kahramanların üretir." },
+  "tut.craft":        { en:"Fill a request", tr:"Bir isteği karşıla" },
+  "tut.craftHow":     { en:"Open 📋 Requests → deliver what a buyer asked for. Pays far better than merchants.", tr:"📋 İstekler'i aç → bir alıcının istediği malı teslim et. Tüccardan çok daha iyi öder." },
   "tut.hide":         { en:"Hide guide", tr:"Rehberi gizle" },
   "hall.recentFirst": { en:"Most recent first", tr:"En yeni en üstte" },
   "hall.ledgerEmpty": { en:"The guild's story will be recorded here.", tr:"Loncanın hikâyesi burada kayda geçecek." },
@@ -87,9 +86,9 @@ const STR = {
   "step.hire.cta":  { en:"Recruit", tr:"İşe Al" },
   "step.disp.txt":  { en:"Send an adventurer on an expedition to gather loot.", tr:"Ganimet toplamak için bir maceracıyı sefere yolla." },
   "step.disp.cta":  { en:"Dispatch", tr:"Yolla" },
-  "step.craft.txt": { en:"Craft your loot into goods worth more at market.", tr:"Ganimetini pazarda daha değerli mallara dönüştür." },
-  "step.craft.cta": { en:"Craft", tr:"Üret" },
-  "step.sell.txt":  { en:"Sell your finished goods at the Market for gold.", tr:"Ürettiğin malları Pazar'da altına sat." },
+  "step.craft.txt": { en:"Someone on the request board wants what you're carrying.", tr:"İstek panosunda elindeki mallara talip olan var." },
+  "step.craft.cta": { en:"Look", tr:"Bak" },
+  "step.sell.txt":  { en:"Sell surplus loot to the merchants for gold.", tr:"Fazla ganimeti tüccarlara satıp altına çevir." },
   "step.sell.cta":  { en:"Sell", tr:"Sat" },
   // ---- common buttons / labels ----
   "ui.settings":   { en:"Settings",      tr:"Ayarlar" },
@@ -167,18 +166,10 @@ const STR = {
   "death.lostIn":     { en:"Lost in {region}{others}. Their deeds are now carved into the Hall of Legends.", tr:"{region} bölgesinde kayboldu{others}. Yaptıkları artık Efsaneler Salonu'na kazındı." },
   "death.honor":      { en:"Honor their memory", tr:"Anısını onurlandır" },
   // ---- craft view ----
-  "craft.ready":      { en:"Ready to Craft", tr:"Üretime Hazır" },
-  "craft.readySub":   { en:"You have the materials for these right now", tr:"Bunlar için malzemen şu anda hazır" },
-  "craft.bench":      { en:"At the Workbench", tr:"Tezgâhta" },
-  "craft.recipe":     { en:"Recipe", tr:"Tarif" },
-  "craft.details":    { en:"Details", tr:"Ayrıntılar" },
-  "craft.jobs":       { en:"jobs", tr:"iş" },
-  "craft.fasterHi":   { en:"faster at higher levels", tr:"üst seviyelerde daha hızlı" },
-  "craft.locked":     { en:"🔒 Build this station in the Build tab", tr:"🔒 Bu istasyonu İnşa sekmesinden kur" },
   // ---- market view ----
   "market.sellAll":   { en:"Sell All", tr:"Hepsini Sat" },
-  "market.pricesToday":{ en:"Market Prices Today", tr:"Bugünkü Pazar Fiyatları" },
-  "market.pricesSub": { en:"Prices shift daily — sell high, and don't flood one market", tr:"Fiyatlar her gün oynar — pahalıyken satmaya bak, aynı alıcıyı aynı malla boğma" },
+  "market.pricesToday":{ en:"Buyers' Mood Today", tr:"Bugün Alıcıların Havası" },
+  "market.pricesSub": { en:"Affects trophies and leftover goods — prices shift daily", tr:"Ganimet hatıraları ve eski mallar için geçerli — fiyatlar her gün oynar" },
   "market.sellGoods": { en:"Sell Goods", tr:"Mal Sat" },
   "market.empty":     { en:"Storeroom is empty. Send heroes on expeditions to gather goods.", tr:"Satacak bir şey yok. Önce kahramanlarını sefere yollayıp ganimet topla." },
   "tier.fin":         { en:"Finished Goods", tr:"Bitmiş Ürünler" },
@@ -219,22 +210,13 @@ const STR = {
   "stat.fromTrait":   { en:"from trait", tr:"özellikten" },
   "task.rest":        { en:"Rest", tr:"Dinlen" },
   "task.train":       { en:"Train", tr:"Çalış" },
-  "task.assist":      { en:"Assist", tr:"Yardım" },
   "task.patrol":      { en:"Patrol", tr:"Devriye" },
   "task.restDesc":    { en:"Recovers fatigue & slowly heals.", tr:"Yorgunluğu giderir ve yavaşça iyileşir." },
   "task.trainDesc":   { en:"Slowly gains XP — safe, free leveling.", tr:"Yavaşça TP kazanır — güvenli, bedava seviye." },
-  "task.assistDesc":  { en:"Greatly speeds up active crafting jobs.", tr:"Süren üretim işlerini belirgin ölçüde hızlandırır." },
   "task.patrolDesc":  { en:"Earns a trickle of gold & renown.", tr:"Azar azar altın ve şöhret kazandırır." },
   "quest.dispatch":   { en:"Dispatch", tr:"Sefere Yolla" },
   "legend.expeditions":{ en:"expeditions", tr:"sefer" },
   "legend.fellIn":    { en:"Fell in", tr:"Düştüğü yer:" },
-  "craft.sellsEach":  { en:"sells for {v}G each", tr:"tanesi {v}A değerinde" },
-  "craft.craftedAt":  { en:"Crafted at the", tr:"Üretim yeri:" },
-  "craft.takes":      { en:"Takes", tr:"Süre:" },
-  "craft.atLevel":    { en:"at current level", tr:"(mevcut seviyede)" },
-  "craft.matCost":    { en:"Material cost", tr:"Malzeme maliyeti" },
-  "craft.sells":      { en:"sells", tr:"satış" },
-  "craft.profit":     { en:"profit", tr:"kâr" },
   "build.max":        { en:"MAX", tr:"AZAMİ" },
   "build.upgrade":    { en:"Upgrade", tr:"Yükselt" },
   "status.onExpedition":{ en:"On expedition", tr:"Seferde" },
@@ -242,7 +224,6 @@ const STR = {
   "status.grieving":  { en:"Grieving", tr:"Yas tutuyor" },
   "status.resting":   { en:"Resting", tr:"Dinleniyor" },
   "status.training":  { en:"Training", tr:"Antrenmanda" },
-  "status.assisting": { en:"Assisting", tr:"Yardım ediyor" },
   "status.patrolling":{ en:"Patrolling", tr:"Devriyede" },
   "status.idle":      { en:"Idle", tr:"Boşta" },
 };
@@ -506,7 +487,7 @@ const ITEMS = {
   frozen_heart:{name:"Heart of the Mountain",value:210,tier:"raw",icon:"❄️"},
   broken_seal:{name:"Broken Royal Seal",value:320,tier:"raw",icon:"🔱"},
   grimoire_page:{name:"Witch's Grimoire Page",value:400,tier:"raw",icon:"📜"},
-  // ⚜️ class relics — craftable only when that rare class is in your guild; equipping grants a permanent boon
+  // ⚜️ class relics — earned from special requests when that rare class is in your guild; equipping grants a permanent boon
   holy_armor:{name:"Holy Plate Armor",value:300,tier:"fin",icon:"⚜️"},
   bone_relic:{name:"Bone Relic",value:300,tier:"fin",icon:"☠️"},
   shadow_cloak:{name:"Shadow Cloak",value:300,tier:"fin",icon:"🌑"},
@@ -661,11 +642,10 @@ const TR_TRAIT = {
 };
 function itemName(id){ if(LANG==="tr" && TR_ITEM[id]) return TR_ITEM[id]; return (ITEMS[id]&&ITEMS[id].name)||id; }
 function regionName(r){ const id=typeof r==="string"?r:(r&&r.id); if(LANG==="tr" && TR_REGION[id]) return TR_REGION[id]; if(typeof r==="string"){ const byName=REGIONS.find(x=>x.name===r); if(byName){ if(LANG==="tr" && TR_REGION[byName.id]) return TR_REGION[byName.id]; return byName.name; } } const reg=typeof r==="object"?r:REGIONS.find(x=>x.id===id); return (reg&&reg.name)||r||id; }
-// where does an item come from? (for craft hints) — boss reward > craftable > region loot
+// where does an item come from? (for request hints) — boss reward > craftable > region loot
 function itemSource(item){
   const boss=BOSSES.find(b=>b.reward&&b.reward.item===item);
   if(boss) return (LANG==="tr"?`${bossName(boss)} (boss) düşürür`:`dropped by ${bossName(boss)} (boss)`);
-  if(RECIPES.some(r=>r.out===item)) return (LANG==="tr"?"üretimden elde edilir":"made at the workshop");
   const regs=REGIONS.filter(r=>Array.isArray(r.loot)&&r.loot.some(l=>l.item===item));
   if(regs.length) return (LANG==="tr"?`${regs.map(r=>regionName(r)).slice(0,2).join(", ")} seferlerinden`:`from ${regs.map(r=>regionName(r)).slice(0,2).join(", ")}`);
   return null;
@@ -676,23 +656,25 @@ const TRAIT_EN = { LoneWolfCurse:"Lone Wolf", Discordant:"Discordant", Cursed:"C
 const TRAIT_DESC_EN = { LoneWolfCurse:"Only takes expeditions solo", Discordant:"Sows discord among others", Cursed:"+10% injury risk — draws danger", Obsessed:"Cares only for goblins", Vigilant:"−8% injury risk" };
 function traitName(n){ if(LANG==="tr" && TR_TRAIT[n]) return TR_TRAIT[n]; return TRAIT_EN[n]||n; }
 const TR_BUILDING = {
-  dormitory:"Yatakhane", tavern:"Meyhane", tannery:"Tabakhane", weavery:"Dokuma Atölyesi",
-  kitchen:"Mutfak", workshop:"Atölye", warehouse:"Ambar", notice_board:"İlan Tahtası", treasury:"Hazine",
+  dormitory:"Yatakhane", tavern:"Meyhane",
+  dorm_rooms:"Yeni Odalar", dorm_beds:"İyi Yataklar", dorm_comfort:"Döşenmiş Odalar",
+  tav_meals:"Kaliteli Yemekler", tav_cellar:"Dolu Kiler",
+  warehouse:"Ambar", notice_board:"İlan Tahtası", treasury:"Hazine",
 };
-function buildingName(id){ if(LANG==="tr" && TR_BUILDING[id]) return TR_BUILDING[id]; return (BUILDINGS[id]&&BUILDINGS[id].name)||id; }
+function buildingName(id){ if(LANG==="tr" && TR_BUILDING[id]) return TR_BUILDING[id]; return (BUILDINGS[id]&&BUILDINGS[id].name)||(BUILDING_GROUPS[id]&&BUILDING_GROUPS[id].name)||id; }
 const TR_BUILDING_DESC = {
-  dormitory:"Maceracılar burada konaklar ve sana kira öder. Yatakhane geliştikçe kazancın, üye kapasiten ve herkesin morali artar; dinlenenler de yorgunluğunu daha çabuk atar.",
-  tavern:"Maceracılar karnını burada doyurur, parasını da sana bırakır. Meyhane geliştikçe hem kazancın artar hem de tok karnına yola çıkanlar seferlerde daha başarılı olur.",
-  tannery:"Seferlerden gelen postları işleyip çizme, çanta, pelerin gibi deri eşyalara dönüştürür. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
-  weavery:"Yün ve keteni kumaşa, kumaşı da giysiye çevirir — gömlek, cübbe, duvar halısı. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
-  kitchen:"Satılacak yiyecek ve içecek hazırlar — güveç, ekmek, bal şarabı, şölen sofraları. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
-  workshop:"Ev eşyasından oyuncağa, mumdan mücevhere kadar en geniş ürün yelpazesi burada. Yükselttikçe hem daha hızlı çalışır hem aynı anda birden fazla işi yürütür.",
-  warehouse:"Ganimetlerin ve ürettiğin malların durduğu yer. Ambar dolarsa seferden dönenler getirdiklerini bırakmak zorunda kalır.",
+  dormitory:"Maceracılar burada konaklar ve sana kira öder.",
+  tavern:"Maceracılar karnını burada doyurur, parasını da sana bırakır.",
+  dorm_rooms:"Daha çok oda, loncada daha çok maceracı barındırabilmek demek.",
+  dorm_beds:"Dinlenen kahramanlar yorgunluğu çok daha çabuk atar.",
+  dorm_comfort:"Döşeli, sıcak odalar için maceracılar daha yüksek kira öder.",
+  tav_meals:"Tok karnına yola çıkanlar seferlerde daha başarılı olur.",
+  tav_cellar:"İyi bira ve dolu bir kiler — maceracılar parasını senin tezgâhında harcar.",
+  warehouse:"Ganimetlerin durduğu yer. Ambar dolarsa seferden dönenler getirdiklerini bırakmak zorunda kalır.",
   notice_board:"Ne kadar çok ilan tahtası olursa, aynı anda o kadar çok sefer yürütebilirsin.",
   treasury:"Lonca kademesini yükseltir, yeni bölgeleri ve üyeleri açar. En görkemli salonlar birer anıta dönüşüp loncanın şöhretini yayar.",
 };
-function buildingDesc(id){ if(LANG==="tr" && TR_BUILDING_DESC[id]) return TR_BUILDING_DESC[id]; return (BUILDINGS[id]&&BUILDINGS[id].desc)||""; }
-function stationName(id){ return buildingName(id); }
+function buildingDesc(id){ if(LANG==="tr" && TR_BUILDING_DESC[id]) return TR_BUILDING_DESC[id]; return (BUILDINGS[id]&&BUILDINGS[id].desc)||(BUILDING_GROUPS[id]&&BUILDING_GROUPS[id].desc)||""; }
 const TR_CLASS_DESC = {
   Warrior:"Yüksek can ve savunma. Tehlikeyi üstlenir, böylece ekip sağ döner — bir seferde herkesin yaralanma riskini düşürür.",
   Rogue:"Hızlı ve eli çabuk. Fazladan ganimet bulur ve ekibi daha çabuk eve getirir.",
@@ -749,112 +731,16 @@ const TR_CAT = {
 function catName(c){ if(LANG==="tr" && TR_CAT[c]) return TR_CAT[c].name; return (MARKET_CATS[c]&&MARKET_CATS[c].name)||c; }
 function catDesc(c){ if(LANG==="tr" && TR_CAT[c]) return TR_CAT[c].desc; return (MARKET_CATS[c]&&MARKET_CATS[c].desc)||""; }
 
-const RECIPES = [
-  // ===== Tannery: pelts & hides → leather goods =====
-  { id:"r_leather", out:"leather", qty:1, time:25, station:"tannery", in:[{item:"wolf_pelt",qty:2}] },
-  { id:"r_thick_hide", out:"thick_hide", qty:1, time:45, station:"tannery", in:[{item:"yeti_fur",qty:1},{item:"wolf_pelt",qty:1}] },
-  { id:"r_leather_boots", out:"leather_boots", qty:1, time:50, station:"tannery", in:[{item:"leather",qty:2}] },
-  { id:"r_travel_pack", out:"travel_pack", qty:1, time:80, station:"tannery", in:[{item:"leather",qty:3},{item:"cloth",qty:1}] },
-  { id:"r_fur_cloak", out:"fur_cloak", qty:1, time:130, station:"tannery", in:[{item:"thick_hide",qty:2},{item:"fine_cloth",qty:1}] },
-  // ===== Weavery: fibers → cloth → garments =====
-  { id:"r_cloth", out:"cloth", qty:1, time:20, station:"weavery", in:[{item:"herb",qty:3}] },
-  { id:"r_fine_cloth", out:"fine_cloth", qty:1, time:45, station:"weavery", in:[{item:"cloth",qty:2},{item:"crude_gem",qty:1}] },
-  { id:"r_woolen_tunic", out:"woolen_tunic", qty:1, time:55, station:"weavery", in:[{item:"cloth",qty:3}] },
-  { id:"r_embroidered_gown", out:"embroidered_gown", qty:1, time:120, station:"weavery", in:[{item:"fine_cloth",qty:3},{item:"silver_ore",qty:1}] },
-  { id:"r_tapestry", out:"tapestry", qty:1, time:200, station:"weavery", in:[{item:"fine_cloth",qty:4},{item:"frost_crystal",qty:1}] },
-  // ===== Kitchen: raw food → meals & drink =====
-  { id:"r_flour", out:"flour", qty:2, time:18, station:"kitchen", in:[{item:"herb",qty:2}] },
-  { id:"r_cured_meat", out:"cured_meat", qty:1, time:30, station:"kitchen", in:[{item:"rat_tail",qty:2},{item:"slime",qty:1}] },
-  { id:"r_spiced_bread", out:"spiced_bread", qty:2, time:35, station:"kitchen", in:[{item:"flour",qty:2}] },
-  { id:"r_hearty_stew", out:"hearty_stew", qty:2, time:45, station:"kitchen", in:[{item:"cured_meat",qty:1},{item:"herb",qty:2}] },
-  { id:"r_honey_mead", out:"honey_mead", qty:1, time:70, station:"kitchen", in:[{item:"herb",qty:3},{item:"crude_gem",qty:1}] },
-  { id:"r_feast_platter", out:"feast_platter", qty:1, time:160, station:"kitchen", in:[{item:"hearty_stew",qty:2},{item:"spiced_bread",qty:2},{item:"honey_mead",qty:1}] },
-  // ===== Premium recipes — rare materials, big payouts =====
-  { id:"r_gilded_saddle", out:"gilded_saddle", qty:1, time:150, station:"tannery", in:[{item:"thick_hide",qty:2},{item:"golden_fleece",qty:1}] },
-  { id:"r_pearl_corset", out:"pearl_corset", qty:1, time:170, station:"weavery", in:[{item:"fine_cloth",qty:2},{item:"giant_pearl",qty:1}] },
-  { id:"r_spirit_veil", out:"spirit_veil", qty:1, time:200, station:"weavery", in:[{item:"fine_cloth",qty:2},{item:"spirit_silk",qty:1}] },
-  { id:"r_ember_brew", out:"ember_brew", qty:1, time:130, station:"kitchen", in:[{item:"honey_mead",qty:1},{item:"ember_honey",qty:1}] },
-  { id:"r_royal_banquet", out:"royal_banquet", qty:1, time:240, station:"kitchen", in:[{item:"feast_platter",qty:1},{item:"dragon_truffle",qty:1}] },
-  { id:"r_celestial_robe", out:"celestial_robe", qty:1, time:300, station:"weavery", in:[{item:"spirit_veil",qty:1},{item:"starfruit",qty:1},{item:"ancient_coin",qty:1}] },
-  // ===== Intermediates (refined materials) =====
-  { id:"r_tallow", out:"tallow", qty:2, time:16, station:"kitchen", in:[{item:"cured_meat",qty:1}] },
-  { id:"r_wax", out:"wax", qty:2, time:20, station:"kitchen", in:[{item:"herb",qty:2},{item:"slime",qty:1}] },
-  { id:"r_dye", out:"dye", qty:2, time:18, station:"weavery", in:[{item:"herb",qty:2},{item:"toxin_gland",qty:1}] },
-  { id:"r_charcoal", out:"charcoal", qty:2, time:15, station:"workshop", in:[{item:"wood",qty:2}] },
-  { id:"r_glass", out:"glass", qty:1, time:30, station:"workshop", in:[{item:"frost_crystal",qty:1}] },
-  { id:"r_parchment", out:"parchment", qty:2, time:18, station:"workshop", in:[{item:"wood",qty:1},{item:"bone",qty:1}] },
-  { id:"r_bone_meal", out:"bone_meal", qty:2, time:14, station:"workshop", in:[{item:"bone",qty:2}] },
-  { id:"r_polished_gem", out:"polished_gem", qty:1, time:40, station:"workshop", in:[{item:"crude_gem",qty:2}] },
-  { id:"r_silver_bar", out:"silver_bar", qty:1, time:35, station:"workshop", in:[{item:"silver_ore",qty:2}] },
-  { id:"r_gold_leaf", out:"gold_leaf", qty:1, time:55, station:"workshop", in:[{item:"gold_ore",qty:2}] },
-  // ===== Tannery additions =====
-  { id:"r_leather_belt", out:"leather_belt", qty:1, time:38, station:"tannery", in:[{item:"leather",qty:1},{item:"crude_gem",qty:1}] },
-  { id:"r_waterskin", out:"waterskin", qty:1, time:45, station:"tannery", in:[{item:"leather",qty:2},{item:"bone",qty:1}] },
-  { id:"r_saddlebag", out:"saddlebag", qty:1, time:95, station:"tannery", in:[{item:"thick_hide",qty:1},{item:"leather",qty:2}] },
-  { id:"r_bound_journal", out:"bound_journal", qty:1, time:75, station:"tannery", in:[{item:"leather",qty:1},{item:"parchment",qty:3}] },
-  { id:"r_drum", out:"drum", qty:1, time:120, station:"tannery", in:[{item:"thick_hide",qty:2},{item:"wood",qty:2}] },
-  // ===== Weavery additions =====
-  { id:"r_wool_socks", out:"wool_socks", qty:2, time:30, station:"weavery", in:[{item:"cloth",qty:2}] },
-  { id:"r_scarf", out:"scarf", qty:1, time:38, station:"weavery", in:[{item:"cloth",qty:2},{item:"dye",qty:1}] },
-  { id:"r_feathered_hat", out:"feathered_hat", qty:1, time:65, station:"weavery", in:[{item:"fine_cloth",qty:1},{item:"dye",qty:1}] },
-  { id:"r_silk_gloves", out:"silk_gloves", qty:1, time:90, station:"weavery", in:[{item:"fine_cloth",qty:1},{item:"spirit_silk",qty:1}] },
-  { id:"r_prayer_rug", out:"prayer_rug", qty:1, time:150, station:"weavery", in:[{item:"fine_cloth",qty:3},{item:"dye",qty:2}] },
-  { id:"r_ceremonial_flag", out:"ceremonial_flag", qty:1, time:170, station:"weavery", in:[{item:"fine_cloth",qty:2},{item:"gold_leaf",qty:1},{item:"dye",qty:2}] },
-  // ===== Kitchen additions =====
-  { id:"r_jam", out:"jam", qty:1, time:24, station:"kitchen", in:[{item:"herb",qty:3}] },
-  { id:"r_cheese_wheel", out:"cheese_wheel", qty:1, time:50, station:"kitchen", in:[{item:"cured_meat",qty:1},{item:"slime",qty:2}] },
-  { id:"r_roast_fowl", out:"roast_fowl", qty:1, time:55, station:"kitchen", in:[{item:"cured_meat",qty:2},{item:"herb",qty:1}] },
-  { id:"r_apple_pie", out:"apple_pie", qty:1, time:48, station:"kitchen", in:[{item:"flour",qty:2},{item:"jam",qty:1}] },
-  { id:"r_pickled_jar", out:"pickled_jar", qty:2, time:40, station:"kitchen", in:[{item:"herb",qty:2},{item:"glass",qty:1}] },
-  { id:"r_spiced_wine", out:"spiced_wine", qty:1, time:85, station:"kitchen", in:[{item:"honey_mead",qty:1},{item:"jam",qty:1}] },
-  // ===== Workshop: candles, soap, household, toys, jewelry =====
-  { id:"r_candle", out:"candle", qty:2, time:24, station:"workshop", in:[{item:"tallow",qty:1},{item:"wax",qty:1}] },
-  { id:"r_soap", out:"soap", qty:2, time:30, station:"workshop", in:[{item:"tallow",qty:1},{item:"herb",qty:2}] },
-  { id:"r_wooden_toy", out:"wooden_toy", qty:1, time:28, station:"workshop", in:[{item:"wood",qty:3}] },
-  { id:"r_spinning_top", out:"spinning_top", qty:2, time:32, station:"workshop", in:[{item:"wood",qty:1},{item:"dye",qty:1}] },
-  { id:"r_rag_doll", out:"rag_doll", qty:1, time:36, station:"workshop", in:[{item:"cloth",qty:2},{item:"dye",qty:1}] },
-  { id:"r_kite", out:"kite", qty:1, time:44, station:"workshop", in:[{item:"cloth",qty:1},{item:"wood",qty:1},{item:"dye",qty:1}] },
-  { id:"r_beaded_necklace", out:"beaded_necklace", qty:1, time:50, station:"workshop", in:[{item:"polished_gem",qty:1},{item:"cloth",qty:1}] },
-  { id:"r_lantern", out:"lantern", qty:1, time:70, station:"workshop", in:[{item:"glass",qty:2},{item:"silver_bar",qty:1}] },
-  { id:"r_carved_figurine", out:"carved_figurine", qty:1, time:80, station:"workshop", in:[{item:"wood",qty:2},{item:"polished_gem",qty:1}] },
-  { id:"r_hand_mirror", out:"hand_mirror", qty:1, time:90, station:"workshop", in:[{item:"glass",qty:1},{item:"silver_bar",qty:1}] },
-  { id:"r_silver_ring", out:"silver_ring", qty:1, time:85, station:"workshop", in:[{item:"silver_bar",qty:1},{item:"polished_gem",qty:1}] },
-  { id:"r_gemmed_brooch", out:"gemmed_brooch", qty:1, time:130, station:"workshop", in:[{item:"silver_bar",qty:1},{item:"polished_gem",qty:2}] },
-  { id:"r_music_box", out:"music_box", qty:1, time:180, station:"workshop", in:[{item:"carved_figurine",qty:1},{item:"silver_bar",qty:1},{item:"polished_gem",qty:1}] },
-  { id:"r_jeweled_chalice", out:"jeweled_chalice", qty:1, time:220, station:"workshop", in:[{item:"gold_leaf",qty:2},{item:"polished_gem",qty:2}] },
-  { id:"r_golden_crown", out:"golden_crown", qty:1, time:280, station:"workshop", in:[{item:"gold_leaf",qty:3},{item:"polished_gem",qty:2},{item:"ancient_coin",qty:1}] },
-  // charcoal & bone-meal goods
-  { id:"r_incense", out:"incense", qty:2, time:34, station:"workshop", in:[{item:"charcoal",qty:1},{item:"herb",qty:2}] },
-  { id:"r_water_filter", out:"water_filter", qty:1, time:46, station:"workshop", in:[{item:"charcoal",qty:2},{item:"cloth",qty:1}] },
-  { id:"r_fertilizer", out:"fertilizer", qty:2, time:28, station:"kitchen", in:[{item:"bone_meal",qty:2},{item:"herb",qty:1}] },
-  { id:"r_fine_china", out:"fine_china", qty:1, time:120, station:"workshop", in:[{item:"bone_meal",qty:2},{item:"glass",qty:1},{item:"dye",qty:1}] },
-  // ===== Forge: ores & scrap → bars → tools, arms & trophies (workshop) =====
-  { id:"r_iron_bar", out:"iron_bar", qty:1, time:30, station:"workshop", in:[{item:"iron_ore",qty:2},{item:"scrap_iron",qty:1}] },
-  { id:"r_iron_bar_bog", out:"iron_bar", qty:1, time:34, station:"workshop", in:[{item:"bog_iron",qty:2},{item:"charcoal",qty:1}] },
-  { id:"r_steel_bar", out:"steel_bar", qty:1, time:55, station:"workshop", in:[{item:"iron_bar",qty:1},{item:"steel_scrap",qty:1},{item:"charcoal",qty:1}] },
-  { id:"r_horseshoe", out:"horseshoe", qty:2, time:40, station:"workshop", in:[{item:"iron_bar",qty:1}] },
-  { id:"r_iron_nails", out:"iron_nails", qty:3, time:34, station:"workshop", in:[{item:"iron_bar",qty:1}] },
-  { id:"r_hand_tools", out:"hand_tools", qty:1, time:60, station:"workshop", in:[{item:"iron_bar",qty:2},{item:"wood",qty:1}] },
-  { id:"r_iron_helm", out:"iron_helm", qty:1, time:85, station:"workshop", in:[{item:"iron_bar",qty:2},{item:"leather",qty:1}] },
-  { id:"r_steel_sword", out:"steel_sword", qty:1, time:120, station:"workshop", in:[{item:"steel_bar",qty:2},{item:"wood",qty:1}] },
-  { id:"r_steel_shield", out:"steel_shield", qty:1, time:135, station:"workshop", in:[{item:"steel_bar",qty:2},{item:"thick_hide",qty:1}] },
-  { id:"r_war_axe", out:"war_axe", qty:1, time:160, station:"workshop", in:[{item:"steel_bar",qty:2},{item:"orc_tusk",qty:1},{item:"wood",qty:1}] },
-  { id:"r_goblin_charm", out:"goblin_charm", qty:1, time:36, station:"workshop", in:[{item:"goblin_ear",qty:2},{item:"bone",qty:1}] },
-  { id:"r_tusk_horn", out:"tusk_horn", qty:1, time:95, station:"workshop", in:[{item:"orc_tusk",qty:2},{item:"silver_bar",qty:1}] },
-  // ⚜️ CLASS RELICS — only appear when that rare class is in your guild. Crafting one equips a hero permanently.
-  { id:"r_holy_armor", out:"holy_armor", qty:1, time:180, station:"tannery", classReq:"Paladin", boon:"holyArmor",
-    in:[{item:"thick_hide",qty:2},{item:"silver_bar",qty:2},{item:"saints_finger",qty:1}] },
-  { id:"r_bone_relic", out:"bone_relic", qty:1, time:180, station:"workshop", classReq:"Necromancer", boon:"boneRelic",
-    in:[{item:"bone_meal",qty:3},{item:"cursed_relic",qty:2},{item:"grimoire_page",qty:1}] },
-  { id:"r_shadow_cloak", out:"shadow_cloak", qty:1, time:180, station:"weavery", classReq:"Assassin", boon:"shadowCloak",
-    in:[{item:"spirit_silk",qty:2},{item:"fine_cloth",qty:2},{item:"void_shard",qty:1}] },
-  { id:"r_beast_horn", out:"beast_horn", qty:1, time:180, station:"workshop", classReq:"Beastmaster", boon:"beastHorn",
-    in:[{item:"yeti_fur",qty:2},{item:"dragon_scale",qty:1},{item:"warlord_skull",qty:1}] },
-  { id:"r_prayer_beads", out:"prayer_beads", qty:1, time:180, station:"weavery", classReq:"Monk", boon:"prayerBeads",
-    in:[{item:"spirit_silk",qty:1},{item:"polished_gem",qty:2},{item:"saints_finger",qty:1}] },
+// ⚜️ CLASS RELICS — earned via special requests on the board when a rare-class hero has no relic yet.
+const RELIC_REQUESTS = [
+  { cls:"Paladin",     boon:"holyArmor",   item:"holy_armor",   group:"church",    need:[{item:"yeti_fur",qty:2},{item:"silver_ore",qty:4},{item:"saints_finger",qty:1}] },
+  { cls:"Monk",        boon:"prayerBeads", item:"prayer_beads", group:"church",    need:[{item:"crude_gem",qty:4},{item:"spirit_silk",qty:1},{item:"saints_finger",qty:1}] },
+  { cls:"Necromancer", boon:"boneRelic",   item:"bone_relic",   group:"nobles",    need:[{item:"bone",qty:8},{item:"cursed_relic",qty:3},{item:"grimoire_page",qty:1}] },
+  { cls:"Assassin",    boon:"shadowCloak", item:"shadow_cloak", group:"nobles",    need:[{item:"toxin_gland",qty:4},{item:"spirit_silk",qty:2},{item:"void_shard",qty:1}] },
+  { cls:"Beastmaster", boon:"beastHorn",   item:"beast_horn",   group:"commoners", need:[{item:"yeti_fur",qty:3},{item:"dragon_scale",qty:1},{item:"warlord_skull",qty:1}] },
 ];
 
-// permanent boons granted when a class relic is crafted (applied to one hero of that class)
+// permanent boons granted when a class relic is earned (applied to one hero of that class)
 const CLASS_BOONS = {
   holyArmor:  { label:"Holy Plate", desc:"Greatly reduced injury risk", apply:a=>({...a, boon:"holyArmor"}) },
   boneRelic:  { label:"Bone Relic", desc:"Cheats death once — survives a fatal blow", apply:a=>({...a, boon:"boneRelic"}) },
@@ -912,28 +798,85 @@ function unitPrice(item, market){
   return Math.max(1, Math.round(ITEMS[item].value * mult));
 }
 
+// ==================== §DATA-REQUESTS · İSTEK PANOSU ====================
+// Every 3 days nobles, church and commoners each post 5 requests for materials.
+// Filling one pays well above merchant price; each fill also raises that group's favor (+2% future pay, max +50%).
+const REQ_GROUPS = ["nobles","church","commoners"];
+const REQ_REFRESH_DAYS = 3;
+const REQ_POOLS = {
+  nobles:   ["crude_gem","silver_ore","gold_ore","frost_crystal","yeti_fur","wolf_pelt","dragon_scale","fire_essence","golden_fleece","giant_pearl","ancient_coin","spirit_silk","ember_honey","dragon_truffle","starfruit"],
+  church:   ["herb","wood","bone","slime","toxin_gland","cursed_relic","silver_ore","frost_crystal","void_shard","spirit_silk","giant_pearl","ember_honey","starfruit"],
+  commoners:["herb","wood","wolf_pelt","rat_tail","scrap_iron","slime","iron_ore","goblin_ear","bog_iron","bone","orc_tusk","steel_scrap","yeti_fur","toxin_gland","ember_honey","dragon_truffle"],
+};
+const REQ_MULT = { nobles:[1.9,2.3], church:[1.35,1.6], commoners:[1.5,1.8] };
+const TR_REQ = {
+  nobles:{ desc:"Lüks ve nadir mallara en yüksek parayı öder." },
+  church:{ desc:"Biraz az öder ama her teslimat loncana şöhret kazandırır." },
+  commoners:{ desc:"Gündelik mallar — kolay bulunur, istikrarlı kazanç." },
+};
+const REQ_DESC_EN = {
+  nobles:"Pays the most for luxuries and rare goods.",
+  church:"Pays a little less, but every delivery earns your guild renown.",
+  commoners:"Everyday goods — easy to find, steady income.",
+};
+function reqDesc(g){ return LANG==="tr" ? TR_REQ[g].desc : REQ_DESC_EN[g]; }
+const favorMult = (f)=> 1 + Math.min(0.5, (f||0)*0.02);
+function reqReward(r, favor){ return Math.round((r.base||0) * favorMult(favor)); }
+function reqRenown(r, tier){ return r.group==="church" ? 2+Math.floor((tier||0)/2) : 0; }
+function availableLoot(tier){
+  const out={common:[],rare:[]};
+  REGIONS.filter(r=>r.tier<=tier).forEach(r=>(r.loot||[]).forEach(l=>{
+    if(CUSTOMER_OF[l.item]) return; // storied trophies stay with the merchants
+    const arr=l.rare?out.rare:out.common; if(!arr.includes(l.item)) arr.push(l.item);
+  }));
+  return out;
+}
+function genRequests(st, day, prev){
+  const tier = BUILDINGS.treasury.levels[(st.buildings&&st.buildings.treasury)||0].tier;
+  const av = availableLoot(tier);
+  const shuffle=(a)=>{ const b=[...a]; for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; };
+  const list=[];
+  REQ_GROUPS.forEach(g=>{
+    const pool=REQ_POOLS[g];
+    let commons=shuffle(av.common.filter(x=>pool.includes(x)));
+    shuffle(av.common.filter(x=>!pool.includes(x))).forEach(x=>{ if(commons.length<5) commons.push(x); });
+    let picks=commons.slice(0,5).map(item=>({item,rare:false}));
+    const rares=av.rare.filter(x=>pool.includes(x)); const rarePool=rares.length?rares:av.rare;
+    if(rarePool.length && Math.random()<0.4 && picks.length){ picks[picks.length-1]={item:pick(rarePool),rare:true}; }
+    const [lo,hi]=REQ_MULT[g];
+    picks.forEach(({item,rare})=>{
+      const v=ITEMS[item].value;
+      let qty;
+      if(rare) qty = 1 + (tier>=3 && Math.random()<0.3 ? 1 : 0);
+      else { const target=(30+25*tier)*(0.7+Math.random()*0.7); qty=Math.max(2,Math.min(15,Math.round(target/v))); }
+      const base=Math.round(v*qty*(lo+Math.random()*(hi-lo)));
+      list.push({ id:uid(), group:g, need:[{item,qty}], base, done:false });
+    });
+  });
+  // ⚜️ special relic requests for rare-class heroes who don't carry their relic yet
+  RELIC_REQUESTS.forEach(rr=>{
+    const wants=(st.adventurers||[]).some(a=>a.cls===rr.cls && !a.boon);
+    const owned=((st.inventory||{})[rr.item]||0)>0;
+    if(wants && !owned) list.push({ id:uid(), group:rr.group, need:rr.need.map(n=>({...n})), base:0, relic:rr.cls, done:false });
+  });
+  const favor = (prev&&prev.favor) ? {...prev.favor} : {nobles:0,church:0,commoners:0};
+  return { list, nextDay: day + REQ_REFRESH_DAYS, favor, bonusPaid:{} };
+}
+
 
 const BUILDINGS = {
-  dormitory:{ name:"Dormitory", icon:"🛏️", desc:"Adventurers pay you to lodge here. Better beds = more rent income, happiness, capacity & faster fatigue recovery.", levels:[
-    {cost:0,rentPerHead:7,happiness:0,capacity:3,restBonus:0},{cost:300,rentPerHead:11,happiness:5,capacity:5,restBonus:2},
-    {cost:900,rentPerHead:15,happiness:12,capacity:7,restBonus:4},{cost:2400,rentPerHead:24,happiness:20,capacity:10,restBonus:6},
-    {cost:6000,rentPerHead:40,happiness:30,capacity:14,restBonus:9},{cost:13000,rentPerHead:55,happiness:38,capacity:20,restBonus:12},
-    {cost:26000,rentPerHead:72,happiness:46,capacity:24,restBonus:16} ]},
-  tavern:{ name:"Tavern", icon:"🍺", desc:"Adventurers buy food & ale from you. Better fare = more food income & higher expedition success.", levels:[
-    {cost:0,foodPerHead:6,morale:0,successBonus:0},{cost:250,foodPerHead:10,morale:6,successBonus:0.03},
-    {cost:750,foodPerHead:14,morale:14,successBonus:0.06},{cost:2000,foodPerHead:22,morale:22,successBonus:0.10},{cost:5200,foodPerHead:35,morale:34,successBonus:0.15} ]},
-  tannery:{ name:"Tannery", icon:"👜", desc:"Turn pelts & hides into leather goods — boots, packs, cloaks. Higher levels craft faster and allow more jobs at once.", levels:[
-    {cost:0,speedMult:1.0,slots:1},{cost:400,speedMult:0.92,slots:1},{cost:1200,speedMult:0.84,slots:2},{cost:3000,speedMult:0.76,slots:2},
-    {cost:6500,speedMult:0.68,slots:3},{cost:12000,speedMult:0.62,slots:3},{cost:20000,speedMult:0.57,slots:4},{cost:32000,speedMult:0.55,slots:4} ]},
-  weavery:{ name:"Weavery", icon:"🧵", desc:"Spin fibers into cloth and fine garments — tunics, gowns, tapestries. Higher levels craft faster and allow more jobs at once.", levels:[
-    {cost:0,speedMult:1.0,slots:1,locked:true},{cost:500,speedMult:0.92,slots:1},{cost:1400,speedMult:0.84,slots:2},{cost:3400,speedMult:0.74,slots:2},
-    {cost:7000,speedMult:0.66,slots:3},{cost:13000,speedMult:0.60,slots:3},{cost:21000,speedMult:0.55,slots:4},{cost:34000,speedMult:0.52,slots:4} ]},
-  kitchen:{ name:"Kitchen", icon:"🍲", desc:"Cook meals and brew drink to sell — stew, bread, mead, feast platters. Higher levels craft faster and allow more jobs at once.", levels:[
-    {cost:0,speedMult:1.0,slots:1,locked:true},{cost:1200,speedMult:0.92,slots:1},{cost:3500,speedMult:0.83,slots:2},{cost:8000,speedMult:0.74,slots:2},
-    {cost:15000,speedMult:0.66,slots:3},{cost:24000,speedMult:0.59,slots:3},{cost:36000,speedMult:0.53,slots:4},{cost:52000,speedMult:0.50,slots:4} ]},
-  workshop:{ name:"Workshop", icon:"🔨", desc:"Craft household goods, toys, candles and fine jewelry — the widest range of wares. Higher levels craft faster and allow more jobs at once.", levels:[
-    {cost:0,speedMult:1.0,slots:1,locked:true},{cost:900,speedMult:0.92,slots:1},{cost:2800,speedMult:0.83,slots:2},{cost:6500,speedMult:0.74,slots:2},
-    {cost:12000,speedMult:0.66,slots:3},{cost:20000,speedMult:0.59,slots:3},{cost:30000,speedMult:0.53,slots:4},{cost:44000,speedMult:0.50,slots:4} ]},
+  // 🛏️ Dormitory — split into three separate upgrade lines
+  dorm_rooms:{ name:"More Rooms", group:"dormitory", icon:"🚪", desc:"More rooms = more adventurers can live at the guild.", levels:[
+    {cost:0,capacity:3},{cost:150,capacity:5},{cost:450,capacity:7},{cost:1200,capacity:10},{cost:3000,capacity:14},{cost:6500,capacity:20},{cost:13000,capacity:24} ]},
+  dorm_beds:{ name:"Good Beds", group:"dormitory", icon:"🛏️", desc:"Resting heroes shake off fatigue much faster.", levels:[
+    {cost:0,restBonus:0},{cost:90,restBonus:2},{cost:270,restBonus:4},{cost:720,restBonus:6},{cost:1800,restBonus:9},{cost:3900,restBonus:12},{cost:7800,restBonus:16} ]},
+  dorm_comfort:{ name:"Furnished Rooms", group:"dormitory", icon:"🕯️", desc:"Warm, furnished rooms command higher rent.", levels:[
+    {cost:0,rentPerHead:7},{cost:110,rentPerHead:11},{cost:320,rentPerHead:15},{cost:840,rentPerHead:24},{cost:2100,rentPerHead:40},{cost:4500,rentPerHead:55},{cost:9100,rentPerHead:72} ]},
+  // 🍺 Tavern — split into two
+  tav_meals:{ name:"Quality Meals", group:"tavern", icon:"🍲", desc:"Well-fed heroes do better on expeditions.", levels:[
+    {cost:0,successBonus:0},{cost:150,successBonus:0.03},{cost:450,successBonus:0.06},{cost:1200,successBonus:0.10},{cost:3100,successBonus:0.15} ]},
+  tav_cellar:{ name:"Stocked Cellar", group:"tavern", icon:"🍺", desc:"Good ale keeps heroes spending at your bar.", levels:[
+    {cost:0,foodPerHead:6},{cost:120,foodPerHead:10},{cost:380,foodPerHead:14},{cost:1000,foodPerHead:22},{cost:2600,foodPerHead:35} ]},
   warehouse:{ name:"Warehouse", icon:"🛢️", desc:"Storage space for loot and goods. Expeditions can't store more once it's full.", levels:[
     {cost:0,capacity:40},{cost:350,capacity:80},{cost:1000,capacity:150},{cost:2800,capacity:280},{cost:7000,capacity:500} ]},
   notice_board:{ name:"Notice Board", icon:"📜", desc:"More boards = more quests at once.", levels:[
@@ -942,6 +885,12 @@ const BUILDINGS = {
     {cost:0,tier:0},{cost:800,tier:1},{cost:2500,tier:2},{cost:6000,tier:3},{cost:14000,tier:4},{cost:30000,tier:5},
     {cost:60000,tier:5,renownBonus:20},{cost:120000,tier:5,renownBonus:50},{cost:250000,tier:5,renownBonus:100} ]},
 };
+const BUILDING_GROUPS = {
+  dormitory:{ name:"Dormitory", icon:"🛏️", desc:"Adventurers lodge here and pay you rent." },
+  tavern:{ name:"Tavern", icon:"🍺", desc:"Adventurers eat and drink here — and leave their coin with you." },
+};
+// current level data of one upgrade line (safe for old/missing saves)
+function bLv(b,key){ const L=BUILDINGS[key].levels; return L[Math.max(0,Math.min((b&&b[key])||0, L.length-1))]; }
 const STARTING_GOLD = 650;
 
 // ==================== §HELPERS · GENEL YARDIMCILAR ====================
@@ -1022,6 +971,7 @@ const outcomeColor=(pct)=> pct>=75?T.green : pct>=55?T.gold : T.red;
 // Stored in state.rels keyed by sorted pair "idA|idB" → { score:-100..100, met:elapsed }
 const relKey=(a,b)=>[a,b].sort().join("|");
 function getRel(rels,a,b){ return rels[relKey(a,b)]?.score||0; }
+const REL_SPEED = 1.6; // ilişkilerin organik (sefer + salon) artış/düşüş hızı çarpanı
 function bumpRel(rels,a,b,delta,elapsed){
   const k=relKey(a,b); const cur=rels[k]||{score:0,met:elapsed};
   cur.score=Math.max(-100,Math.min(100,cur.score+delta)); rels[k]=cur; return cur.score;
@@ -1624,7 +1574,7 @@ const ACHIEVEMENTS = [
   { id:"a_charter", icon:"📜", name:{en:"It Begins",tr:"Ve Başladı"}, desc:{en:"Sign the guild charter",tr:"Lonca fermanını imzala"}, check:s=>s.started },
   { id:"a_firsthire", icon:"🤝", name:{en:"Fresh Blood",tr:"Taze Kan"}, desc:{en:"Hire your first adventurer",tr:"İlk maceracını işe al"}, check:s=>s.adventurers.length>=1 },
   { id:"a_firstquest", icon:"🗺️", name:{en:"Off You Pop",tr:"Hadi Bakalım"}, desc:{en:"Send your first expedition",tr:"İlk seferini yolla"}, check:s=>(s.stats&&s.stats.quests>=1) },
-  { id:"a_firstcraft", icon:"⚒️", name:{en:"Honest Work",tr:"Alın Teri"}, desc:{en:"Craft your first item",tr:"İlk ürününü üret"}, check:s=>(s.stats&&s.stats.crafted>=1) },
+  { id:"a_firstcraft", icon:"📋", name:{en:"Honest Work",tr:"Alın Teri"}, desc:{en:"Fill your first request",tr:"İlk isteği karşıla"}, check:s=>(s.stats&&s.stats.requests>=1) },
   { id:"a_firstsale", icon:"💰", name:{en:"Cha-Ching",tr:"Şıngır Şıngır"}, desc:{en:"Make your first sale",tr:"İlk satışını yap"}, check:s=>(s.stats&&s.stats.sold>=1) },
   // --- Altın kilometre taşları ---
   { id:"a_gold1k", icon:"🪙", name:{en:"Pocket Change",tr:"Cep Harçlığı"}, desc:{en:"Hold 1,000 gold",tr:"1.000 altın biriktir"}, check:s=>s.gold>=1000 },
@@ -1671,13 +1621,13 @@ const ACHIEVEMENTS = [
   // --- Nadir sınıflar ---
   { id:"a_rareclass", icon:"🛡️", name:{en:"Exclusive Club",tr:"Seçkin Kulüp"}, desc:{en:"Recruit any rare class",tr:"Herhangi bir nadir sınıf al"}, check:s=>s.adventurers.some(a=>CLASSES[a.cls].rare) },
   { id:"a_allrare", icon:"🎴", name:{en:"Gotta Catch 'Em All",tr:"Hepsini Topla"}, desc:{en:"Have all 5 rare classes at once",tr:"5 nadir sınıfın hepsi aynı anda"}, check:s=>{const have=new Set(s.adventurers.filter(a=>CLASSES[a.cls].rare&&!CLASSES[a.cls].unique).map(a=>a.cls));return have.size>=5;} },
-  { id:"a_relic", icon:"⚜️", name:{en:"Relic Hunter",tr:"Emanet Avcısı"}, desc:{en:"Craft a class relic",tr:"Bir sınıf emaneti üret"}, check:s=>s.adventurers.some(a=>a.boon) },
-  // --- Üretim / ekonomi derinliği ---
-  { id:"a_craft50", icon:"🛠️", name:{en:"Little Factory",tr:"Küçük Fabrika"}, desc:{en:"Craft 50 items total",tr:"Toplam 50 ürün üret"}, check:s=>(s.stats&&s.stats.crafted>=50) },
-  { id:"a_craft250", icon:"🏭", name:{en:"Industrial Revolution",tr:"Sanayi Devrimi"}, desc:{en:"Craft 250 items total",tr:"Toplam 250 ürün üret"}, check:s=>(s.stats&&s.stats.crafted>=250) },
+  { id:"a_relic", icon:"⚜️", name:{en:"Relic Hunter",tr:"Emanet Avcısı"}, desc:{en:"Earn a class relic",tr:"Bir sınıf emaneti kazan"}, check:s=>s.adventurers.some(a=>a.boon) },
+  // --- İstek panosu / ekonomi derinliği ---
+  { id:"a_craft50", icon:"🤝", name:{en:"Trusted Supplier",tr:"Güvenilir Tedarikçi"}, desc:{en:"Fill 25 requests",tr:"25 isteği karşıla"}, check:s=>(s.stats&&s.stats.requests>=25) },
+  { id:"a_craft250", icon:"🏦", name:{en:"Merchant Prince",tr:"Tüccar Prensi"}, desc:{en:"Fill 100 requests",tr:"100 isteği karşıla"}, check:s=>(s.stats&&s.stats.requests>=100) },
   { id:"a_quest50", icon:"🧭", name:{en:"Frequent Flyer",tr:"Sık Yolcu"}, desc:{en:"Complete 50 expeditions",tr:"50 sefer tamamla"}, check:s=>(s.stats&&s.stats.quests>=50) },
   { id:"a_quest200", icon:"🗺️", name:{en:"Been There, Done That",tr:"Gördük Geçirdik"}, desc:{en:"Complete 200 expeditions",tr:"200 sefer tamamla"}, check:s=>(s.stats&&s.stats.quests>=200) },
-  { id:"a_smith", icon:"🗡️", name:{en:"The Blacksmith Awakens",tr:"Demirci Uyanıyor"}, desc:{en:"Forge a steel weapon",tr:"Bir çelik silah döv"}, check:s=>(s.stats&&s.stats.forged) },
+  { id:"a_smith", icon:"🌟", name:{en:"Everyone's Favorite",tr:"Herkesin Gözdesi"}, desc:{en:"Max out favor with any buyer group",tr:"Bir alıcı grubunun gözdesi ol (en üst itibar)"}, check:s=>!!(s.requests&&s.requests.favor&&Object.values(s.requests.favor).some(f=>f>=25)) },
   // --- Komik / durum ---
   { id:"a_broke", icon:"🕳️", name:{en:"Down Bad",tr:"Dibi Gördük"}, desc:{en:"Drop below 20 gold",tr:"20 altının altına düş"}, check:s=>s.started&&s.gold<20 },
   { id:"a_hoarder", icon:"📦", name:{en:"Pack Rat",tr:"İstifçi"}, desc:{en:"Fill your warehouse",tr:"Ambarını doldur"}, check:s=>{const cap=BUILDINGS.warehouse.levels[s.buildings.warehouse].capacity;const cnt=Object.values(s.inventory||{}).reduce((a,b)=>a+b,0);return cnt>=cap;} },
@@ -1732,10 +1682,17 @@ export default function Guildmaster(){
           if(!Array.isArray(obj.fallen)) obj.fallen=[];
           if(!Array.isArray(obj.log)) obj.log=[];
           if(!Array.isArray(obj.quests)) obj.quests=[];
-          if(!Array.isArray(obj.crafting)) obj.crafting=[];
+          delete obj.crafting; // crafting system removed
+          if(!obj.buildings) obj.buildings=newGame().buildings;
+          { const b=obj.buildings;
+            if(b.dorm_rooms===undefined){ const d=b.dormitory||0; b.dorm_rooms=d; b.dorm_beds=d; b.dorm_comfort=d; }
+            if(b.tav_meals===undefined){ const tv=b.tavern||0; b.tav_meals=tv; b.tav_cellar=tv; }
+            ["dormitory","tavern","tannery","weavery","kitchen","workshop"].forEach(k=>{ delete b[k]; });
+            Object.keys(BUILDINGS).forEach(k=>{ if(typeof b[k]!=="number") b[k]=0; b[k]=Math.min(b[k],BUILDINGS[k].levels.length-1); }); }
+          obj.adventurers=(Array.isArray(obj.adventurers)?obj.adventurers:[]).map(a=>a&&a.task==="assist"?{...a,task:"rest"}:a);
+          if(!obj.requests || !Array.isArray(obj.requests.list)) obj.requests=genRequests(obj, obj.day||1, null);
           if(!Array.isArray(obj.adventurers)) obj.adventurers=[];
           if(!Array.isArray(obj.recruits)) obj.recruits=[];
-          if(!obj.buildings) obj.buildings=newGame().buildings;
           return obj;
         }
       }
@@ -1840,10 +1797,11 @@ export default function Guildmaster(){
       started: false, guildName: "",
       gold: STARTING_GOLD, renown: 0, day: 1, elapsed: 0,
       adventurers: [], recruits,
-      inventory: {}, quests: [], crafting: [], rels: {}, fallen: [], pendingEvent: null, pendingChains: [], market: freshMarket(),
-      buildings: { dormitory:0, tavern:0, tannery:0, weavery:0, kitchen:0, workshop:0, notice_board:0, treasury:0, warehouse:0 },
+      inventory: {}, quests: [], rels: {}, fallen: [], pendingEvent: null, pendingChains: [], market: freshMarket(),
+      buildings: { dorm_rooms:0, dorm_beds:0, dorm_comfort:0, tav_meals:0, tav_cellar:0, notice_board:0, treasury:0, warehouse:0 },
+      requests: genRequests({buildings:{treasury:0},adventurers:[],inventory:{}}, 1, null),
       lastUpkeep: 0, log: [],
-      achieved: {}, stats: { quests:0, crafted:0, sold:0, forged:0, maxParty:0 },
+      achieved: {}, stats: { quests:0, requests:0, sold:0, maxParty:0 },
       bossUnlocked: {}, bossDefeated: {}, savedParties: [null,null,null],
     };
   }
@@ -1874,7 +1832,7 @@ export default function Guildmaster(){
             ns.stats = ns.stats || {...(s.stats||{quests:0,crafted:0,sold:0,forged:0,maxParty:0})};
             if(!q.bossId) ns.stats.quests = (ns.stats.quests||0)+1;
             ns.stats.maxParty = Math.max(ns.stats.maxParty||0, q.party.length);
-            const tavernSucc = BUILDINGS.tavern.levels[ns.buildings.tavern].successBonus||0;
+            const tavernSucc = bLv(ns.buildings,"tav_meals").successBonus||0;
             // party-wide perks from classes present
             let partySuccess=0, partyLoot=0, partyInjury=0;
             party.forEach(a=>{ const m=CLASSES[a.cls].mod||{};
@@ -2030,7 +1988,7 @@ export default function Guildmaster(){
                   }
                   if(delta!==0){
                   const before = getRel(ns.rels,A.id,B.id);
-                  const after = bumpRel(ns.rels,A.id,B.id,delta,ns.elapsed);
+                  const after = bumpRel(ns.rels,A.id,B.id,delta*REL_SPEED,ns.elapsed);
                   // emergent events on crossing thresholds
                   const rt=relType(after,A,B), rtBefore=relType(before,A,B);
                   if(rt && (!rtBefore || rt.type!==rtBefore.type)){
@@ -2100,12 +2058,15 @@ export default function Guildmaster(){
             }
             // auto-repeat: requeue if repeats remain and all party members are still healthy & available
             if(q.repeatLeft>0){
-              const stillReady = q.party.every(id=>{ const a=ns.adventurers.find(x=>x.id===id); return a && a.status==="idle"; });
+              const stillReady = q.party.every(id=>{ const a=ns.adventurers.find(x=>x.id===id); return a && a.status==="idle" && (a.fatigue||0)<90; });
+              const exhausted = q.party.some(id=>{ const a=ns.adventurers.find(x=>x.id===id); return a && a.status==="idle" && (a.fatigue||0)>=90; });
               if(stillReady){
                 q.party.forEach(id=>{ const a=ns.adventurers.find(x=>x.id===id); if(a){a.status="questing";a.questId=region.id;} });
                 ns.quests.push({id:uid(),regionId:region.id,party:q.party,startAt:ns.elapsed,endAt:ns.elapsed+q.duration,repeatLeft:q.repeatLeft-1,duration:q.duration});
               } else {
-                logAdds.push({t:ns.elapsed, msg:LANG==="tr"?`↩️ ${regionName(region)} bölgesine tekrar sefer iptal edildi — bir üye yaralı ya da meşgul.`:`↩️ Repeat run to ${regionName(region)} cancelled — a member is hurt or busy.`});
+                logAdds.push({t:ns.elapsed, msg: exhausted
+                  ? (LANG==="tr"?`😴 Ekip bitkin düştü — ${regionName(region)} seferleri durduruldu, herkes dinlenmeye çekildi.`:`😴 The party is exhausted — runs to ${regionName(region)} halted, everyone is resting.`)
+                  : (LANG==="tr"?`↩️ ${regionName(region)} bölgesine tekrar sefer iptal edildi — bir üye yaralı ya da meşgul.`:`↩️ Repeat run to ${regionName(region)} cancelled — a member is hurt or busy.`)});
               }
             }
           });
@@ -2122,64 +2083,29 @@ export default function Guildmaster(){
         if(healed||done.length) ns.adventurers = adv2;
         // ---- IDLE TASKS: idle adventurers work at their assigned task (processed every ~5s) ----
         if(ns.elapsed % 5 === 0){
-          let assistSpeedup=0, patrolGold=0, patrolRenownAcc=0, taskChanged=false;
-          const _restBonus = (BUILDINGS.dormitory.levels[(ns.buildings||s.buildings).dormitory]||{}).restBonus||0;
+          let patrolGold=0, patrolRenownAcc=0, taskChanged=false;
+          const _restBonus = bLv(ns.buildings||s.buildings,"dorm_beds").restBonus||0;
           const adv3=(ns.adventurers||s.adventurers).map(a=>{
             if(a.status!=="idle") return a;
             const t=a.task||"rest"; let na={...a};
             if(t==="rest"){ if(na.fatigue>0){ na.fatigue=Math.max(0,na.fatigue-(6+_restBonus)); taskChanged=true; }
               if(na.hp<na.maxHp){ na.hp=Math.min(na.maxHp,na.hp+Math.ceil(na.maxHp*0.02)); taskChanged=true; } }
             else if(t==="train"){ na.xp=(na.xp||0)+3; taskChanged=true; }
-            else if(t==="assist"){ assistSpeedup+=1; }
             else if(t==="patrol"){ patrolGold+=1; patrolRenownAcc+=0.025; taskChanged=true; }
             return na;
           });
-          if(taskChanged||assistSpeedup>0||patrolGold>0) ns.adventurers=adv3;
-          // assisting crafters: nudge active crafts forward
-          if(assistSpeedup>0 && ns.crafting && ns.crafting.length){
-            ns.crafting = ns.crafting.map(c=>({...c, endAt: c.endAt - assistSpeedup*2})); // each assistant shaves 2s per tick
-          }
+          if(taskChanged||patrolGold>0) ns.adventurers=adv3;
           // patrolling brings in petty coin & word-of-mouth
           if(patrolGold>0){ ns.gold = ns.gold + patrolGold;
             ns._patrolRenown = (ns._patrolRenown||s._patrolRenown||0) + patrolRenownAcc;
             if(ns._patrolRenown>=1){ const r=Math.floor(ns._patrolRenown); ns.renown=(ns.renown||0)+r; ns._patrolRenown-=r; }
           }
         }
-        // crafting progress
-        const craftDone=[];
-        ns.crafting = s.crafting.map(c=>({...c}));
-        ns.crafting.forEach(c=>{ if(ns.elapsed>=c.endAt && !c.resolved){ c.resolved=true; craftDone.push(c);} });
-        if(craftDone.length){
-          ns.inventory = ns.inventory===s.inventory ? {...s.inventory} : ns.inventory;
-          craftDone.forEach(c=>{ const r=RECIPES.find(x=>x.id===c.recipeId);
-            ns.stats = ns.stats || {...(s.stats||{quests:0,crafted:0,sold:0,forged:0,maxParty:0})};
-            ns.stats.crafted = (ns.stats.crafted||0)+(r.qty||1);
-            if(["steel_sword","steel_shield","war_axe"].includes(r.out)) ns.stats.forged=(ns.stats.forged||0)+1;
-            if(r.boon){
-              // class relic: equip the highest-level un-bonused hero of that class
-              const candidates=ns.adventurers.filter(a=>a.cls===r.classReq && !a.boon).sort((a,b)=>b.level-a.level);
-              if(candidates.length){
-                const chosen=candidates[0];
-                ns.adventurers=ns.adventurers.map(a=>a.id===chosen.id?{...a,boon:r.boon}:a);
-                logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⚜️ ${chosen.name} artık ${itemName(r.out)} taşıyıcısı — ${boonDesc(r.boon).toLowerCase()}.`:`⚜️ ${chosen.name} is now bearer of the ${itemName(r.out)} — ${boonDesc(r.boon).toLowerCase()}.`});
-              } else {
-                // no eligible hero — it sits in storage as a valuable item
-                ns.inventory[r.out]=(ns.inventory[r.out]||0)+r.qty;
-                logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`${itemName(r.out)} üretildi, ama henüz taşıyabilecek bir ${clsName(r.classReq)} yok — sonrası için depolandı.`:`Crafted ${itemName(r.out)}, but no ${clsName(r.classReq)} can bear it yet — stored for later.`});
-              }
-            } else {
-              ns.inventory[r.out]=(ns.inventory[r.out]||0)+r.qty;
-              logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`${r.qty}× ${itemName(r.out)} üretildi.`:`Crafted ${r.qty}× ${itemName(r.out)}.`});
-            }
-          });
-          ns.crafting = ns.crafting.filter(c=>!c.resolved);
-          Audio.play("craft");
-        }
         // daily upkeep every 120s = 1 day
         if(ns.elapsed - ns.lastUpkeep >= 120){
           ns.lastUpkeep = ns.elapsed; ns.day = s.day+1;
-          const dorm = BUILDINGS.dormitory.levels[ns.buildings.dormitory];
-          const tav = BUILDINGS.tavern.levels[ns.buildings.tavern];
+          const dorm = bLv(ns.buildings,"dorm_comfort");
+          const tav = bLv(ns.buildings,"tav_cellar");
           let income=0, wages=0;
           (ns.adventurers||s.adventurers).forEach(a=>{
             income += Math.round(dorm.rentPerHead*(a.pos.mod.rentMult||1));
@@ -2210,6 +2136,11 @@ export default function Guildmaster(){
           });
           // raw materials: always fair, never fluctuates
           ns.market.raw={price:1.0};
+          // ---- request board: fresh requests every 3 days ----
+          if(!ns.requests || !Array.isArray(ns.requests.list) || ns.day >= (ns.requests.nextDay||0)){
+            ns.requests = genRequests(ns, ns.day, ns.requests);
+            logAdds.push({t:ns.elapsed,msg:LANG==="tr"?"📋 İstek panosuna yeni istekler asıldı — soylular, kilise ve halk seni bekliyor.":"📋 New requests are pinned to the board — nobles, church and commoners await."});
+          }
           // ---- passive relationship drift: adventurers living together at the hall ----
           const home = (ns.adventurers||s.adventurers).filter(a=>a.status!=="questing");
           if(home.length>1){
@@ -2221,7 +2152,7 @@ export default function Guildmaster(){
                 if(home[i].cls==="Hawk"||home[j].cls==="Hawk") d+=2; // Hawk charms
                 else d-=2; // Hawk poisons everyone else's bonds
               }
-              bumpRel(ns.rels, home[i].id, home[j].id, d, ns.elapsed);
+              bumpRel(ns.rels, home[i].id, home[j].id, d*REL_SPEED, ns.elapsed);
             }
           }
           // ---- rare relationship event ----
@@ -2305,7 +2236,7 @@ export default function Guildmaster(){
         {tab==="hall" && <HallView {...api} setTab={setTab} />}
         {tab==="advs" && <AdventurersView {...api} />}
         {tab==="quests" && <QuestsView {...api} />}
-        {tab==="craft" && <CraftView {...api} />}
+        {tab==="requests" && <RequestsView {...api} />}
         {tab==="market" && <MarketView {...api} />}
         {tab==="storage" && <StorageView {...api} />}
         {tab==="upgrades" && <UpgradesView {...api} />}
@@ -2364,8 +2295,8 @@ function TutorialPanel({state,onHide}){
   const steps=[
     { key:"hire",    done:(state.adventurers||[]).length>0 },
     { key:"quest",   done:(st.quests||0)>0 },
+    { key:"craft",   done:(st.requests||0)>0 },
     { key:"sell",    done:(st.sold||0)>0 },
-    { key:"craft",   done:(st.crafted||0)>0 },
     { key:"upgrade", done:Object.values(state.buildings||{}).some(v=>v>=1) },
   ];
   const allDone=steps.every(s=>s.done);
@@ -2445,15 +2376,15 @@ function WelcomeBack({guildName,onContinue}){
 }
 function IntroSequence({onBegin}){
   const lines = LANG==="tr" ? [
-    "Eski lonca efendisi öldü.",
-    "Ferman, borçlar ve hudut kasabası Ashford'daki harap bir salonun anahtarları artık sana kalıyor.",
-    "Ocak soğuk. Kese hafif. Ama kazanılacak altın ve bulunacak yoldaş olan yere maceracılar hâlâ toplanır.",
-    "Loncana bir ad ver, o senindir.",
+    "Ashford'un sınır kasabasında, çatısı akan eski bir lonca salonu var.",
+    "Eski lonca efendisi geçen kış öldü. Geriye borçlar, soğumuş bir şömine ve birkaç boş yatak kaldı.",
+    "Yine de bu kasabaya macera arayanlar hiç eksik olmaz. Onlara bir çatı, sıcak bir yemek ve bir sefer ver; gerisini kendileri halleder.",
+    "Loncana bir ad ver. Artık o senin.",
   ] : [
-    "The old guildmaster is dead.",
-    "The charter, the debts, and the keys to a crumbling hall in the frontier town of Ashford now fall to you.",
-    "The hearth is cold. The coffers are light. But adventurers still gather where there is coin to be earned and kin to be found.",
-    "Name your guild, and it is yours.",
+    "On the edge of the border town of Ashford stands an old guild hall with a leaking roof.",
+    "The old guildmaster died last winter, leaving behind debts, a cold hearth and a few empty beds.",
+    "Still, adventurers never run short in a town like this. Give them a roof, a hot meal and a quest — they'll do the rest.",
+    "Name your guild. It's yours now.",
   ];
   const [shown,setShown]=useState(0);
   const [naming,setNaming]=useState(false);
@@ -2553,7 +2484,7 @@ function TopBar({state,onAchievements}){
 
 function NavBar({tab,setTab,state}){
   const items=[["hall","🏠","tab.hall"],["advs","⚔️","tab.advs"],["quests","🗺️","tab.quests"],
-    ["craft","⚒️","tab.craft"],["market","⚖️","tab.market"],["storage","🗝️","tab.store"],["upgrades","🏰","tab.build"]];
+    ["requests","📋","tab.requests"],["market","⚖️","tab.market"],["storage","🗝️","tab.store"],["upgrades","🏰","tab.build"]];
   return (<nav style={{position:"fixed",bottom:0,left:0,right:0,background:T.panel,borderTop:`1px solid ${T.border}`,zIndex:40,
     paddingBottom:"env(safe-area-inset-bottom, 0px)"}}>
     <div style={{maxWidth:760,margin:"0 auto",display:"flex"}}>
@@ -2571,19 +2502,19 @@ function NavBar({tab,setTab,state}){
 // derives the player's next suggested step from current state — guides the first loop, then retires itself
 function nextStep(state){
   if(state.adventurers.length===0) return { tab:"advs", icon:"⚔️", txt:t("step.hire.txt"), cta:t("step.hire.cta") };
-  if(state.quests.length===0 && state.crafting.length===0 && Object.values(state.inventory).reduce((a,b)=>a+b,0)===0)
+  const invTotal = Object.values(state.inventory).reduce((a,b)=>a+b,0);
+  if(state.quests.length===0 && invTotal===0)
     return { tab:"quests", icon:"🗺️", txt:t("step.disp.txt"), cta:t("step.disp.cta") };
-  const hasRaw = Object.entries(state.inventory).some(([k,v])=>v>0 && ITEMS[k] && ITEMS[k].tier!=="fin");
-  const hasGoods = Object.entries(state.inventory).some(([k,v])=>v>0 && ITEMS[k] && ITEMS[k].tier==="fin");
-  if(hasRaw && state.crafting.length===0 && !hasGoods)
-    return { tab:"craft", icon:"⚒️", txt:t("step.craft.txt"), cta:t("step.craft.cta") };
-  if(hasGoods) return { tab:"market", icon:"💰", txt:t("step.sell.txt"), cta:t("step.sell.cta") };
+  const rq = state.requests && Array.isArray(state.requests.list) ? state.requests.list : [];
+  if(rq.some(r=>!r.done && r.need.every(n=>(state.inventory[n.item]||0)>=n.qty)))
+    return { tab:"requests", icon:"📋", txt:t("step.craft.txt"), cta:t("step.craft.cta") };
+  if(invTotal>0) return { tab:"market", icon:"💰", txt:t("step.sell.txt"), cta:t("step.sell.cta") };
   return null;
 }
 
 function HallView({state,setTab,setState,notify,newGame,lang,switchLang}){
   const tier = BUILDINGS.treasury.levels[state.buildings.treasury].tier;
-  const cap = BUILDINGS.dormitory.levels[state.buildings.dormitory].capacity;
+  const cap = bLv(state.buildings,"dorm_rooms").capacity;
   const idle = state.adventurers.filter(a=>a.status==="idle").length;
   const questing = state.quests.length;
   const invCount = Object.values(state.inventory).reduce((a,b)=>a+b,0);
@@ -2846,7 +2777,7 @@ function AdvCard({a,children,onOpen}){
         {a.level<50 && <div style={{marginBottom:3}}><div style={{fontSize:9,color:T.inkFaint,marginBottom:2}}>XP {a.xp}/{xpNext}</div><Bar pct={a.xp/xpNext*100} color={T.blue} h={4}/></div>}
         <div><div style={{fontSize:9,color:T.inkFaint,margin:"3px 0 2px"}}>HP {a.hp}/{a.maxHp}{a.status==="injured"?" · 🩸 recovering":""}</div><Bar pct={a.hp/a.maxHp*100} color={T.red} h={4}/></div>
         {(a.fatigue||0)>0 && <div><div style={{fontSize:9,color:a.fatigue>=70?T.red:a.fatigue>=40?"#e0a23c":T.inkFaint,margin:"3px 0 2px"}}>
-          Fatigue {Math.round(a.fatigue)}%{a.fatigue>=70?" · exhausted!":a.fatigue>=40?" · tiring":""}</div>
+          {LANG==="tr"?"Yorgunluk":"Fatigue"} {Math.round(a.fatigue)}%{a.fatigue>=70?(LANG==="tr"?" · bitkin!":" · exhausted!"):a.fatigue>=40?(LANG==="tr"?" · yoruluyor":" · tiring"):""}</div>
           <Bar pct={a.fatigue} color={a.fatigue>=70?T.red:a.fatigue>=40?"#e0a23c":T.inkDim} h={4}/></div>}
         {children}
       </div>
@@ -2854,7 +2785,7 @@ function AdvCard({a,children,onOpen}){
   </Panel>);
 }
 function statusLabel(a){ if(a.status==="questing")return "⛏️ "+t("status.onExpedition"); if(a.status==="injured")return "🩸 "+t("status.injured"); if(a.grief)return "🕯️ "+t("status.grieving");
-  const tk=a.task||"rest"; return tk==="rest"?"😴 "+t("status.resting"):tk==="train"?"🗡️ "+t("status.training"):tk==="assist"?"🔨 "+t("status.assisting"):tk==="patrol"?"🛡️ "+t("status.patrolling"):"💤 "+t("status.idle"); }
+  const tk=a.task||"rest"; return tk==="rest"?"😴 "+t("status.resting"):tk==="train"?"🗡️ "+t("status.training"):tk==="patrol"?"🛡️ "+t("status.patrolling"):"💤 "+t("status.idle"); }
 
 function StatRow({label,value,icon,note}){ return (
   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 0",borderBottom:`1px solid ${T.border}`}}>
@@ -2944,7 +2875,7 @@ function AdvDetailModal({a,rels,roster,setState,onClose,onDismiss}){
 
 function AdventurersView({state,setState,notify}){
   const tier=BUILDINGS.treasury.levels[state.buildings.treasury].tier;
-  const cap=BUILDINGS.dormitory.levels[state.buildings.dormitory].capacity;
+  const cap=bLv(state.buildings,"dorm_rooms").capacity;
   const full=state.adventurers.length>=cap;
   const [detail,setDetail]=useState(null);
   const [confirmKick,setConfirmKick]=useState(null);
@@ -3002,8 +2933,8 @@ function AdventurersView({state,setState,notify}){
       {a.status==="idle" && <div style={{marginTop:8}}>
         <div style={{fontSize:10,color:T.inkFaint,marginBottom:4,textTransform:"uppercase",letterSpacing:1}}>{t("adv.whileAtHall")}</div>
         <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-          {[["rest","😴 "+t("task.rest")],["train","🗡️ "+t("task.train")],["assist","🔨 "+t("task.assist")],["patrol","🛡️ "+t("task.patrol")]].map(([tk,lbl])=>(
-            <button key={tk} onClick={()=>setTask(a,tk)} style={{flex:"1 1 21%",minWidth:62,fontSize:10,padding:"6px 4px",borderRadius:6,fontFamily:font,
+          {[["rest","😴 "+t("task.rest")],["train","🗡️ "+t("task.train")],["patrol","🛡️ "+t("task.patrol")]].map(([tk,lbl])=>(
+            <button key={tk} onClick={()=>setTask(a,tk)} style={{flex:"1 1 28%",minWidth:62,fontSize:10,padding:"6px 4px",borderRadius:6,fontFamily:font,
               background:(a.task||"rest")===tk?T.gold:"none",color:(a.task||"rest")===tk?"#211705":T.inkDim,
               border:`1px solid ${(a.task||"rest")===tk?T.gold:T.border}`,fontWeight:(a.task||"rest")===tk?700:400}}>{lbl}</button>
           ))}
@@ -3011,7 +2942,6 @@ function AdventurersView({state,setState,notify}){
         <div style={{fontSize:10,color:T.inkFaint,marginTop:5,lineHeight:1.45}}>
           {(a.task||"rest")==="rest"?"😴 "+t("task.restDesc"):
            (a.task||"rest")==="train"?"🗡️ "+t("task.trainDesc"):
-           (a.task||"rest")==="assist"?"🔨 "+t("task.assistDesc"):
            "🛡️ "+t("task.patrolDesc")}
         </div>
       </div>}
@@ -3124,7 +3054,7 @@ function QuestsView({state,setState,notify}){
       <div style={{fontSize:24,filter:"grayscale(1)"}}>{r.icon}</div>
       <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:T.ink}}>{regionName(r)}</div>
         <div style={{fontSize:11,color:T.inkDim}}>🔒 {t("quest.reachTier").replace("{n}", r.tier)}</div></div></div>))}
-    {picking && <PartyPicker region={picking.__boss?picking.region:picking} boss={picking.__boss||null} idle={idle} lastParty={state.lastParty} rels={state.rels} tavernSucc={BUILDINGS.tavern.levels[state.buildings.tavern].successBonus||0} savedParties={state.savedParties||[]} onSaveParty={(slot,ids)=>setState(s=>{const sp=[...(s.savedParties||[null,null,null])];sp[slot]=ids;return{...s,savedParties:sp};})} onClearParty={(slot)=>setState(s=>{const sp=[...(s.savedParties||[null,null,null])];sp[slot]=null;return{...s,savedParties:sp};})} onClose={()=>setPicking(null)} onGo={(region,ids,rep)=>dispatch(region,ids,rep,picking.__boss?picking.__boss.id:null)}/>}
+    {picking && <PartyPicker region={picking.__boss?picking.region:picking} boss={picking.__boss||null} idle={idle} lastParty={state.lastParty} rels={state.rels} tavernSucc={bLv(state.buildings,"tav_meals").successBonus||0} savedParties={state.savedParties||[]} onSaveParty={(slot,ids)=>setState(s=>{const sp=[...(s.savedParties||[null,null,null])];sp[slot]=ids;return{...s,savedParties:sp};})} onClearParty={(slot)=>setState(s=>{const sp=[...(s.savedParties||[null,null,null])];sp[slot]=null;return{...s,savedParties:sp};})} onClose={()=>setPicking(null)} onGo={(region,ids,rep)=>dispatch(region,ids,rep,picking.__boss?picking.__boss.id:null)}/>}
   </div>);
 }
 function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,savedParties,onSaveParty,onClearParty,onClose,onGo}){
@@ -3261,105 +3191,105 @@ function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,savedParties,on
   </Modal>);
 }
 
-// ==================== §UI · CRAFT / ÜRETİM ====================
-function CraftView({state,setState,notify}){
-  const [detail,setDetail]=useState(null);
-  const stationLevel=(st)=>state.buildings[st];
-  const stationUnlocked=(st)=>{ const lv=BUILDINGS[st].levels[state.buildings[st]]; return !lv.locked; };
-  const stationSlots=(st)=>BUILDINGS[st].levels[state.buildings[st]].slots||1;
-  const stationBusy=(st)=>state.crafting.filter(c=>RECIPES.find(r=>r.id===c.recipeId).station===st).length;
-  const canCraft=(r)=>r.in.every(i=>(state.inventory[i.item]||0)>=i.qty);
-  const start=(r)=>{
-    if(!stationUnlocked(r.station)){notify(LANG==="tr"?`Önce ${buildingName(r.station)} inşa et.`:`Build the ${buildingName(r.station)} first.`);return;}
-    if(stationBusy(r.station)>=stationSlots(r.station)){notify(LANG==="tr"?`${buildingName(r.station)} meşgul — daha çok iş yuvası için yükselt.`:`${buildingName(r.station)} is busy — upgrade it for more job slots.`);return;}
-    if(!canCraft(r)){notify(LANG==="tr"?"Eksik malzeme.":"Missing materials.");return;}
-    const speed=BUILDINGS[r.station].levels[state.buildings[r.station]].speedMult;
-    const dur=Math.round(r.time*speed);
-    setState(s=>{ const inv={...s.inventory}; r.in.forEach(i=>inv[i.item]-=i.qty);
-      return {...s,inventory:inv,crafting:[...s.crafting,{id:uid(),recipeId:r.id,startAt:s.elapsed,endAt:s.elapsed+dur}]}; });
-    notify(LANG==="tr"?`${itemName(r.out)} üretiliyor…`:`Crafting ${itemName(r.out)}…`); Audio.play("craft");
+// ==================== §UI · REQUESTS / İSTEK PANOSU ====================
+function RequestsView({state,setState,notify}){
+  const rq=state.requests||{list:[],favor:{},nextDay:state.day+REQ_REFRESH_DAYS};
+  const tier=BUILDINGS.treasury.levels[state.buildings.treasury].tier;
+  const have=(it)=>state.inventory[it]||0;
+  const canFill=(r)=>!r.done && r.need.every(n=>have(n.item)>=n.qty);
+  const daysLeft=Math.max(1,(rq.nextDay||0)-state.day);
+  const gU=t("top.goldUnit");
+  const fill=(r)=>{
+    if(!canFill(r)) return;
+    const favor=(rq.favor||{})[r.group]||0;
+    const gold=r.relic?0:reqReward(r,favor);
+    const ren=reqRenown(r,tier)+Math.floor(gold/100);
+    setState(s=>{
+      const R=s.requests; if(!R) return s;
+      const cur=R.list.find(x=>x.id===r.id); if(!cur||cur.done) return s;
+      if(!cur.need.every(n=>(s.inventory[n.item]||0)>=n.qty)) return s;
+      const inv={...s.inventory}; cur.need.forEach(n=>{ inv[n.item]-=n.qty; if(inv[n.item]<=0) delete inv[n.item]; });
+      const list=R.list.map(x=>x.id===cur.id?{...x,done:true}:x);
+      const fav={...(R.favor||{})}; fav[cur.group]=Math.min(25,(fav[cur.group]||0)+1);
+      let gold2=gold, renown2=ren, adventurers=s.adventurers;
+      const logs=[];
+      const gName=catName(cur.group);
+      if(cur.relic){
+        const rr=RELIC_REQUESTS.find(x=>x.cls===cur.relic);
+        const cands=s.adventurers.filter(a=>a.cls===rr.cls && !a.boon).sort((a,b)=>b.level-a.level);
+        if(cands.length){ const ch=cands[0]; adventurers=s.adventurers.map(a=>a.id===ch.id?{...a,boon:rr.boon}:a);
+          logs.push(LANG==="tr"?`⚜️ ${gName} sözünü tuttu: ${ch.name} artık ${itemName(rr.item)} taşıyıcısı — ${boonDesc(rr.boon).toLowerCase()}.`:`⚜️ The ${gName} kept their word: ${ch.name} now bears the ${itemName(rr.item)} — ${boonDesc(rr.boon).toLowerCase()}.`);
+        } else { inv[rr.item]=(inv[rr.item]||0)+1;
+          logs.push(LANG==="tr"?`⚜️ ${itemName(rr.item)} teslim alındı ve ambara kondu.`:`⚜️ Received the ${itemName(rr.item)} — stored in the warehouse.`); }
+      } else {
+        logs.push(LANG==="tr"?`📋 ${gName} isteği karşılandı: ${cur.need.map(n=>`${n.qty}× ${itemName(n.item)}`).join(", ")} → +${gold}A${ren>0?`, +${ren} şöhret`:""}.`:`📋 Filled a ${gName} request: ${cur.need.map(n=>`${n.qty}× ${itemName(n.item)}`).join(", ")} → +${gold}G${ren>0?`, +${ren} renown`:""}.`);
+      }
+      // bonus when every regular request of a group is done this cycle
+      const bonusPaid={...(R.bonusPaid||{})};
+      const grp=list.filter(x=>x.group===cur.group && !x.relic);
+      if(!cur.relic && grp.length && grp.every(x=>x.done) && !bonusPaid[cur.group]){
+        const bonus=Math.round(grp.reduce((a,x)=>a+x.base,0)*0.25); bonusPaid[cur.group]=true;
+        gold2+=bonus; renown2+=5;
+        logs.push(LANG==="tr"?`🎉 ${gName} bu dönemki bütün isteklerinden memnun kaldı! Teşekkür hediyesi: +${bonus}A, +5 şöhret.`:`🎉 The ${gName} are delighted — every request filled! Thank-you gift: +${bonus}G, +5 renown.`);
+      }
+      const stats={...(s.stats||{}),requests:((s.stats&&s.stats.requests)||0)+1};
+      return {...s,inventory:inv,adventurers,gold:s.gold+gold2,renown:(s.renown||0)+renown2,stats,
+        requests:{...R,list,favor:fav,bonusPaid},
+        log:[...logs.reverse().map(m=>({t:s.elapsed,msg:m})),...s.log].slice(0,40)};
+    });
+    notify(r.relic?(LANG==="tr"?"⚜️ Emanet kazanıldı!":"⚜️ Relic earned!"):`+${gold}${gU}`); Audio.play("sell");
   };
-  // a recipe is visible only if it has no class requirement, OR you have that rare class in the guild
-  const recipeVisible=(r)=> !r.classReq || state.adventurers.some(a=>a.cls===r.classReq);
-  const byStation={tannery:[],weavery:[],kitchen:[],workshop:[]};
-  RECIPES.forEach(r=>{ if(recipeVisible(r)) byStation[r.station].push(r); });
-  // recipes you can make right now (station unlocked, has materials, slot free)
-  const ready=RECIPES.filter(r=>recipeVisible(r)&&stationUnlocked(r.station)&&canCraft(r)&&stationBusy(r.station)<stationSlots(r.station));
-
-  const RecipeRow=({r,compact})=>{ const unlocked=stationUnlocked(r.station); const ok=canCraft(r); const stationFree=stationBusy(r.station)<stationSlots(r.station);
-    return (<Panel style={{marginBottom:8,opacity:unlocked?1:.45}}>
-      <div style={{display:"flex",gap:10,alignItems:"center"}}>
-        <button onClick={()=>setDetail(r)} style={{fontSize:22,background:"none",border:"none",padding:0,cursor:"pointer"}}>{ITEMS[r.out].icon}</button>
-        <button onClick={()=>setDetail(r)} style={{flex:1,minWidth:0,background:"none",border:"none",padding:0,textAlign:"left",cursor:"pointer"}}>
-          <div style={{fontWeight:700,fontSize:13,color:T.ink}}>{itemName(r.out)} {r.qty>1?`×${r.qty}`:""} <span style={{fontSize:10,color:T.inkFaint}}>ⓘ</span></div>
-          <div style={{fontSize:10,color:T.inkDim,marginTop:2}}>
-            {r.in.map((i,idx)=>(<span key={idx} style={{color:(state.inventory[i.item]||0)>=i.qty?T.inkDim:T.red}}>
-              {ITEMS[i.item].icon}{i.qty} </span>))}
-            · ⏱ {fmtTime(Math.round(r.time*(BUILDINGS[r.station].levels[state.buildings[r.station]].speedMult)))}
-          </div>
-          {r.boon
-            ? <div style={{fontSize:10,color:T.gold,marginTop:1,fontWeight:700}}>⚜️ {clsName(r.classReq)} {LANG==="tr"?"emaneti":"relic"} · {boonDesc(r.boon)}</div>
-            : <div style={{fontSize:10,color:T.goldDim,marginTop:1}}>{LANG==="tr"?"satış":"sells"} ~{ITEMS[r.out].value}{LANG==="tr"?"A":"G"}{ITEM_CAT[r.out]&&ITEM_CAT[r.out]!=="raw"?<span style={{color:T.inkFaint}}> · {MARKET_CATS[ITEM_CAT[r.out]].icon} {catName(ITEM_CAT[r.out])}</span>:""}{compact?` · ${BUILDINGS[r.station].icon}`:""}</div>}
-        </button>
-        <GoldBtn onClick={()=>start(r)} disabled={!unlocked||!ok||!stationFree} style={{padding:"7px 12px"}}>{LANG==="tr"?"Üret":"Craft"}</GoldBtn>
-      </div>
-    </Panel>); };
-
+  const readyCount=rq.list.filter(canFill).length;
   return (<div style={{animation:"fadeUp .3s"}}>
-    <div style={{fontSize:11,color:T.inkDim,marginBottom:12,padding:"8px 11px",borderRadius:8,background:T.panel2,border:`1px solid ${T.border}`}}>
-      {LANG==="tr"?<>💰 Ayrıntılar için bir tarife dokun. Loncanın zanaatkârları, kahramanlarının getirdiği ham ganimeti <b style={{color:T.gold}}>Pazar'da satılacak</b> mallara dönüştürür — daha iyi teçhizatın, maaşların ve daha büyük seferlerin parası buradan çıkar.</>:<>💰 Tap any recipe to see details. Your guild's craftsfolk turn the spoils your heroes bring home into goods to <b style={{color:T.gold}}>sell at the Market</b> — funding better gear, wages, and grander expeditions.</>}</div>
-    {ready.length>0 && <><SectionTitle sub={t("craft.readySub")}>✅ {t("craft.ready")}</SectionTitle>
-      {ready.map(r=><RecipeRow key={"rdy_"+r.id} r={r} compact/>)}
-      <div style={{height:6}}/></>}
-    {state.crafting.length>0 && <><SectionTitle>{t("craft.bench")}</SectionTitle>
-      {state.crafting.map(c=>{ const r=RECIPES.find(x=>x.id===c.recipeId); const total=c.endAt-c.startAt; const pct=(state.elapsed-c.startAt)/total*100;
-        return (<Panel key={c.id} style={{marginBottom:10}}>
-          <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:8}}>
-            <div style={{fontSize:20}}>{ITEMS[r.out].icon}</div>
-            <div style={{flex:1,fontWeight:700,fontSize:13}}>{itemName(r.out)} ×{r.qty}</div>
-            <div style={{color:T.gold,fontSize:12,fontWeight:700}}>{fmtTime(c.endAt-state.elapsed)}</div>
-          </div><Bar pct={pct} color={T.gold}/>
-        </Panel>); })}
-    </>}
-    {Object.entries(byStation).map(([st,recipes])=>{ const unlocked=stationUnlocked(st);
-      const busy=stationBusy(st), slots=stationSlots(st);
-      return (<div key={st} style={{marginBottom:18}}>
-        <SectionTitle sub={unlocked?`Lv ${stationLevel(st)} · ${t("craft.jobs")} ${busy}/${slots} · ${t("craft.fasterHi")}`:t("craft.locked")}>
-          {BUILDINGS[st].icon} {buildingName(st)}</SectionTitle>
-        {recipes.map(r=><RecipeRow key={r.id} r={r}/>)}
+    <Panel style={{marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center",gap:10}}>
+      <div>
+        <div style={{fontSize:11,color:T.gold,letterSpacing:1.5,textTransform:"uppercase"}}>📋 {LANG==="tr"?"İstek Panosu":"Request Board"}</div>
+        <div style={{fontSize:12,color:T.inkDim,marginTop:3}}>{LANG==="tr"?"Tüccara satmaktan çok daha kârlı. Her teslimat o grubun gözünde itibarını artırır.":"Pays far better than merchants. Every delivery raises your favor with that group."}</div>
+      </div>
+      <div style={{textAlign:"right",minWidth:78}}>
+        <div style={{fontSize:10,color:T.inkFaint}}>{LANG==="tr"?"Yenilenmesine":"Refreshes in"}</div>
+        <div style={{fontSize:15,fontWeight:700,color:T.ink}}>{daysLeft} {LANG==="tr"?"gün":(daysLeft>1?"days":"day")}</div>
+        {readyCount>0 && <div style={{fontSize:10,color:T.green,fontWeight:700}}>✓ {readyCount} {LANG==="tr"?"hazır":"ready"}</div>}
+      </div>
+    </Panel>
+    {REQ_GROUPS.map(g=>{
+      const items=rq.list.filter(r=>r.group===g);
+      const regular=items.filter(r=>!r.relic);
+      const doneN=regular.filter(r=>r.done).length;
+      const favor=(rq.favor||{})[g]||0; const fm=Math.round((favorMult(favor)-1)*100);
+      return (<div key={g} style={{marginBottom:16}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:4}}>
+          <div style={{fontSize:13,fontWeight:700,color:T.gold}}>{MARKET_CATS[g].icon} {catName(g)} <span style={{fontSize:11,color:T.inkFaint,fontWeight:400}}>· {doneN}/{regular.length}</span></div>
+          <div style={{fontSize:10,color:fm>0?T.green:T.inkFaint}}>{LANG==="tr"?"İtibar":"Favor"} {favor}/25{fm>0?(LANG==="tr"?` · ödül +%${fm}`:` · pay +${fm}%`):""}</div>
+        </div>
+        <div style={{fontSize:11,color:T.inkDim,marginBottom:8}}>{reqDesc(g)}</div>
+        {items.length===0 && <div style={{fontSize:11,color:T.inkFaint}}>{LANG==="tr"?"Şu an istek yok.":"No requests right now."}</div>}
+        {items.map(r=>{ const ok=canFill(r); const gold=reqReward(r,favor); const ren=reqRenown(r,tier);
+          const rr=r.relic?RELIC_REQUESTS.find(x=>x.cls===r.relic):null;
+          return (<Panel key={r.id} style={{marginBottom:7,padding:10,opacity:r.done?0.45:1,
+            border:`1px solid ${r.relic?T.gold:ok?T.green:T.border}`,background:r.relic?"linear-gradient(135deg,#2a2112,#1c140d)":T.panel}}>
+            {rr && <div style={{fontSize:11,color:T.gold,fontWeight:700,marginBottom:5}}>⚜️ {LANG==="tr"?`Özel istek — karşılığında ${clsName(rr.cls)} için ${itemName(rr.item)}`:`Special request — rewards the ${itemName(rr.item)} for your ${clsName(rr.cls)}`}
+              <div style={{fontSize:10,color:T.inkDim,fontWeight:400}}>{boonDesc(rr.boon)}</div></div>}
+            <div style={{display:"flex",gap:10,alignItems:"center"}}>
+              <div style={{flex:1,minWidth:0}}>
+                {r.need.map(n=>{ const h=have(n.item); const enough=h>=n.qty; const src=itemSource(n.item);
+                  return (<div key={n.item} style={{display:"flex",gap:8,alignItems:"center",marginBottom:2}}>
+                    <span style={{fontSize:18}}>{ITEMS[n.item].icon}</span>
+                    <div style={{minWidth:0}}>
+                      <div style={{fontSize:13,fontWeight:700,color:T.ink}}>{n.qty}× {itemName(n.item)}</div>
+                      <div style={{fontSize:10,color:enough?T.green:T.inkFaint}}>{LANG==="tr"?"Elinde":"Have"}: {h}/{n.qty}{!enough&&src?<span style={{color:T.inkFaint}}> · {src}</span>:""}</div>
+                    </div></div>); })}
+              </div>
+              <div style={{textAlign:"right",minWidth:84}}>
+                {!r.relic && <div style={{fontSize:14,fontWeight:700,color:T.gold}}>+{gold}{gU}</div>}
+                {!r.relic && ren>0 && <div style={{fontSize:10,color:T.inkDim}}>+{ren} {LANG==="tr"?"şöhret":"renown"}</div>}
+                {r.done ? <div style={{fontSize:12,color:T.green,fontWeight:700,marginTop:4}}>✓ {LANG==="tr"?"Teslim edildi":"Delivered"}</div>
+                  : <GoldBtn onClick={()=>fill(r)} disabled={!ok} style={{padding:"7px 10px",marginTop:4,fontSize:12}}>{LANG==="tr"?"Teslim Et":"Deliver"}</GoldBtn>}
+              </div>
+            </div>
+          </Panel>); })}
       </div>); })}
-    {detail && <RecipeDetailModal r={detail} state={state} onClose={()=>setDetail(null)}/>}
   </div>);
-}
-function RecipeDetailModal({r,state,onClose}){
-  const out=ITEMS[r.out]; const st=BUILDINGS[r.station];
-  const speed=st.levels[state.buildings[r.station]].speedMult;
-  const inCost=r.in.reduce((a,i)=>a+ITEMS[i.item].value*i.qty,0);
-  const revenue=out.value*r.qty; const margin=revenue-inCost;
-  return (<Modal title={`${out.icon} ${itemName(r.out)}`} onClose={onClose}>
-    <div style={{textAlign:"center",marginBottom:16}}>
-      <div style={{fontSize:46,marginBottom:6}}>{out.icon}</div>
-      <div style={{fontSize:16,fontWeight:700,color:T.parchment}}>{itemName(r.out)}{r.qty>1?` ×${r.qty}`:""}</div>
-      <div style={{fontSize:12,color:T.gold}}>{t("craft.sellsEach").replace("{v}", out.value)}</div>
-    </div>
-    <SectionTitle>{t("craft.recipe")}</SectionTitle>
-    <div style={{marginBottom:14}}>
-      {r.in.map((i,idx)=>{ const have=state.inventory[i.item]||0;
-        return (<div key={idx} style={{padding:"8px 0",borderBottom:`1px solid ${T.border}`}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            <span style={{fontSize:13,color:T.ink}}>{ITEMS[i.item].icon} {itemName(i.item)}</span>
-            <span style={{fontSize:13,fontWeight:700,color:have>=i.qty?T.green:T.red}}>{have}/{i.qty}</span>
-          </div>
-          {(()=>{ const src=itemSource(i.item); return src?<div style={{fontSize:10,color:T.inkFaint,marginTop:3}}>🗺️ {src}</div>:null; })()}
-        </div>); })}
-    </div>
-    <SectionTitle>{t("craft.details")}</SectionTitle>
-    <div style={{fontSize:12,color:T.inkDim,lineHeight:1.8}}>
-      <div>⚒️ {t("craft.craftedAt")} <b style={{color:T.ink}}>{stationName(r.station)}</b></div>
-      <div>⏱ {t("craft.takes")} <b style={{color:T.ink}}>{fmtTime(Math.round(r.time*speed))}</b> {t("craft.atLevel")}</div>
-      <div>💰 {t("craft.matCost")} ~{inCost}G → {t("craft.sells")} {revenue}G <b style={{color:margin>0?T.green:T.red}}>(+{margin}G {t("craft.profit")})</b></div>
-    </div>
-  </Modal>);
 }
 
 // ==================== §UI · MARKET / PAZAR ====================
@@ -3374,7 +3304,7 @@ function MarketView({state,setState,notify}){
       const m={...(s.market||freshMarket())};
       if(cat!=="raw"){ const cur=(m[cat]&&m[cat].price)||1.0; m[cat]={price:Math.max(0.6, cur - n*0.008)}; }
       return {...s,gold:s.gold+gain,inventory:inv,market:m,renown:s.renown+Math.floor(gain/100),
-        stats:{...(s.stats||{quests:0,crafted:0,sold:0,forged:0,maxParty:0}),sold:((s.stats&&s.stats.sold)||0)+1},
+        stats:{...(s.stats||{quests:0,sold:0,maxParty:0}),sold:((s.stats&&s.stats.sold)||0)+1},
         log:[{t:s.elapsed,msg:LANG==="tr"?`${n}× ${itemName(item)} ${gain}A'ya satıldı.`:`Sold ${n}× ${itemName(item)} for ${gain}G.`},...s.log].slice(0,40)}; });
     notify(LANG==="tr"?`+${gain}A`:`+${gain}G`); Audio.play("sell");
   };
@@ -3386,13 +3316,15 @@ function MarketView({state,setState,notify}){
       return {...s,gold:s.gold+gain,inventory:{},market:m,renown:s.renown+Math.floor(gain/100),
         log:[{t:s.elapsed,msg:LANG==="tr"?`Tüm stok ${gain}A'ya satıldı.`:`Sold entire stock for ${gain}G.`},...s.log].slice(0,40)}; }); notify(LANG==="tr"?`Her şey satıldı: +${gain}A`:`Sold everything: +${gain}G`); };
   const total=owned.reduce((a,[k,v])=>a+unitPrice(k,mkt)*v,0);
+  const hasMoodGoods=owned.some(([k])=>catOf(k)!=="raw");
   return (<div style={{animation:"fadeUp .3s"}}>
+    <div style={{fontSize:12,color:T.inkDim,marginBottom:10,lineHeight:1.5}}>⚖️ {LANG==="tr"?"Gezgin tüccarlar her şeyi alır ama pazarlık yapmaz. Daha iyi fiyat için önce 📋 İstekler'e bak.":"Travelling merchants buy anything, but they don't haggle. Check 📋 Requests first for better prices."}</div>
     <Panel style={{marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <div><div style={{fontSize:11,color:T.gold,letterSpacing:1.5,textTransform:"uppercase"}}>{LANG==="tr"?"Stok Değeri":"Stock Value"}</div>
         <div style={{fontSize:22,fontWeight:700,color:T.ink}}>{total.toLocaleString()}{t("top.goldUnit")}</div></div>
       <GoldBtn onClick={sellAll} disabled={total<=0}>{t("market.sellAll")}{total>0?` · ${total.toLocaleString()}${t("top.goldUnit")}`:""}</GoldBtn>
     </Panel>
-    <SectionTitle sub={t("market.pricesSub")}>{t("market.pricesToday")}</SectionTitle>
+    {hasMoodGoods && <><SectionTitle sub={t("market.pricesSub")}>{t("market.pricesToday")}</SectionTitle>
     <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
       {Object.entries(MARKET_CATS).filter(([cat])=>cat!=="raw").map(([cat,info])=>{ const p=(mkt[cat]&&mkt[cat].price)||1.0;
         const pct=Math.round(p*100); const hot=p>=1.15, cold=p<=0.85;
@@ -3402,7 +3334,7 @@ function MarketView({state,setState,notify}){
           <div style={{fontSize:13,fontWeight:700,color:hot?T.green:cold?T.red:T.inkDim}}>
             {pct}% {hot?"▲":cold?"▼":""}</div>
         </div>); })}
-    </div>
+    </div></>}
     <SectionTitle>{t("market.sellGoods")}</SectionTitle>
     {owned.length===0 && <div style={{textAlign:"center",color:T.inkFaint,padding:30,fontSize:13}}>{t("market.empty")}</div>}
     {["fin","mid","raw"].map(tg=>{ const grp=owned.filter(([k])=>ITEMS[k].tier===tg); if(!grp.length)return null;
@@ -3445,7 +3377,7 @@ function StorageView({state}){
         {nearFull?(LANG==="tr"?"⚠️ Neredeyse dolu — seferler ganimet bırakabilir. İnşa sekmesinden yükselt.":"⚠️ Nearly full — expeditions may leave loot behind. Upgrade in the Build tab."):(LANG==="tr"?`Toplam stok değeri ${value.toLocaleString()}A`:`Total stock value ${value.toLocaleString()}G`)}</div>
     </Panel>
     <SectionTitle sub={t("store.roomSub")}>{t("store.room")}</SectionTitle>
-    {owned.length===0 && <div style={{textAlign:"center",color:T.inkFaint,padding:30,fontSize:13}}>{LANG==="tr"?"Boş. Seferlerden gelen ganimetler ve ürettiğin mallar burada durur.":"Empty. Loot from expeditions and crafted goods are stored here."}</div>}
+    {owned.length===0 && <div style={{textAlign:"center",color:T.inkFaint,padding:30,fontSize:13}}>{LANG==="tr"?"Boş. Seferlerden gelen ganimetler burada durur.":"Empty. Loot from expeditions is stored here."}</div>}
     {["raw","mid","fin"].map(tg=>{ const grp=owned.filter(([k])=>ITEMS[k].tier===tg); if(!grp.length)return null;
       return (<div key={tg} style={{marginBottom:14}}>
         <div style={{fontSize:10,color:T.inkFaint,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>
@@ -3474,9 +3406,14 @@ function UpgradesView({state,setState,notify}){
   };
   return (<div style={{animation:"fadeUp .3s"}}>
     <SectionTitle sub={t("build.buildingsSub")}>{t("build.buildings")}</SectionTitle>
-    {Object.entries(BUILDINGS).map(([key,b])=>{ const cur=state.buildings[key]; const next=cur+1;
+    {Object.entries(BUILDINGS).map(([key,b],idx,arr)=>{ const cur=state.buildings[key]||0; const next=cur+1;
       const maxed=next>=b.levels.length; const nextLv=maxed?null:b.levels[next]; const curLv=b.levels[cur];
-      return (<Panel key={key} style={{marginBottom:10}}>
+      const newGroup=b.group && (idx===0 || arr[idx-1][1].group!==b.group);
+      return (<React.Fragment key={key}>
+      {newGroup && <div style={{margin:"14px 0 6px"}}>
+        <div style={{fontSize:13,fontWeight:700,color:T.gold}}>{BUILDING_GROUPS[b.group].icon} {buildingName(b.group)}</div>
+        <div style={{fontSize:11,color:T.inkDim}}>{buildingDesc(b.group)}</div></div>}
+      <Panel style={{marginBottom:10,marginLeft:b.group?10:0,borderLeft:b.group?`3px solid ${T.goldDim}`:undefined}}>
         <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
           <div style={{fontSize:24}}>{b.icon}</div>
           <div style={{flex:1}}>
@@ -3487,21 +3424,23 @@ function UpgradesView({state,setState,notify}){
             <div style={{fontSize:11,color:T.inkDim,margin:"3px 0 8px"}}>{buildingDesc(key)}</div>
             <div style={{fontSize:10,color:T.inkFaint,marginBottom:8}}>{describeBuilding(key,curLv,nextLv)}</div>
             {!maxed && <GoldBtn onClick={()=>upgrade(key)} disabled={state.gold<nextLv.cost} style={{width:"100%"}}>
-              {t("build.upgrade")} — {nextLv.cost.toLocaleString()}G</GoldBtn>}
+              {t("build.upgrade")} — {nextLv.cost.toLocaleString()}{t("top.goldUnit")}</GoldBtn>}
           </div>
         </div>
-      </Panel>); })}
+      </Panel></React.Fragment>); })}
   </div>);
 }
 function describeBuilding(key,cur,next){
   const fmt=(lv)=>{
-    if(key==="dormitory")return LANG==="tr"?`kapasite ${lv.capacity}, kira ${lv.rentPerHead}A/kişi, dinlenme +${lv.restBonus||0}`:`cap ${lv.capacity}, rent ${lv.rentPerHead}G/head, rest +${lv.restBonus||0}`;
-    if(key==="tavern")return LANG==="tr"?`yemek ${lv.foodPerHead}A/kişi, +%${Math.round(lv.successBonus*100)} başarı`:`food ${lv.foodPerHead}G/head, +${Math.round(lv.successBonus*100)}% success`;
+    if(key==="dorm_rooms")return LANG==="tr"?`${lv.capacity} kişilik yer`:`room for ${lv.capacity}`;
+    if(key==="dorm_beds")return LANG==="tr"?`dinlenme +${lv.restBonus||0}`:`rest +${lv.restBonus||0}`;
+    if(key==="dorm_comfort")return LANG==="tr"?`kira ${lv.rentPerHead}A/kişi`:`rent ${lv.rentPerHead}G/head`;
+    if(key==="tav_meals")return LANG==="tr"?`+%${Math.round(lv.successBonus*100)} sefer başarısı`:`+${Math.round(lv.successBonus*100)}% expedition success`;
+    if(key==="tav_cellar")return LANG==="tr"?`yemek-içki ${lv.foodPerHead}A/kişi`:`food & ale ${lv.foodPerHead}G/head`;
     if(key==="notice_board")return LANG==="tr"?`${lv.questSlots} görev yuvası`:`${lv.questSlots} quest slots`;
     if(key==="treasury")return lv.renownBonus?(LANG==="tr"?`anıt · şöhret +${lv.renownBonus}`:`monument · renown +${lv.renownBonus}`):(LANG==="tr"?`lonca kademesi ${lv.tier}`:`guild tier ${lv.tier}`);
     if(key==="warehouse")return LANG==="tr"?`${lv.capacity} depo`:`${lv.capacity} storage`;
-    if(lv.locked)return LANG==="tr"?"kilitli":"locked";
-    return LANG==="tr"?`üretim hızı ×${lv.speedMult}, ${lv.slots||1} iş`:`craft speed ×${lv.speedMult}, ${lv.slots||1} job${(lv.slots||1)>1?"s":""}`;
+    return "";
   };
   return next?`${fmt(cur)}  →  ${fmt(next)}`:fmt(cur);
 }
