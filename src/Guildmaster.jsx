@@ -46,7 +46,7 @@ const STR = {
   "tab.hall":      { en:"Hall",       tr:"Salon" },
   "tab.advs":      { en:"Advs",       tr:"Maceracılar" },
   "tab.quests":    { en:"Quests",     tr:"Görevler" },
-  "tab.requests":  { en:"Requests",   tr:"İstekler" },
+  "tab.requests":  { en:"Trade",   tr:"Ticaret" },
   "tab.market":    { en:"Merchants",  tr:"Tüccarlar" },
   "tab.store":     { en:"Store",      tr:"Depo" },
   "tab.build":     { en:"Build",      tr:"İnşa" },
@@ -67,11 +67,11 @@ const STR = {
   "tut.quest":        { en:"Send them on an expedition", tr:"Onları sefere yolla" },
   "tut.questHow":     { en:"Open 🗺️ Quests → pick a region → choose a party → dispatch.", tr:"🗺️ Görevler'i aç → bir bölge seç → ekip kur → yolla." },
   "tut.sell":         { en:"Sell loot to the Merchants", tr:"Ganimeti Tüccarlar'a sat" },
-  "tut.sellHow":      { en:"Loot fills your storage. Open ⚖️ Merchants to turn it into gold.", tr:"Ganimet depona dolar. ⚖️ Tüccarlar'ı açıp altına çevir." },
+  "tut.sellHow":      { en:"Loot fills your storage. Open 📋 Trade → ⚖️ Merchants to turn it into gold.", tr:"Ganimet depona dolar. 📋 Ticaret → ⚖️ Tüccarlar'dan altına çevir." },
   "tut.upgrade":      { en:"Upgrade a building", tr:"Bir binayı yükselt" },
   "tut.upgradeHow":   { en:"Open 🏰 Build → upgrade the Treasury to unlock new regions.", tr:"🏰 İnşa'yı aç → yeni bölgeler için Hazine'yi yükselt." },
   "tut.craft":        { en:"Fill a request", tr:"Bir isteği karşıla" },
-  "tut.craftHow":     { en:"Open 📋 Requests → deliver what a buyer asked for. Pays far better than merchants.", tr:"📋 İstekler'i aç → bir alıcının istediği malı teslim et. Tüccardan çok daha iyi öder." },
+  "tut.craftHow":     { en:"Open 📋 Trade → Request Board → deliver what a buyer asked for. Pays far better than merchants.", tr:"📋 Ticaret → İstek Panosu → bir alıcının istediği malı teslim et. Tüccardan çok daha iyi öder." },
   "tut.hide":         { en:"Hide guide", tr:"Rehberi gizle" },
   "hall.recentFirst": { en:"Most recent first", tr:"En yeni en üstte" },
   "hall.ledgerEmpty": { en:"The guild's story will be recorded here.", tr:"Loncanın hikâyesi burada kayda geçecek." },
@@ -644,10 +644,10 @@ function itemName(id){ if(LANG==="tr" && TR_ITEM[id]) return TR_ITEM[id]; return
 function regionName(r){ const id=typeof r==="string"?r:(r&&r.id); if(LANG==="tr" && TR_REGION[id]) return TR_REGION[id]; if(typeof r==="string"){ const byName=REGIONS.find(x=>x.name===r); if(byName){ if(LANG==="tr" && TR_REGION[byName.id]) return TR_REGION[byName.id]; return byName.name; } } const reg=typeof r==="object"?r:REGIONS.find(x=>x.id===id); return (reg&&reg.name)||r||id; }
 // where does an item come from? (for request hints) — boss reward > craftable > region loot
 function itemSource(item){
-  const boss=BOSSES.find(b=>b.reward&&b.reward.item===item);
-  if(boss) return (LANG==="tr"?`${bossName(boss)} (boss) düşürür`:`dropped by ${bossName(boss)} (boss)`);
   const regs=REGIONS.filter(r=>Array.isArray(r.loot)&&r.loot.some(l=>l.item===item));
   if(regs.length) return (LANG==="tr"?`${regs.map(r=>regionName(r)).slice(0,2).join(", ")} seferlerinden`:`from ${regs.map(r=>regionName(r)).slice(0,2).join(", ")}`);
+  const boss=BOSSES.find(b=>b.reward&&b.reward.item===item);
+  if(boss) return (LANG==="tr"?`${bossName(boss)} (boss) düşürür`:`dropped by ${bossName(boss)} (boss)`);
   return null;
 }
 function clsName(c){ if(LANG==="tr" && TR_CLASS[c]) return TR_CLASS[c]; return c; }
@@ -658,7 +658,10 @@ function traitName(n){ if(LANG==="tr" && TR_TRAIT[n]) return TR_TRAIT[n]; return
 const TR_BUILDING = {
   dormitory:"Yatakhane", tavern:"Meyhane",
   dorm_rooms:"Yeni Odalar", dorm_beds:"İyi Yataklar", dorm_comfort:"Döşenmiş Odalar",
-  tav_meals:"Kaliteli Yemekler", tav_cellar:"Dolu Kiler",
+  tav_meals:"Kaliteli Yemekler", tav_cellar:"Dolu Kiler", tav_bard:"Ozan Köşesi", dorm_bath:"Hamam",
+  training:"Talim Alanı", train_dummies:"Talim Kuklaları", train_mentor:"Kıdemli Eğitmen",
+  infirmary:"Şifahane", inf_ward:"Revir", inf_herbs:"Merhem Dolabı",
+  stables:"Ahır", stable_horses:"Atlar", stable_carts:"Yük Arabaları", watch_tower:"Gözcü Kulesi",
   warehouse:"Ambar", notice_board:"İlan Tahtası", treasury:"Hazine",
 };
 function buildingName(id){ if(LANG==="tr" && TR_BUILDING[id]) return TR_BUILDING[id]; return (BUILDINGS[id]&&BUILDINGS[id].name)||(BUILDING_GROUPS[id]&&BUILDING_GROUPS[id].name)||id; }
@@ -670,6 +673,18 @@ const TR_BUILDING_DESC = {
   dorm_comfort:"Döşeli, sıcak odalar için maceracılar daha yüksek kira öder.",
   tav_meals:"Tok karnına yola çıkanlar seferlerde daha başarılı olur.",
   tav_cellar:"İyi bira ve dolu bir kiler — maceracılar parasını senin tezgâhında harcar.",
+  tav_bard:"Ateş başında türküler — loncada birlikte yaşayanlar birbirine daha çabuk ısınır.",
+  dorm_bath:"Sıcak bir banyo — dinlenen kahramanların yaraları daha çabuk kapanır.",
+  training:"Toy acemilerin pişkin kıdemlilere dönüştüğü yer.",
+  train_dummies:"Talim görevindeki kahramanlar daha hızlı öğrenir.",
+  train_mentor:"Yaşlı bir kurt akılda kalan dersler verir — her seferden daha fazla TP.",
+  infirmary:"Yaralıları toparlar, ayağa kaldırır.",
+  inf_ward:"Düzgün yatak ve sargı bezi — yaralılar daha çabuk iyileşir.",
+  inf_herbs:"Yola merhem ve sargı — seferlerde daha az yaralanma.",
+  stables:"Uzun yollar için at ve araba.",
+  stable_horses:"Yürümek yerine at sırtında — seferler daha kısa sürer.",
+  stable_carts:"Taşıyacak daha çok yer — eve daha çok ganimet döner.",
+  watch_tower:"Devriyedeki kahramanlar daha çok para kazanır, loncanın adını daha çok yayar.",
   warehouse:"Ganimetlerin durduğu yer. Ambar dolarsa seferden dönenler getirdiklerini bırakmak zorunda kalır.",
   notice_board:"Ne kadar çok ilan tahtası olursa, aynı anda o kadar çok sefer yürütebilirsin.",
   treasury:"Lonca kademesini yükseltir, yeni bölgeleri ve üyeleri açar. En görkemli salonlar birer anıta dönüşüp loncanın şöhretini yayar.",
@@ -823,33 +838,35 @@ function reqDesc(g){ return LANG==="tr" ? TR_REQ[g].desc : REQ_DESC_EN[g]; }
 const favorMult = (f)=> 1 + Math.min(0.5, (f||0)*0.02);
 function reqReward(r, favor){ return Math.round((r.base||0) * favorMult(favor)); }
 function reqRenown(r, tier){ return r.group==="church" ? 2+Math.floor((tier||0)/2) : 0; }
-function availableLoot(tier){
-  const out={common:[],rare:[]};
-  REGIONS.filter(r=>r.tier<=tier).forEach(r=>(r.loot||[]).forEach(l=>{
-    if(CUSTOMER_OF[l.item]) return; // storied trophies stay with the merchants
-    const arr=l.rare?out.rare:out.common; if(!arr.includes(l.item)) arr.push(l.item);
-  }));
-  return out;
-}
+// tier of the easiest region an item drops in (99 = nowhere)
+function itemTier(item){ let t=99; REGIONS.forEach(r=>{ if((r.loot||[]).some(l=>l.item===item)) t=Math.min(t,r.tier); }); return t; }
+function itemRegion(item){ let best=null; REGIONS.forEach(r=>{ if((r.loot||[]).some(l=>l.item===item) && (!best||r.tier<best.tier)) best=r; }); return best; }
+function isRareLoot(item){ return REGIONS.some(r=>(r.loot||[]).some(l=>l.item===item && l.rare)); }
 function genRequests(st, day, prev){
   const tier = BUILDINGS.treasury.levels[(st.buildings&&st.buildings.treasury)||0].tier;
-  const av = availableLoot(tier);
   const shuffle=(a)=>{ const b=[...a]; for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; };
-  const list=[];
-  REQ_GROUPS.forEach(g=>{
-    const pool=REQ_POOLS[g];
-    let commons=shuffle(av.common.filter(x=>pool.includes(x)));
-    shuffle(av.common.filter(x=>!pool.includes(x))).forEach(x=>{ if(commons.length<5) commons.push(x); });
-    let picks=commons.slice(0,5).map(item=>({item,rare:false}));
-    const rares=av.rare.filter(x=>pool.includes(x)); const rarePool=rares.length?rares:av.rare;
-    if(rarePool.length && Math.random()<0.4 && picks.length){ picks[picks.length-1]={item:pick(rarePool),rare:true}; }
+  const used=new Set(); const list=[];
+  // groups with the fewest open options choose first, so each gets its own goods
+  const order=[...REQ_GROUPS].sort((a,b)=>REQ_POOLS[a].filter(x=>itemTier(x)<=tier).length-REQ_POOLS[b].filter(x=>itemTier(x)<=tier).length);
+  order.forEach(g=>{
+    const pool=REQ_POOLS[g].filter(x=>itemTier(x)<99 && !CUSTOMER_OF[x]);
+    const open=shuffle(pool.filter(x=>itemTier(x)<=tier && !isRareLoot(x)));
+    const openRare=shuffle(pool.filter(x=>itemTier(x)<=tier && isRareLoot(x)));
+    const locked=shuffle(pool.filter(x=>itemTier(x)>tier && itemTier(x)<=tier+2)); // a taste of what lies ahead
+    const picks=[];
+    const take=(arr,n,lk)=>{ for(const x of arr){ if(picks.length>=5||n<=0) break; if(used.has(x)) continue; used.add(x); picks.push({item:x,locked:lk}); n--; } };
+    take(locked,2,true);
+    if(Math.random()<0.4) take(openRare,1,false);
+    take(open,5,false);
+    take(openRare,5,false);
+    take(locked,5,true);
     const [lo,hi]=REQ_MULT[g];
-    picks.forEach(({item,rare})=>{
-      const v=ITEMS[item].value;
+    picks.forEach(({item,locked:lk})=>{
+      const v=ITEMS[item].value; const it=Math.min(itemTier(item),5);
       let qty;
-      if(rare) qty = 1 + (tier>=3 && Math.random()<0.3 ? 1 : 0);
-      else { const target=(30+25*tier)*(0.7+Math.random()*0.7); qty=Math.max(2,Math.min(15,Math.round(target/v))); }
-      const base=Math.round(v*qty*(lo+Math.random()*(hi-lo)));
+      if(isRareLoot(item)) qty = 1 + (it>=3 && Math.random()<0.3 ? 1 : 0);
+      else { const target=(30+25*Math.max(tier,it))*(0.7+Math.random()*0.7); qty=Math.max(2,Math.min(15,Math.round(target/v))); }
+      const base=Math.round(v*qty*(lo+Math.random()*(hi-lo))*(lk?1.15:1));
       list.push({ id:uid(), group:g, need:[{item,qty}], base, done:false });
     });
   });
@@ -872,11 +889,33 @@ const BUILDINGS = {
     {cost:0,restBonus:0},{cost:90,restBonus:2},{cost:270,restBonus:4},{cost:720,restBonus:6},{cost:1800,restBonus:9},{cost:3900,restBonus:12},{cost:7800,restBonus:16} ]},
   dorm_comfort:{ name:"Furnished Rooms", group:"dormitory", icon:"🕯️", desc:"Warm, furnished rooms command higher rent.", levels:[
     {cost:0,rentPerHead:7},{cost:110,rentPerHead:11},{cost:320,rentPerHead:15},{cost:840,rentPerHead:24},{cost:2100,rentPerHead:40},{cost:4500,rentPerHead:55},{cost:9100,rentPerHead:72} ]},
-  // 🍺 Tavern — split into two
+  dorm_bath:{ name:"Bathhouse", group:"dormitory", icon:"🛁", desc:"A hot bath heals resting heroes faster.", levels:[
+    {cost:0,healBonus:0},{cost:200,healBonus:0.01},{cost:600,healBonus:0.02},{cost:1600,healBonus:0.03},{cost:4000,healBonus:0.05} ]},
+  // 🍺 Tavern
   tav_meals:{ name:"Quality Meals", group:"tavern", icon:"🍲", desc:"Well-fed heroes do better on expeditions.", levels:[
     {cost:0,successBonus:0},{cost:150,successBonus:0.03},{cost:450,successBonus:0.06},{cost:1200,successBonus:0.10},{cost:3100,successBonus:0.15} ]},
   tav_cellar:{ name:"Stocked Cellar", group:"tavern", icon:"🍺", desc:"Good ale keeps heroes spending at your bar.", levels:[
     {cost:0,foodPerHead:6},{cost:120,foodPerHead:10},{cost:380,foodPerHead:14},{cost:1000,foodPerHead:22},{cost:2600,foodPerHead:35} ]},
+  tav_bard:{ name:"Bard's Corner", group:"tavern", icon:"🪕", desc:"Songs by the fire — heroes living together warm to each other faster.", levels:[
+    {cost:0,relBonus:0},{cost:180,relBonus:0.5},{cost:550,relBonus:1},{cost:1500,relBonus:1.5},{cost:3800,relBonus:2} ]},
+  // 🎯 Training Yard
+  train_dummies:{ name:"Training Dummies", group:"training", icon:"🎯", desc:"Heroes on training duty learn faster.", levels:[
+    {cost:0,trainXp:3},{cost:150,trainXp:4},{cost:450,trainXp:5},{cost:1300,trainXp:7},{cost:3500,trainXp:9} ]},
+  train_mentor:{ name:"Veteran Instructor", group:"training", icon:"🧔", desc:"An old hand teaches lessons that stick — more XP from every expedition.", levels:[
+    {cost:0,xpBonus:0},{cost:400,xpBonus:0.05},{cost:1200,xpBonus:0.10},{cost:3200,xpBonus:0.15},{cost:8000,xpBonus:0.20} ]},
+  // 🩹 Infirmary
+  inf_ward:{ name:"Sick Ward", group:"infirmary", icon:"🩹", desc:"Proper beds and bandages — the injured are back on their feet sooner.", levels:[
+    {cost:0,injuryMult:1},{cost:200,injuryMult:0.85},{cost:650,injuryMult:0.7},{cost:1800,injuryMult:0.55},{cost:4500,injuryMult:0.4} ]},
+  inf_herbs:{ name:"Herb Cabinet", group:"infirmary", icon:"🌿", desc:"Salves packed for the road — fewer injuries on expeditions.", levels:[
+    {cost:0,injuryCut:0},{cost:300,injuryCut:0.02},{cost:900,injuryCut:0.04},{cost:2500,injuryCut:0.06} ]},
+  // 🐎 Stables
+  stable_horses:{ name:"Horses", group:"stables", icon:"🐎", desc:"Riding beats walking — expeditions finish sooner.", levels:[
+    {cost:0,speedMult:1},{cost:300,speedMult:0.95},{cost:900,speedMult:0.9},{cost:2400,speedMult:0.85},{cost:6000,speedMult:0.8} ]},
+  stable_carts:{ name:"Pack Carts", group:"stables", icon:"🛒", desc:"More room to haul — more loot comes home.", levels:[
+    {cost:0,lootBonus:0},{cost:250,lootBonus:0.05},{cost:800,lootBonus:0.10},{cost:2200,lootBonus:0.15},{cost:5500,lootBonus:0.20} ]},
+  // 🗼 Watchtower
+  watch_tower:{ name:"Watchtower", icon:"🗼", desc:"Heroes on patrol earn more coin and spread your name further.", levels:[
+    {cost:0,patrolGold:1},{cost:200,patrolGold:2},{cost:600,patrolGold:3},{cost:1700,patrolGold:4},{cost:4200,patrolGold:6} ]},
   warehouse:{ name:"Warehouse", icon:"🛢️", desc:"Storage space for loot and goods. Expeditions can't store more once it's full.", levels:[
     {cost:0,capacity:40},{cost:350,capacity:80},{cost:1000,capacity:150},{cost:2800,capacity:280},{cost:7000,capacity:500} ]},
   notice_board:{ name:"Notice Board", icon:"📜", desc:"More boards = more quests at once.", levels:[
@@ -888,6 +927,9 @@ const BUILDINGS = {
 const BUILDING_GROUPS = {
   dormitory:{ name:"Dormitory", icon:"🛏️", desc:"Adventurers lodge here and pay you rent." },
   tavern:{ name:"Tavern", icon:"🍺", desc:"Adventurers eat and drink here — and leave their coin with you." },
+  training:{ name:"Training Yard", icon:"🎯", desc:"Where green recruits become hardened veterans." },
+  infirmary:{ name:"Infirmary", icon:"🩹", desc:"Patches up the wounded and keeps them on their feet." },
+  stables:{ name:"Stables", icon:"🐎", desc:"Horses and carts for the long roads." },
 };
 // current level data of one upgrade line (safe for old/missing saves)
 function bLv(b,key){ const L=BUILDINGS[key].levels; return L[Math.max(0,Math.min((b&&b[key])||0, L.length-1))]; }
@@ -1798,7 +1840,7 @@ export default function Guildmaster(){
       gold: STARTING_GOLD, renown: 0, day: 1, elapsed: 0,
       adventurers: [], recruits,
       inventory: {}, quests: [], rels: {}, fallen: [], pendingEvent: null, pendingChains: [], market: freshMarket(),
-      buildings: { dorm_rooms:0, dorm_beds:0, dorm_comfort:0, tav_meals:0, tav_cellar:0, notice_board:0, treasury:0, warehouse:0 },
+      buildings: Object.fromEntries(Object.keys(BUILDINGS).map(k=>[k,0])),
       requests: genRequests({buildings:{treasury:0},adventurers:[],inventory:{}}, 1, null),
       lastUpkeep: 0, log: [],
       achieved: {}, stats: { quests:0, requests:0, sold:0, maxParty:0 },
@@ -1864,7 +1906,7 @@ export default function Guildmaster(){
               const ceil = region.danger>=5 ? 0.90 : region.danger>=3 ? 0.94 : 0.97; // deadly places stay risky
               const success = Math.random() < Math.max(0.2, Math.min(ceil, succ));
               if(success){
-                const lootMult = posMul(a,"lootMult")*(1+partyLoot)*(a.boon==="shadowCloak"?1.3:1);
+                const lootMult = posMul(a,"lootMult")*(1+partyLoot)*(a.boon==="shadowCloak"?1.3:1)*(1+(bLv(ns.buildings,"stable_carts").lootBonus||0));
                 region.loot.forEach(l=>{
                   if(l.rare) return; // rare drops handled once per expedition, below
                   let amt = Math.round(rint(l.min,l.max)*lootMult);
@@ -1879,7 +1921,7 @@ export default function Guildmaster(){
                 let xpMultRel=1;
                 // mentorship: if a much higher-level ally with positive bond is present, protégé gains bonus XP
                 party.forEach(other=>{ if(other.id!==a.id && other.level-a.level>=12 && getRel(ns.rels,a.id,other.id)>=10) xpMultRel=1.25; });
-                const xpBase = (35+region.danger*18) * (1 + region.duration/200); // longer trips grant more growth
+                const xpBase = (35+region.danger*18) * (1 + region.duration/200) * (1+(bLv(ns.buildings,"train_mentor").xpBonus||0)); // longer trips grant more growth
                 const xpGain = Math.floor(xpBase*(posMul(a,"xpMult"))*((a.neg.mod.xpMult||1))*xpMultRel);
                 a.xp += xpGain;
                 let didLevel=false;
@@ -1887,7 +1929,7 @@ export default function Guildmaster(){
                 if(didLevel) leveled.push(a.name+" → Lv"+a.level);
               } else {
                 failed++;
-                const injChance = 0.12 + region.danger*0.05 + (a.neg.mod.injuryChance||0) + partyInjury - (CLASSES[a.cls].def-10)*0.004 - (a.boon==="holyArmor"?0.10:0) - (a.boon==="prayerBeads"?0.07:0);
+                const injChance = -(bLv(ns.buildings,"inf_herbs").injuryCut||0) + 0.12 + region.danger*0.05 + (a.neg.mod.injuryChance||0) + partyInjury - (CLASSES[a.cls].def-10)*0.004 - (a.boon==="holyArmor"?0.10:0) - (a.boon==="prayerBeads"?0.07:0);
                 if(Math.random()<Math.max(0.02,injChance)){
                   // on a failed roll in dangerous regions, injury can instead become death
                   let deathChance = 0;
@@ -1900,14 +1942,14 @@ export default function Guildmaster(){
                   if(deathChance>0 && Math.random()<deathChance){
                     if(a.boon==="boneRelic"){
                       // the Bone Relic shatters, dragging its bearer back from death — once
-                      a.boon=null; a.status="injured"; a.injuryUntil=ns.elapsed+region.danger*40; a.hp=Math.max(1,Math.floor(a.maxHp*0.2));
+                      a.boon=null; a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*40*(bLv(ns.buildings,"inf_ward").injuryMult||1)); a.hp=Math.max(1,Math.floor(a.maxHp*0.2));
                       injured.push(a.name);
                       logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`☠️ ${a.name} ölmeliydi — ama Kemik Emaneti parçalanıp onu ölümün eşiğinden geri çekti.`:`☠️ ${a.name} should have died — but the Bone Relic shattered and wrenched them back from death's door.`});
                     } else {
                       a.dead=true; died.push(a);
                     }
                   } else {
-                    a.status="injured"; a.injuryUntil=ns.elapsed+region.danger*40;
+                    a.status="injured"; a.injuryUntil=ns.elapsed+Math.round(region.danger*40*(bLv(ns.buildings,"inf_ward").injuryMult||1));
                     a.hp=Math.max(1,Math.floor(a.maxHp*0.3));
                     injured.push(a.name);
                   }
@@ -2089,9 +2131,9 @@ export default function Guildmaster(){
             if(a.status!=="idle") return a;
             const t=a.task||"rest"; let na={...a};
             if(t==="rest"){ if(na.fatigue>0){ na.fatigue=Math.max(0,na.fatigue-(6+_restBonus)); taskChanged=true; }
-              if(na.hp<na.maxHp){ na.hp=Math.min(na.maxHp,na.hp+Math.ceil(na.maxHp*0.02)); taskChanged=true; } }
-            else if(t==="train"){ na.xp=(na.xp||0)+3; taskChanged=true; }
-            else if(t==="patrol"){ patrolGold+=1; patrolRenownAcc+=0.025; taskChanged=true; }
+              if(na.hp<na.maxHp){ na.hp=Math.min(na.maxHp,na.hp+Math.ceil(na.maxHp*(0.02+(bLv(ns.buildings||s.buildings,"dorm_bath").healBonus||0)))); taskChanged=true; } }
+            else if(t==="train"){ na.xp=(na.xp||0)+(bLv(ns.buildings||s.buildings,"train_dummies").trainXp||3); taskChanged=true; }
+            else if(t==="patrol"){ patrolGold+=(bLv(ns.buildings||s.buildings,"watch_tower").patrolGold||1); patrolRenownAcc+=0.025; taskChanged=true; }
             return na;
           });
           if(taskChanged||patrolGold>0) ns.adventurers=adv3;
@@ -2147,7 +2189,7 @@ export default function Guildmaster(){
             if(!(ns.rels===s.rels)) {} else ns.rels={...s.rels};
             const hawkHome = home.some(a=>a.cls==="Hawk");
             for(let i=0;i<home.length;i++) for(let j=i+1;j<home.length;j++){
-              let d=passiveDrift(home[i],home[j]);
+              let d=passiveDrift(home[i],home[j]) + (bLv(ns.buildings,"tav_bard").relBonus||0);
               if(hawkHome){
                 if(home[i].cls==="Hawk"||home[j].cls==="Hawk") d+=2; // Hawk charms
                 else d-=2; // Hawk poisons everyone else's bonds
@@ -2237,7 +2279,6 @@ export default function Guildmaster(){
         {tab==="advs" && <AdventurersView {...api} />}
         {tab==="quests" && <QuestsView {...api} />}
         {tab==="requests" && <RequestsView {...api} />}
-        {tab==="market" && <MarketView {...api} />}
         {tab==="storage" && <StorageView {...api} />}
         {tab==="upgrades" && <UpgradesView {...api} />}
       </main>
@@ -2484,7 +2525,7 @@ function TopBar({state,onAchievements}){
 
 function NavBar({tab,setTab,state}){
   const items=[["hall","🏠","tab.hall"],["advs","⚔️","tab.advs"],["quests","🗺️","tab.quests"],
-    ["requests","📋","tab.requests"],["market","⚖️","tab.market"],["storage","🗝️","tab.store"],["upgrades","🏰","tab.build"]];
+    ["requests","📋","tab.requests"],["storage","🗝️","tab.store"],["upgrades","🏰","tab.build"]];
   return (<nav style={{position:"fixed",bottom:0,left:0,right:0,background:T.panel,borderTop:`1px solid ${T.border}`,zIndex:40,
     paddingBottom:"env(safe-area-inset-bottom, 0px)"}}>
     <div style={{maxWidth:760,margin:"0 auto",display:"flex"}}>
@@ -2508,7 +2549,7 @@ function nextStep(state){
   const rq = state.requests && Array.isArray(state.requests.list) ? state.requests.list : [];
   if(rq.some(r=>!r.done && r.need.every(n=>(state.inventory[n.item]||0)>=n.qty)))
     return { tab:"requests", icon:"📋", txt:t("step.craft.txt"), cta:t("step.craft.cta") };
-  if(invTotal>0) return { tab:"market", icon:"💰", txt:t("step.sell.txt"), cta:t("step.sell.cta") };
+  if(invTotal>0) return { tab:"requests", icon:"💰", txt:t("step.sell.txt"), cta:t("step.sell.cta") };
   return null;
 }
 
@@ -2998,7 +3039,7 @@ function QuestsView({state,setState,notify}){
     const speed=Math.min(...partyIds.map(id=>{const a=state.adventurers.find(x=>x.id===id);
       const spdBonus=1-(CLASSES[a.cls].spd-10)*0.012; // higher speed stat → shorter trips
       return posMul(a,"speedMult")*(a.neg.mod.speedMult||1)*Math.max(0.7,spdBonus);}));
-    const dur=Math.round(region.duration*speed);
+    const dur=Math.round(region.duration*speed*(bLv(state.buildings,"stable_horses").speedMult||1));
     const rep=bossId?1:Math.max(1,repeat||1); // bosses are one-shot, no auto-repeat
     setState(s=>({...s,
       adventurers:s.adventurers.map(a=>partyIds.includes(a.id)?{...a,status:"questing",questId:region.id}:a),
@@ -3192,10 +3233,21 @@ function PartyPicker({region,boss,idle,lastParty,rels,tavernSucc,savedParties,on
 }
 
 // ==================== §UI · REQUESTS / İSTEK PANOSU ====================
-function RequestsView({state,setState,notify}){
+function RequestsView(props){
+  const [view,setView]=useState("board");
+  return (<div>
+    <div style={{display:"flex",gap:6,marginBottom:12}}>
+      <GhostBtn active={view==="board"} onClick={()=>setView("board")} style={{flex:1,fontWeight:view==="board"?700:400}}>📋 {LANG==="tr"?"İstek Panosu":"Request Board"}</GhostBtn>
+      <GhostBtn active={view==="merchants"} onClick={()=>setView("merchants")} style={{flex:1,fontWeight:view==="merchants"?700:400}}>⚖️ {LANG==="tr"?"Tüccarlar":"Merchants"}</GhostBtn>
+    </div>
+    {view==="board" ? <RequestBoard {...props}/> : <MarketView {...props}/>}
+  </div>);
+}
+function RequestBoard({state,setState,notify}){
   const rq=state.requests||{list:[],favor:{},nextDay:state.day+REQ_REFRESH_DAYS};
   const tier=BUILDINGS.treasury.levels[state.buildings.treasury].tier;
   const have=(it)=>state.inventory[it]||0;
+  const isLocked=(r)=>r.need.some(n=>itemTier(n.item)>tier);
   const canFill=(r)=>!r.done && r.need.every(n=>have(n.item)>=n.qty);
   const daysLeft=Math.max(1,(rq.nextDay||0)-state.day);
   const gU=t("top.goldUnit");
@@ -3244,7 +3296,7 @@ function RequestsView({state,setState,notify}){
     <Panel style={{marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center",gap:10}}>
       <div>
         <div style={{fontSize:11,color:T.gold,letterSpacing:1.5,textTransform:"uppercase"}}>📋 {LANG==="tr"?"İstek Panosu":"Request Board"}</div>
-        <div style={{fontSize:12,color:T.inkDim,marginTop:3}}>{LANG==="tr"?"Tüccara satmaktan çok daha kârlı. Her teslimat o grubun gözünde itibarını artırır.":"Pays far better than merchants. Every delivery raises your favor with that group."}</div>
+        <div style={{fontSize:12,color:T.inkDim,marginTop:3}}>{LANG==="tr"?"Tüccara satmaktan çok daha kârlı. Her teslimat o grubun gözünde itibarını artırır. 🔒 kilitli bölgelerden gelen istekler, ilerledikçe ulaşacağın ödüllerdir.":"Pays far better than merchants. Every delivery raises your favor with that group. 🔒 requests from closed regions show what awaits as you grow."}</div>
       </div>
       <div style={{textAlign:"right",minWidth:78}}>
         <div style={{fontSize:10,color:T.inkFaint}}>{LANG==="tr"?"Yenilenmesine":"Refreshes in"}</div>
@@ -3268,6 +3320,8 @@ function RequestsView({state,setState,notify}){
           const rr=r.relic?RELIC_REQUESTS.find(x=>x.cls===r.relic):null;
           return (<Panel key={r.id} style={{marginBottom:7,padding:10,opacity:r.done?0.45:1,
             border:`1px solid ${r.relic?T.gold:ok?T.green:T.border}`,background:r.relic?"linear-gradient(135deg,#2a2112,#1c140d)":T.panel}}>
+            {!rr && isLocked(r) && !r.done && (()=>{ const reg=itemRegion(r.need[0].item); const rt=itemTier(r.need[0].item);
+              return <div style={{fontSize:10,color:T.inkFaint,marginBottom:5}}>🔒 {LANG==="tr"?`${reg?regionName(reg):""} henüz kapalı — Hazine'yi kademe ${rt}'e yükselt`:`${reg?regionName(reg):""} is still closed — raise the Treasury to tier ${rt}`}</div>; })()}
             {rr && <div style={{fontSize:11,color:T.gold,fontWeight:700,marginBottom:5}}>⚜️ {LANG==="tr"?`Özel istek — karşılığında ${clsName(rr.cls)} için ${itemName(rr.item)}`:`Special request — rewards the ${itemName(rr.item)} for your ${clsName(rr.cls)}`}
               <div style={{fontSize:10,color:T.inkDim,fontWeight:400}}>{boonDesc(rr.boon)}</div></div>}
             <div style={{display:"flex",gap:10,alignItems:"center"}}>
@@ -3318,7 +3372,7 @@ function MarketView({state,setState,notify}){
   const total=owned.reduce((a,[k,v])=>a+unitPrice(k,mkt)*v,0);
   const hasMoodGoods=owned.some(([k])=>catOf(k)!=="raw");
   return (<div style={{animation:"fadeUp .3s"}}>
-    <div style={{fontSize:12,color:T.inkDim,marginBottom:10,lineHeight:1.5}}>⚖️ {LANG==="tr"?"Gezgin tüccarlar her şeyi alır ama pazarlık yapmaz. Daha iyi fiyat için önce 📋 İstekler'e bak.":"Travelling merchants buy anything, but they don't haggle. Check 📋 Requests first for better prices."}</div>
+    <div style={{fontSize:12,color:T.inkDim,marginBottom:10,lineHeight:1.5}}>⚖️ {LANG==="tr"?"Gezgin tüccarlar her şeyi alır ama pazarlık yapmaz. Daha iyi fiyat için önce İstek Panosu'na bak.":"Travelling merchants buy anything, but they don't haggle. Check the Request Board first for better prices."}</div>
     <Panel style={{marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <div><div style={{fontSize:11,color:T.gold,letterSpacing:1.5,textTransform:"uppercase"}}>{LANG==="tr"?"Stok Değeri":"Stock Value"}</div>
         <div style={{fontSize:22,fontWeight:700,color:T.ink}}>{total.toLocaleString()}{t("top.goldUnit")}</div></div>
@@ -3436,6 +3490,15 @@ function describeBuilding(key,cur,next){
     if(key==="dorm_beds")return LANG==="tr"?`dinlenme +${lv.restBonus||0}`:`rest +${lv.restBonus||0}`;
     if(key==="dorm_comfort")return LANG==="tr"?`kira ${lv.rentPerHead}A/kişi`:`rent ${lv.rentPerHead}G/head`;
     if(key==="tav_meals")return LANG==="tr"?`+%${Math.round(lv.successBonus*100)} sefer başarısı`:`+${Math.round(lv.successBonus*100)}% expedition success`;
+    if(key==="tav_bard")return LANG==="tr"?`günlük dostluk +${lv.relBonus}`:`daily bonding +${lv.relBonus}`;
+    if(key==="dorm_bath")return LANG==="tr"?`dinlenirken iyileşme +%${Math.round(lv.healBonus*100)}`:`resting heal +${Math.round(lv.healBonus*100)}%`;
+    if(key==="train_dummies")return LANG==="tr"?`talimde ${lv.trainXp} TP / 5 sn`:`${lv.trainXp} XP per 5s training`;
+    if(key==="train_mentor")return LANG==="tr"?`seferden +%${Math.round(lv.xpBonus*100)} TP`:`+${Math.round(lv.xpBonus*100)}% expedition XP`;
+    if(key==="inf_ward")return LANG==="tr"?`iyileşme süresi %${Math.round(lv.injuryMult*100)}`:`recovery time ${Math.round(lv.injuryMult*100)}%`;
+    if(key==="inf_herbs")return LANG==="tr"?`yaralanma −%${Math.round(lv.injuryCut*100)}`:`injury −${Math.round(lv.injuryCut*100)}%`;
+    if(key==="stable_horses")return LANG==="tr"?`sefer süresi %${Math.round(lv.speedMult*100)}`:`trip time ${Math.round(lv.speedMult*100)}%`;
+    if(key==="stable_carts")return LANG==="tr"?`ganimet +%${Math.round(lv.lootBonus*100)}`:`loot +${Math.round(lv.lootBonus*100)}%`;
+    if(key==="watch_tower")return LANG==="tr"?`devriye ${lv.patrolGold}A / 5 sn`:`patrol ${lv.patrolGold}G per 5s`;
     if(key==="tav_cellar")return LANG==="tr"?`yemek-içki ${lv.foodPerHead}A/kişi`:`food & ale ${lv.foodPerHead}G/head`;
     if(key==="notice_board")return LANG==="tr"?`${lv.questSlots} görev yuvası`:`${lv.questSlots} quest slots`;
     if(key==="treasury")return lv.renownBonus?(LANG==="tr"?`anıt · şöhret +${lv.renownBonus}`:`monument · renown +${lv.renownBonus}`):(LANG==="tr"?`lonca kademesi ${lv.tier}`:`guild tier ${lv.tier}`);
