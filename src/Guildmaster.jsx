@@ -42,6 +42,22 @@ const INTRO_BG_STYLE = {
 // the string. Falls back to the key itself if a translation is missing, so the
 // game never breaks even before every string is translated.
 let LANG = "tr"; // default Turkish; toggled in Settings
+// 🇹🇷 Turkish case suffix after a name, with vowel harmony and buffer letters: trEk("Mira","in") → "Mira'nın", trEk("Stormcrow","e") → "Stormcrow'a"
+//   kind: "in" (genitive), "i" (accusative), "e" (dative). Possessive-compound titles (…Katili, …Şahini) take an n-buffer.
+const TR_N_BUFFER = /(Katili|Şahini)$/;
+const TR_NUM_WORD = ["sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz"];
+function trEk(name, kind){
+  const str=String(name==null?"":name); if(!str) return str;
+  let probe=str; const m=str.match(/(\d)$/); if(m) probe=TR_NUM_WORD[+m[1]];
+  const low=probe.toLocaleLowerCase("tr"); const vows=low.match(/[aeıioöuüâîû]/g)||["e"]; const v=vows[vows.length-1];
+  const back="aıouâû".includes(v); const four=("aı".includes(v)||v==="â")?"ı":("ei".includes(v)||v==="î")?"i":("ou".includes(v)||v==="û")?"u":"ü";
+  const endsV=/[aeıioöuüâîû]$/.test(low); const nBuf=TR_N_BUFFER.test(str);
+  let suf;
+  if(kind==="in") suf=(endsV?"n":"")+four+"n";             // Mira'nın · Korr'un
+  else if(kind==="i") suf=(endsV?(nBuf?"n":"y"):"")+four;  // Mira'yı · Katili'ni · Korr'u
+  else suf=(endsV?(nBuf?"n":"y"):"")+(back?"a":"e");      // Mira'ya · Katili'ne · Korr'a
+  return str+"'"+suf;
+}
 try { const sv = (typeof localStorage!=="undefined") && localStorage.getItem("guildmaster_lang"); if(sv==="tr"||sv==="en") LANG = sv; } catch(e){}
 try { if(typeof document!=="undefined") document.documentElement.lang=LANG; } catch(e){}
 function setLang(l){ LANG = l; try{ localStorage.setItem("guildmaster_lang", l); }catch(e){} try{ document.documentElement.lang=l; }catch(e){} } // lang="tr" makes CSS uppercase give İ, not I
@@ -1213,14 +1229,15 @@ function classesAvailableAt(renown){
   Object.keys(CLASSES).forEach(k=>{ if(CLASSES[k].rare && renown>=CLASSES[k].minRenown) list.push(k); });
   return list;
 }
-function rollClass(renown, exclude){
-  exclude = exclude || [];
+function rollClass(renown, exclude, boost){
+  exclude = exclude || []; boost = boost || 0;
   // ultra-rare unique heroes: tiny flat chance on any roll
   const uniques=Object.keys(CLASSES).filter(k=>CLASSES[k].unique && !exclude.includes(k));
   if(uniques.length && renown>=50 && Math.random() < 0.02) return pick(uniques); // ~2% per slot, once the guild has a bit of a name
   const rares=Object.keys(CLASSES).filter(k=>CLASSES[k].rare && !CLASSES[k].unique && renown>=CLASSES[k].minRenown);
   // chance of a rare recruit scales with renown, capped at 35%
-  if(rares.length && Math.random() < Math.min(0.35, renown/200)) return pick(rares);
+  // Tellal (guild_herald) only raises the odds — it never unlocks classes above your real renown
+  if(rares.length && Math.random() < Math.min(0.35, (renown+boost)/200)) return pick(rares);
   return pick(NORMAL_CLASSES);
 }
 // which unique classes are already owned or sitting on the board (can't appear twice)
@@ -1228,6 +1245,8 @@ function uniquesInPlay(s){
   const set=new Set();
   (s.adventurers||[]).forEach(a=>{ if(CLASSES[a.cls]&&CLASSES[a.cls].unique) set.add(a.cls); });
   (s.recruits||[]).forEach(a=>{ if(CLASSES[a.cls]&&CLASSES[a.cls].unique) set.add(a.cls); });
+  // a legend whose story is finished never shows up on the board again (a fallen one with an unfinished story may, as a new bearer)
+  Object.entries(s.stories||{}).forEach(([c,st])=>{ if(st&&st.stage>=3 && CLASSES[c]&&CLASSES[c].unique) set.add(c); });
   return [...set];
 }
 // combined positive-trait modifier for a key (sums pos + pos2 if present)
@@ -1235,8 +1254,8 @@ function posMod(a, key){ return (a.pos.mod[key]||0) + ((a.pos2&&a.pos2.mod[key])
 function posMul(a, key){ return ((a.pos.mod[key]||1)) * ((a.pos2&&a.pos2.mod[key])||1); }
 // hiring gets steeply pricier with experience: a seasoned hero is never cheap to replace
 function hireCostFor(level, rare){ return Math.round((30 + level*10) * Math.pow(1.09, level) * (rare?2:1) / 5) * 5; }
-function makeAdventurer(tier, forceClass, renown=0, exclude, noVeteran){
-  const cls = forceClass || rollClass(renown, exclude);
+function makeAdventurer(tier, forceClass, renown=0, exclude, noVeteran, rareBoost=0){
+  const cls = forceClass || rollClass(renown, exclude, rareBoost);
   const base = CLASSES[cls];
   // ----- UNIQUE named heroes: fixed traits, fixed name, high level & cost -----
   if(base.unique){
@@ -1355,7 +1374,7 @@ const SMALL_EVENTS = [
     return { grantXp:{ids:[protege.id],amount:60}, msg: LANG==="tr"?`🎓 Usta ile öğrenci arasında sessiz bir ders geçti. ${protege.name} çok şey öğrendi.`:`🎓 A quiet lesson passed between mentor and student. ${protege.name} learned much.` }; } },
   { id:"restless_dream", weight:5, when:s=>s.fallen&&s.fallen.length>0&&s.adventurers.length>0, apply:(s)=>{
     const a=randomAdv(s,false); const lost=s.fallen[0];
-    return { msg: LANG==="tr"?`🕯️ ${a.name}, ${regionName(lost.region)} bölgesinde düşen ${lost.name}'i rüyasında gördü. Lonca ölülerini anar.`:`🕯️ ${a.name} dreamt of ${lost.name}, who fell in ${regionName(lost.region)}. The guild remembers its dead.` }; } },
+    return { msg: LANG==="tr"?`🕯️ ${a.name}, ${regionName(lost.region)} bölgesinde düşen ${trEk(lost.name,"i")} rüyasında gördü. Lonca ölülerini anar.`:`🕯️ ${a.name} dreamt of ${lost.name}, who fell in ${regionName(lost.region)}. The guild remembers its dead.` }; } },
 ];
 
 // Big events return {title, text, icon, choices:[{label, detail, resolve:(s)=>({...patch, msg})}]}
@@ -1475,8 +1494,8 @@ const BIG_EVENTS = [
           { label:LANG==="tr"?"Düelloya izin ver":"Allow the duel", detail:LANG==="tr"?"Biri kazanır, biri yaralanır — ama hava temizlenir":"One wins, one is hurt — but the air clears",
             resolve:(s)=>{ const winner=Math.random()<0.5?A:B; const loser=winner.id===A.id?B:A;
               return { injure:[loser.id], bond:{a:A.id,b:B.id,delta:25}, grantXp:{ids:[winner.id],amount:50},
-                story:[{id:winner.id,tr:`Avludaki düelloda ${loser.name}'i yendi.`,en:`Bested ${loser.name} in a duel in the yard.`},{id:loser.id,tr:`Düelloda ${winner.name}'e yenildi.`,en:`Lost a duel to ${winner.name}.`}],
-                msg:LANG==="tr"?`⚔️ ${winner.name}, avluda ${loser.name}'i yendi. Onur yerine geldi — tuhaf biçimde artık birbirlerine saygı duyuyorlar.`:`⚔️ ${winner.name} bested ${loser.name} in the yard. Honor satisfied — oddly, they respect each other now.` }; } },
+                story:[{id:winner.id,tr:`Avludaki düelloda ${trEk(loser.name,"i")} yendi.`,en:`Bested ${loser.name} in a duel in the yard.`},{id:loser.id,tr:`Düelloda ${trEk(winner.name,"e")} yenildi.`,en:`Lost a duel to ${winner.name}.`}],
+                msg:LANG==="tr"?`⚔️ ${winner.name}, avluda ${trEk(loser.name,"i")} yendi. Onur yerine geldi — tuhaf biçimde artık birbirlerine saygı duyuyorlar.`:`⚔️ ${winner.name} bested ${loser.name} in the yard. Honor satisfied — oddly, they respect each other now.` }; } },
           { label:LANG==="tr"?"Yasakla":"Forbid it", detail:LANG==="tr"?"Barışı zorla koru":"Keep the peace by force",
             resolve:(s)=>({ bond:{a:A.id,b:B.id,delta:-5}, msg:LANG==="tr"?`⚔️ Düelloyu yasakladın. Kan davası çözülmeden kaynamaya devam ediyor.`:`⚔️ You forbade the duel. The bad blood simmers on, unresolved.` }) },
         ] };
@@ -1513,11 +1532,11 @@ const BIG_EVENTS = [
         choices:[{label:LANG==="tr"?"İyi geceler":"Good night", resolve:()=>({})}] };
       const pinedFor = getRel(s.rels,third.id,A.id)>=getRel(s.rels,third.id,B.id)?A:B; const spurned=pinedFor.id===A.id?B:A;
       return { title:LANG==="tr"?"Kıskanç Bir Yürek":"A Jealous Heart", icon:"💔", _a:third.id, _b:spurned.id,
-        text:LANG==="tr"?`${third.name} uzun zamandır ${pinedFor.name}'e gönül veriyor — ama o ${spurned.name}'i seviyor. Gerginlik loncayı zehirliyor. Bunu nasıl ele alırsın?`:`${third.name} has long harbored feelings for ${pinedFor.name} — who loves ${spurned.name} instead. The tension is poisoning the hall. How do you handle it?`,
+        text:LANG==="tr"?`${third.name} uzun zamandır ${trEk(pinedFor.name,"e")} gönül veriyor — ama o ${trEk(spurned.name,"i")} seviyor. Gerginlik loncayı zehirliyor. Bunu nasıl ele alırsın?`:`${third.name} has long harbored feelings for ${pinedFor.name} — who loves ${spurned.name} instead. The tension is poisoning the hall. How do you handle it?`,
         choices:[
           { label:LANG==="tr"?"Nazikçe öğüt ver":"Counsel them gently", detail:LANG==="tr"?"Barışı korumaya çalış":"Try to keep the peace",
             resolve:(s)=>{ if(Math.random()<0.6) return { bond:{a:third.id,b:spurned.id,delta:8}, msg:LANG==="tr"?`💔 ${third.name} ile konuştun. Gururunu yuttu; zamanla kıskançlığın yerini saygı aldı.`:`💔 You spoke with ${third.name}. They swallowed their pride; in time, respect replaced envy.` };
-              return { bond:{a:third.id,b:spurned.id,delta:-10}, msg:LANG==="tr"?`💔 Sözlerin işe yaramadı. ${third.name}'in ${spurned.name}'e olan kıskançlığı yalnızca büyüyor.`:`💔 Your words didn't land. ${third.name}'s jealousy of ${spurned.name} only festers.` }; } },
+              return { bond:{a:third.id,b:spurned.id,delta:-10}, msg:LANG==="tr"?`💔 Sözlerin işe yaramadı. ${trEk(third.name,"in")} ${trEk(spurned.name,"e")} olan kıskançlığı yalnızca büyüyor.`:`💔 Your words didn't land. ${third.name}'s jealousy of ${spurned.name} only festers.` }; } },
           { label:LANG==="tr"?"Karışma":"Stay out of it", detail:LANG==="tr"?"Gönül işleri senin emrinde değil":"Matters of the heart aren't yours to command",
             resolve:(s)=>({ bond:{a:third.id,b:spurned.id,delta:-6}, msg:LANG==="tr"?`💔 Olduğu gibi bıraktın. ${third.name} ile ${spurned.name} arasındaki soğuk sessizlik sürüyor.`:`💔 You let it lie. The cold silence between ${third.name} and ${spurned.name} lingers.` }) },
         ] };
@@ -1533,8 +1552,8 @@ const BIG_EVENTS = [
         text:LANG==="tr"?`${leaver.name}, ${leaver.id===A.id?B.name:A.name} ile husumetten bıkmış, loncayı terk etmekle — ve bildiklerini bir rakibe satmakla tehdit ediyor. Gitmesine izin mi verirsin, yoksa arayı mı düzeltirsin?`:`${leaver.name}, sick of feuding with ${leaver.id===A.id?B.name:A.name}, threatens to abandon the guild — and sell what they know to a rival. Do you let them go, or make amends?`,
         choices:[
           { label:LANG==="tr"?"Barış kesesi sun (200A)":"Offer a peace-purse (200G)", detail:LANG==="tr"?"Sadakatini geri satın al":"Buy their loyalty back",
-            resolve:(s)=> s.gold<200 ? {msg:LANG==="tr"?`Öfkesini yatıştıracak 200A yoktu — ama ${leaver.name}'i şimdilik kalmaya ikna ettin.`:`You hadn't the 200G to cool their temper — but you talked ${leaver.name} into staying, for now.`} :
-              { gold:-200, bond:{a:A.id,b:B.id,delta:30}, msg:LANG==="tr"?`🚪 Kesen ${leaver.name}'in öfkesini yatıştırdı. ${leaver.id===A.id?B.name:A.name} ile husumet nihayet çözülüyor.`:`🚪 Your purse cooled ${leaver.name}'s temper. The feud with ${leaver.id===A.id?B.name:A.name} finally thaws.` } },
+            resolve:(s)=> s.gold<200 ? {msg:LANG==="tr"?`Öfkesini yatıştıracak 200A yoktu — ama ${trEk(leaver.name,"i")} şimdilik kalmaya ikna ettin.`:`You hadn't the 200G to cool their temper — but you talked ${leaver.name} into staying, for now.`} :
+              { gold:-200, bond:{a:A.id,b:B.id,delta:30}, msg:LANG==="tr"?`🚪 Kesen ${trEk(leaver.name,"in")} öfkesini yatıştırdı. ${leaver.id===A.id?B.name:A.name} ile husumet nihayet çözülüyor.`:`🚪 Your purse cooled ${leaver.name}'s temper. The feud with ${leaver.id===A.id?B.name:A.name} finally thaws.` } },
           { label:LANG==="tr"?"Gitmesine izin ver":"Let them leave", detail:LANG==="tr"?"Maceracıyı temelli kaybet":"Lose the adventurer for good",
             resolve:(s)=>({ leave:[leaver.id], renown:-2, msg:LANG==="tr"?`🚪 ${leaver.name} loncayı temelli terk etti, kinleri de sırları da yanında götürdü. (−2 şöhret)`:`🚪 ${leaver.name} left the guild for good, taking grudges and secrets alike. (−2 renown)` }) },
         ] };
@@ -1680,9 +1699,13 @@ function mentorBonus(s){ const n=((s&&s.mentors)||[]).length; return { xpMult:1+
 function retireEligible(a, day){ return a && !a.unique && a.status==="idle" && a.level>=25 && (a.runs||0)>=30 && (day||0)>=(a.retireAsk||0); }
 
 // ⚰️ when a hero dies the guild pays their family; losing a famous hero also dents the guild's name
-function bloodPrice(ns, dead){ let gold=0, ren=0;
-  dead.forEach(d=>{ const st=(ns.stories||{})[d.cls]; if(STORY_HEROES[d.cls] && (!st || st.stage<3)){ const f=(ns.fallen||[]).find(x=>x.name===d.name);
-    if(f) f.chronicle=[...(f.chronicle||[]), {d:ns.day, tr:"Hikâyesi yarım kaldı.", en:"Their story was left unfinished."}]; } });
+function bloodPrice(ns, dead, endingCls){ let gold=0, ren=0;
+  // endingCls: this death IS the last chapter of that hero's story — it counts as finished, not cut short
+  dead.forEach(d=>{ const st=(ns.stories||{})[d.cls]; if(STORY_HEROES[d.cls] && d.cls!==endingCls && (!st || st.stage<3)){ const f=(ns.fallen||[]).find(x=>x.name===d.name);
+    if(f) f.chronicle=[...(f.chronicle||[]), {d:ns.day, tr:"Hikâyesi yarım kaldı.", en:"Their story was left unfinished."}];
+    // the legend's title may one day pass to someone new — whose story starts from the beginning
+    if(ns.stories && ns.stories[d.cls]){ const c={...ns.stories}; delete c[d.cls]; ns.stories=c; }
+    if(ns.storyHints && ns.storyHints[d.cls]!=null){ const c={...ns.storyHints}; delete c[d.cls]; ns.storyHints=c; } } });
   dead.forEach(d=>{ gold += Math.round(d.level*d.level*2); ren += Math.max(0,(d.rankIndex||0)-2)*2; });
   ns.gold=(ns.gold||0)-gold; ns.renown=Math.max(0,(ns.renown||0)-ren); // may go into debt
   if(!gold && !ren) return "";
@@ -1701,7 +1724,7 @@ function applyEventPatch(ns, res){
   if(res.sicken){ ns.adventurers=ns.adventurers.map(a=>res.sicken.includes(a.id)?{...a,status:"injured",injuryUntil:ns.elapsed+120,hp:Math.max(1,Math.floor(a.maxHp*0.4))}:a); }
   if(res.injure){ ns.adventurers=ns.adventurers.map(a=>res.injure.includes(a.id)?{...a,status:"injured",injuryUntil:ns.elapsed+120,hp:Math.max(1,Math.floor(a.maxHp*0.3))}:a); }
   if(res.kill){ ns.fallen=[...(ns.fallen||[])]; const dead=ns.adventurers.filter(a=>res.kill.includes(a.id));
-    { const bp=bloodPrice(ns, dead); if(bp && res.msg) res.msg += " " + bp; }
+    { const bp=bloodPrice(ns, dead, res.storyStep && res.storyStep.cls); if(bp && res.msg) res.msg += " " + bp; }
     dead.forEach(d=>ns.fallen.unshift({name:d.name,cls:d.cls,level:d.level,day:ns.day,region:(LANG==="tr"?"kara bir gün":"a dark day at the guild"),rank:RANKS[d.rankIndex!=null?d.rankIndex:0].name,
       chronicle:[...(d.chronicle||[]),{d:ns.day,tr:"Lonca uğruna canını verdi.",en:"Gave their life for the guild."}]}));
     ns.adventurers=ns.adventurers.filter(a=>!res.kill.includes(a.id)); }
@@ -1930,7 +1953,7 @@ function crisisOdds(C, stIdx, party, s, esc){
 // ==================== §STORIES · ÖZEL KAHRAMAN HİKÂYELERİ ====================
 // Each unique hero has a 3-chapter personal story. A chapter fires (as a decision event) when:
 //   enough days have passed (5 after joining, 10 between chapters) + its own trigger + the hero is at home.
-// Then a 35% daily roll, so it never lands on a predictable tick. Never while the app is closed.
+// It opens the moment those are true (checked every live tick). Never while the app is closed — it waits for your return.
 const SL=(h,tr,en)=>({id:h.id,tr,en});
 const STORY_HEROES = {
   LoneWolf: {
@@ -2009,12 +2032,12 @@ const STORY_HEROES = {
         build:(s,h,st)=>{ const n=h.name; const f=s.adventurers.filter(o=>o.id!==h.id).sort((x,y)=>getRel(s.rels||{},h.id,y.id)-getRel(s.rels||{},h.id,x.id))[0];
           const fn=f?f.name:(LANG==="tr"?"Biri":"Someone"); const backed=(st.path||[]).includes("back");
           return { icon:"🦅", title:LANG==="tr"?"Hırsın Gölgesi":"The Shadow of Ambition",
-          text:LANG==="tr"?`Loncanın adı yayıldıkça ${n}'in çevresi de genişliyor. Bazıları artık senden çok ona bakıyor. ${fn} bir gece yanına gelip fısıldıyor: "Bizi kendi işleri için topluyor. Ne yapacağız?"`
+          text:LANG==="tr"?`Loncanın adı yayıldıkça ${trEk(n,"in")} çevresi de genişliyor. Bazıları artık senden çok ona bakıyor. ${fn} bir gece yanına gelip fısıldıyor: "Bizi kendi işleri için topluyor. Ne yapacağız?"`
                           :`As the guild's name spreads, so does ${n}'s circle. Some now look to him more than to you. One night ${fn} comes to you and whispers: "He's gathering us for his own ends. What do we do?"`,
           choices:[
             { label:LANG==="tr"?"Göz yum":"Look the other way", detail:LANG==="tr"?"Güçlü bir lider loncaya da güç katar":"A strong leader strengthens the guild too",
               resolve:()=>({ storyStep:{cls:"Hawk",path:"blind"}, heroMod:{id:h.id,add:{bonusSucc:0.05}}, bonds:f?[{a:h.id,b:f.id,delta:10}]:[], story:[SL(h,"Lonca efendisi onun yükselişine göz yumdu.","The guildmaster let his rise go unchecked.")],
-                msg:LANG==="tr"?`🦅 Hiçbir şey yapmadın. ${n}'in gölgesi biraz daha uzadı.`:`🦅 You did nothing. ${n}'s shadow grew a little longer.` }) },
+                msg:LANG==="tr"?`🦅 Hiçbir şey yapmadın. ${trEk(n,"in")} gölgesi biraz daha uzadı.`:`🦅 You did nothing. ${n}'s shadow grew a little longer.` }) },
             { label:LANG==="tr"?"Onunla yüzleş":"Confront him", detail:LANG==="tr"?"Kimin loncası olduğunu hatırlat":"Remind him whose guild this is",
               resolve:()=> backed ? ({ storyStep:{cls:"Hawk",path:"loyal"}, heroMod:{id:h.id,set:{redeemed:true}}, story:[SL(h,"Lonca efendisiyle yüzleşti ve ona sadakat yemini etti.","He was confronted by the guildmaster, and swore loyalty.")],
                   msg:LANG==="tr"?`🦅 ${n} uzun süre sustu. Sonra kılıcını önüne koydu: "Bana inanan ilk kişi sendin. Bunu unutmadım." O günden sonra insanları birbirine düşürmeyi bıraktı.`:`🦅 ${n} was silent a long while. Then he laid his sword before you: "You were the first to believe in me. I haven't forgotten." From that day he stopped setting people against each other.` })
@@ -2026,7 +2049,7 @@ const STORY_HEROES = {
           const close=s.adventurers.filter(o=>o.id!==h.id && getRel(s.rels||{},h.id,o.id)>=50).sort((x,y)=>getRel(s.rels||{},h.id,y.id)-getRel(s.rels||{},h.id,x.id)).slice(0,2);
           const fn=close.length?close.map(c=>c.name).join(LANG==="tr"?" ve ":" and "):"";
           if(loyal) return { icon:"🦅", title:LANG==="tr"?"Taç mı, Yoldaşlar mı":"Crown or Comrades",
-            text:LANG==="tr"?`Bir soylu ailesi ${n}'e bir kale ve unvan teklif ediyor. Hayali gerçek oluyor. Ama önce sana geliyor: "Gidersem lonca bir kılıç kaybeder. Kalırsam bir hayalimi. Sen ne dersin?"`
+            text:LANG==="tr"?`Bir soylu ailesi ${trEk(n,"e")} bir kale ve unvan teklif ediyor. Hayali gerçek oluyor. Ama önce sana geliyor: "Gidersem lonca bir kılıç kaybeder. Kalırsam bir hayalimi. Sen ne dersin?"`
                             :`A noble house offers ${n} a castle and a title. His dream is coming true. But he comes to you first: "If I go, the guild loses a sword. If I stay, I lose a dream. What do you say?"`,
             choices:[
               { label:LANG==="tr"?"Krallığını burada kur":"Build your kingdom here", detail:LANG==="tr"?"Loncanın kanatlarından biri olsun":"Let him be one of the guild's wings",
@@ -2077,7 +2100,7 @@ const STORY_HEROES = {
           choices:[
             { label:LANG==="tr"?"Ruhu kucaklasın":"Let him embrace it", detail:LANG==="tr"?"Daha fazla güç — ve daha fazla ateş":"More power — and more fire",
               resolve:()=>({ storyStep:{cls:"Dragonborn",path:"embrace"}, heroMod:{id:h.id,add:{bonusSucc:0.06}}, story:[SL(h,"Kadim bir ejderin ruhunu içine aldı.","He took an ancient dragon's soul into himself.")],
-                msg:LANG==="tr"?`🐲 ${n}'in gözleri bir anlığına altın rengine döndü. Sesi artık daha derin. Salon onun yanında biraz daha sıcak.`:`🐲 For a moment ${n}'s eyes turned gold. His voice is deeper now. The hall feels a little warmer near him.` }) },
+                msg:LANG==="tr"?`🐲 ${trEk(n,"in")} gözleri bir anlığına altın rengine döndü. Sesi artık daha derin. Salon onun yanında biraz daha sıcak.`:`🐲 For a moment ${n}'s eyes turned gold. His voice is deeper now. The hall feels a little warmer near him.` }) },
             { label:LANG==="tr"?"Ruhu bastırsın":"Let him bury it", detail:LANG==="tr"?"İnsan tarafı ağır bassın":"Let his human side win",
               resolve:()=>({ storyStep:{cls:"Dragonborn",path:"suppress"}, heroMod:{id:h.id,set:{neg:{name:"Restrained",desc:"",mod:{}}}}, story:[SL(h,"İçindeki ejderi zincire vurdu.","He chained the dragon within.")],
                 msg:LANG==="tr"?`🐲 ${n} kafatasını vadiye gömdü. Döndüğünde daha sessizdi — ama ilk kez, tehlike onu eskisi kadar çekmiyor gibiydi. (Lanetli özelliği kalktı.)`:`🐲 ${n} buried the skull in the valley. He came back quieter — but for the first time, danger no longer seemed drawn to him. (His Cursed trait is gone.)` }) },
@@ -2123,7 +2146,7 @@ const STORY_HEROES = {
       { gap:10, when:(s,h)=>((s.bossDefeated||{}).b_goblin_mini||0)>0 || (h.goblinRuns||0)>=25,
         build:(s,h)=>{ const n=h.name; const m=s.adventurers.filter(o=>o.id!==h.id).sort((x,y)=>y.level-x.level)[0]; const mn=m?m.name:(LANG==="tr"?"biri":"someone");
           return { icon:"🪓", title:LANG==="tr"?"Yaşlı Avcının Sözü":"The Old Hunter's Word",
-          text:LANG==="tr"?`Meyhanede tek gözlü, yaşlı bir avcı ${n}'in masasına oturuyor. "Senin gibiydim," diyor. "Sonra bir gün etrafıma baktım ve kimse kalmamıştı. Bir bira içer misin?" ${n} kadehe bakıyor. Uzun süre.`
+          text:LANG==="tr"?`Meyhanede tek gözlü, yaşlı bir avcı ${trEk(n,"in")} masasına oturuyor. "Senin gibiydim," diyor. "Sonra bir gün etrafıma baktım ve kimse kalmamıştı. Bir bira içer misin?" ${n} kadehe bakıyor. Uzun süre.`
                           :`In the tavern, an old one-eyed hunter sits down at ${n}'s table. "I was like you," he says. "Then one day I looked around and there was no one left. Will you have an ale?" ${n} stares at the cup. For a long time.`,
           choices:[
             { label:LANG==="tr"?"Otursun, içsin":"Let him sit and drink", detail:LANG==="tr"?"Bir masa, bir kadeh, bir başlangıç":"A table, a cup, a beginning",
@@ -2171,17 +2194,18 @@ function storyHowTo(cls, stage, s, h, st){ const tr=LANG==="tr"; const rels=s.re
       T2(`${goblinBoss("b_goblin_epic")} yenilmeli.`,`${goblinBoss("b_goblin_epic")} must fall.`) ],
   };
   const line=(map[cls]||[])[stage]; if(!line) return null;
-  return line+T2(" Şartlar sağlandıktan sonra, o loncadayken birkaç gün içinde hikâye ilerler."," Once that's done, the story moves on within a few days while he's at the guild.");
+  const gap=STORY_HEROES[cls].chapters[stage].gap; const since=stage===0 ? (s.day-(h.joinDay??s.day)) : (s.day-(st.lastDay||0)); const wait=Math.max(0,gap-since);
+  return line+T2(` Şartlar sağlandığı an, o loncadaysa hikâye başlar; seferdeyse döndüğü an.${wait>0?` (Ama önce ${wait} gün daha geçmeli.)`:""}`,` The moment that's done, the story begins if he's at the guild — or the moment he returns.${wait>0?` (But ${wait} more day${wait>1?"s":""} must pass first.)`:""}`);
 }
 function storyCheck(s){
   for(const cls of Object.keys(STORY_HEROES)){
-    const h=(s.adventurers||[]).find(a=>a.cls===cls && a.status==="idle"); if(!h) continue;
+    const h=(s.adventurers||[]).find(a=>a.cls===cls && a.status!=="questing"); if(!h) continue;
     const st=(s.stories||{})[cls]||{stage:0}; if(st.stage>=3) continue;
     const ch=STORY_HEROES[cls].chapters[st.stage];
     const since=st.stage===0 ? (s.day-(h.joinDay??s.day)) : (s.day-(st.lastDay||0));
     if(since<ch.gap) continue;
     let ok=false; try{ ok=ch.when(s,h,st); }catch(e){ ok=false; }
-    if(!ok || Math.random()>=0.35) continue;
+    if(!ok) continue;
     return { id:"story_"+cls, kind:"story", uid:uid(), ...ch.build(s,h,st) };
   }
   return null;
@@ -2272,7 +2296,7 @@ const ARCS = {
             { label:L2("Maaşından kes","Dock their wages"), detail:L2("Mallar geri gelir, kimse bilmez","Goods return, no one else knows"),
               resolve:()=>({ give:{item:a.data.item,qty:a.data.qty}, story:[SL(h,"Ambardan çalarken yakalandı; borcunu maaşından ödedi.","Caught stealing from the warehouse; paid it back from their wages.")], ...AW(null), msg:L2(`🕵️ ${h.name} bir ay boyunca maaş gününde yere baktı.`,`🕵️ For a month, ${h.name} stared at the floor every payday.`) }) },
             { label:L2("Affet","Forgive them"), detail:L2("Belki bir şansı hak ediyordur","Maybe they deserve a chance"),
-              resolve:()=>({ ...AW("redemption",{wait:4}), msg:L2(`🕵️ ${h.name}'e hiçbir şey demedin. Sadece feneri söndürüp gittin.`,`🕵️ You said nothing to ${h.name}. You just put out the lantern and left.`) }) } ] };
+              resolve:()=>({ ...AW("redemption",{wait:4}), msg:L2(`🕵️ ${trEk(h.name,"e")} hiçbir şey demedin. Sadece feneri söndürüp gittin.`,`🕵️ You said nothing to ${h.name}. You just put out the lantern and left.`) }) } ] };
         return { title:L2("Küçük Hırsız","The Little Thief"),
           text:L2(`Nöbetin ikinci gecesi yakaladığın hırsız... on yaşında bir çocuktu. Sıska, korkmuş, kucağında ${itemName(a.data.item)}. "Kardeşlerim aç," dedi.`,`On the second night of the watch, the thief you caught was... a ten-year-old child. Skinny, terrified, clutching ${itemName(a.data.item)}. "My brothers are hungry," they said.`),
           choices:[
@@ -2343,7 +2367,7 @@ const ARCS = {
       poach:(s,a)=>{ const h=(s.adventurers||[]).filter(notUnique).sort((x,y)=>y.level-x.level)[0];
         if(!h) return { title:L2("Demir Kurtlar","The Iron Wolves"), text:L2("Varg'ın adamları salonda dolaştı ama ayartacak kimseyi bulamadılar.","Varg's men prowled the hall but found no one worth luring."), choices:[{label:L2("Devam","Go on"),resolve:()=>({...AW("contest",{wait:2})})}] };
         return { title:L2("Cazip Teklif","A Tempting Offer"),
-          text:L2(`Varg'ın adamları ${h.name}'i meyhanede köşeye sıkıştırmış: iki katı maaş, kendi odası ve Demir Kurtlar'da bir yüzbaşılık. ${h.name} sana bakıyor.`,`Varg's men have cornered ${h.name} in the tavern: double pay, a private room and a captaincy in the Iron Wolves. ${h.name} looks at you.`),
+          text:L2(`Varg'ın adamları ${trEk(h.name,"i")} meyhanede köşeye sıkıştırmış: iki katı maaş, kendi odası ve Demir Kurtlar'da bir yüzbaşılık. ${h.name} sana bakıyor.`,`Varg's men have cornered ${h.name} in the tavern: double pay, a private room and a captaincy in the Iron Wolves. ${h.name} looks at you.`),
           choices:[
             { label:L2("Maaşını artır","Raise their pay"), detail:L2(`Kalıcı maaş zammı (+${Math.max(3,Math.round((h.wage||10)*0.5))}A/gün)`,`Permanent raise (+${Math.max(3,Math.round((h.wage||10)*0.5))}G/day)`),
               resolve:()=>({ heroMod:{id:h.id,add:{wage:Math.max(3,Math.round((h.wage||10)*0.5))}}, story:[SL(h,"Demir Kurtlar'ın teklifini geri çevirdi.","Turned down the Iron Wolves' offer.")], ...AW("contest",{wait:3}), msg:L2(`💰 ${h.name} teklifi geri çevirdi.`,`💰 ${h.name} turned the offer down.`) }) },
@@ -2399,7 +2423,7 @@ const ARCS = {
             { label:L2("Lonca önce gelir","The guild comes first"), detail:L2("Kalır ama…","They stay, but…"),
               resolve:()=>({ grief:{id:h.id,secs:360}, ...AW("heartbreak",{wait:4,data:{roll:Math.random()}}), msg:L2(`😞 ${h.name} hiçbir şey demedi.`,`😞 ${h.name} said nothing.`) }) } ] }; },
       heartbreak:(s,a)=>{ const h=arcFind(s,a.data.hero); if(!h) return null; const goes=(a.data.roll||0)<0.5;
-        return goes ? { title:L2("Boş Yatak","An Empty Bed"), text:L2(`Bir sabah ${h.name}'in yatağı boştu. Masada kısa bir not: "Üzgünüm. Onsuz yapamadım."`,`One morning ${h.name}'s bed was empty. A short note on the table: "I'm sorry. I couldn't do it without them."`),
+        return goes ? { title:L2("Boş Yatak","An Empty Bed"), text:L2(`Bir sabah ${trEk(h.name,"in")} yatağı boştu. Masada kısa bir not: "Üzgünüm. Onsuz yapamadım."`,`One morning ${h.name}'s bed was empty. A short note on the table: "I'm sorry. I couldn't do it without them."`),
             choices:[ { label:L2("…","…"), resolve:()=>({ leave:[h.id], leaveNote:{tr:`Bir gece ${a.data.lover} için loncadan sessizce ayrıldı.`,en:`Slipped away one night to be with ${a.data.lover}.`}, ...AW(null) }) } ] }
           : { title:L2("Kırık Kalp","A Broken Heart"), text:L2(`${h.name} kaldı. Bir süre kimseyle konuşmadı, sonra acısını kılıcına verdi. Avluda en geç yatan, en erken kalkan o artık.`,`${h.name} stayed. For a while they spoke to no one, then poured the pain into the blade. Now they are the last to bed and the first up in the yard.`),
             choices:[ { label:L2("Yanında ol","Be there for them"), resolve:()=>({ heroMod:{id:h.id,add:{bonusSucc:0.02}}, story:[SL(h,"Kalbi kırıldı ama loncada kaldı.","Heartbroken, but stayed with the guild.")], ...AW(null) }) } ] }; },
@@ -2412,13 +2436,13 @@ const ARCS = {
     stages:{
       start:(s,a)=>{ const h=arcFind(s,a.data.hero); if(!h) return null;
         return { title:L2("Kapıdaki Yabancı","The Stranger at the Gate"),
-          text:L2(`Kapıda toz toprak içinde genç biri var. "${h.name}'i arıyorum. Ben ${a.data.sib}... kardeşiyim." ${h.name} uzun süre ona bakıyor. Sonra yavaşça başını sallıyor.`,`A young stranger stands at the gate, covered in dust. "I'm looking for ${h.name}. I'm ${a.data.sib}... their sibling." ${h.name} stares a long while. Then slowly nods.`),
+          text:L2(`Kapıda toz toprak içinde genç biri var. "${trEk(h.name,"i")} arıyorum. Ben ${a.data.sib}... kardeşiyim." ${h.name} uzun süre ona bakıyor. Sonra yavaşça başını sallıyor.`,`A young stranger stands at the gate, covered in dust. "I'm looking for ${h.name}. I'm ${a.data.sib}... their sibling." ${h.name} stares a long while. Then slowly nods.`),
           choices:[
             { label:L2("Loncaya kabul et","Welcome them to the guild"), detail:L2("Kardeşler aynı çatı altında","Siblings under one roof"),
-              resolve:()=>{ const sibId=uid(); return { recruit:{id:sibId, name:a.data.sib, level:Math.max(1,Math.floor(h.level/3)), bondWith:{id:h.id,delta:45}, chron:{tr:`Kardeşi ${h.name}'i bulmak için loncaya geldi.`,en:`Came to the guild looking for their sibling, ${h.name}.`}},
+              resolve:()=>{ const sibId=uid(); return { recruit:{id:sibId, name:a.data.sib, level:Math.max(1,Math.floor(h.level/3)), bondWith:{id:h.id,delta:45}, chron:{tr:`Kardeşi ${trEk(h.name,"i")} bulmak için loncaya geldi.`,en:`Came to the guild looking for their sibling, ${h.name}.`}},
                 story:[SL(h,`Kardeşi ${a.data.sib} kapıda belirdi.`,`Their sibling ${a.data.sib} turned up at the gate.`)], ...AW("past",{wait:4,data:{sibId}}), msg:L2(`👣 ${a.data.sib} loncaya katıldı. ${h.name} o gece uzun süre konuştu.`,`👣 ${a.data.sib} joined the guild. ${h.name} talked late into the night.`) }; } },
             { label:L2("Bir gece kalsın","Let them stay one night"), detail:L2("Sonra yollarına","Then on their way"),
-              resolve:()=>({ gold:-20, story:[SL(h,`Kardeşi ${a.data.sib}'i bir gece ağırlayıp uğurladı.`,`Hosted their sibling ${a.data.sib} for a night, then saw them off.`)], ...AW(null), msg:L2(`👣 ${a.data.sib} sabah erkenden gitti. ${h.name} kapıda uzun süre durdu.`,`👣 ${a.data.sib} left at dawn. ${h.name} stood at the gate a long time.`) }) } ] }; },
+              resolve:()=>({ gold:-20, story:[SL(h,`Kardeşi ${trEk(a.data.sib,"i")} bir gece ağırlayıp uğurladı.`,`Hosted their sibling ${a.data.sib} for a night, then saw them off.`)], ...AW(null), msg:L2(`👣 ${a.data.sib} sabah erkenden gitti. ${h.name} kapıda uzun süre durdu.`,`👣 ${a.data.sib} left at dawn. ${h.name} stood at the gate a long time.`) }) } ] }; },
       past:(s,a)=>{ const sib=arcFind(s,a.data.sibId); const h=arcFind(s,a.data.hero); if(!sib) return null; const debt=arcGold(s);
         return { title:L2("Eski Hesaplar","Old Debts"),
           text:L2(`Üç atlı kapına dayandı. "${sib.name} bize ${debt} altın borçlu. Ya parayı ya da onu alırız." ${sib.name} başını eğiyor${h?`; ${h.name} kılıcının kabzasını tutuyor`:""}.`,`Three riders are at your gate. "${sib.name} owes us ${debt} gold. The money, or them." ${sib.name} hangs their head${h?`; ${h.name}'s hand is on the sword hilt`:""}.`),
@@ -2837,7 +2861,7 @@ function stepGame(s, offline){
           ns.adventurers.forEach(other=>{
             if(other.id!==d.id && !other.dead){
               const sc=getRel(ns.rels,d.id,other.id);
-              if(sc>=40){ other.grief = ns.elapsed + (sc>=70?360:240); chron(other, ns.day, ()=>LANG==="tr"?`${d.name}'in ölümünün yasını tuttu.`:`Mourned the death of ${d.name}.`); } // closer = longer grief
+              if(sc>=40){ other.grief = ns.elapsed + (sc>=70?360:240); chron(other, ns.day, ()=>LANG==="tr"?`${trEk(d.name,"in")} ölümünün yasını tuttu.`:`Mourned the death of ${d.name}.`); } // closer = longer grief
             }
           });
         });
@@ -2882,11 +2906,11 @@ function stepGame(s, offline){
               if(rt.type==="Romance") logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`💞 ${A.name} ile ${B.name}, ${regionName(region)} bölgesindeki vakitlerinin ardından yakınlaştı.`:`💞 ${A.name} and ${B.name} have grown close after their time in ${regionName(region)}.`});
               else if(rt.type==="Close Friend") logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`🤝 ${A.name} ile ${B.name} artık ayrılmaz yoldaşlar.`:`🤝 ${A.name} and ${B.name} are now inseparable companions.`});
               else if(rt.type==="Bitter Rival") logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`💢 ${A.name} ile ${B.name} artık birbirine katlanamıyor.`:`💢 ${A.name} and ${B.name} can no longer stand each other.`});
-              else if(rt.type==="Mentor") logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`🎓 ${A.level>B.level?A.name:B.name}, ${A.level>B.level?B.name:A.name}'i kanadının altına aldı.`:`🎓 ${A.level>B.level?A.name:B.name} has taken ${A.level>B.level?B.name:A.name} under their wing.`});
+              else if(rt.type==="Mentor") logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`🎓 ${A.level>B.level?A.name:B.name}, ${trEk(A.level>B.level?B.name:A.name,"i")} kanadının altına aldı.`:`🎓 ${A.level>B.level?A.name:B.name} has taken ${A.level>B.level?B.name:A.name} under their wing.`});
               if(rt.type==="Romance"){ chron(A,ns.day,()=>LANG==="tr"?`${B.name} ile aşk yaşamaya başladı.`:`Fell in love with ${B.name}.`); chron(B,ns.day,()=>LANG==="tr"?`${A.name} ile aşk yaşamaya başladı.`:`Fell in love with ${A.name}.`); }
               else if(rt.type==="Close Friend"){ chron(A,ns.day,()=>LANG==="tr"?`${B.name} ile can dostu oldu.`:`Became sworn friends with ${B.name}.`); chron(B,ns.day,()=>LANG==="tr"?`${A.name} ile can dostu oldu.`:`Became sworn friends with ${A.name}.`); }
               else if(rt.type==="Bitter Rival"){ chron(A,ns.day,()=>LANG==="tr"?`${B.name} ile ezeli rakip oldu.`:`Became bitter rivals with ${B.name}.`); chron(B,ns.day,()=>LANG==="tr"?`${A.name} ile ezeli rakip oldu.`:`Became bitter rivals with ${A.name}.`); }
-              else if(rt.type==="Mentor"){ const M=A.level>B.level?A:B, P=M===A?B:A; chron(M,ns.day,()=>LANG==="tr"?`${P.name}'i kanatları altına aldı.`:`Took ${P.name} under their wing.`); chron(P,ns.day,()=>LANG==="tr"?`${M.name}'in öğrencisi oldu.`:`Became ${M.name}'s protégé.`); }
+              else if(rt.type==="Mentor"){ const M=A.level>B.level?A:B, P=M===A?B:A; chron(M,ns.day,()=>LANG==="tr"?`${trEk(P.name,"i")} kanatları altına aldı.`:`Took ${P.name} under their wing.`); chron(P,ns.day,()=>LANG==="tr"?`${trEk(M.name,"in")} öğrencisi oldu.`:`Became ${M.name}'s protégé.`); }
             }
             }
           }
@@ -2947,8 +2971,8 @@ function stepGame(s, offline){
             if(boss.tier==="epic" && Math.random()<0.12){
               const cands=ns.adventurers.filter(a=>!a.boon && RELIC_REQUESTS.some(rr=>rr.cls===a.cls)).sort((x,y)=>y.level-x.level);
               if(cands.length){ const h=cands[0]; const rr=RELIC_REQUESTS.find(x=>x.cls===h.cls);
-                ns.adventurers=ns.adventurers.map(a=>{ if(a.id!==h.id) return a; const na={...a,boon:rr.boon}; chron(na, ns.day, ()=>LANG==="tr"?`${bossName(boss)}'in hazinesinden ${itemName(rr.item)} ona kaldı.`:`Claimed the ${itemName(rr.item)} from ${bossName(boss)}'s hoard.`); return na; });
-                logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⚜️ ${bossName(boss)}'in hazinesinden ${itemName(rr.item)} çıktı! ${h.name} artık onun taşıyıcısı — ${boonDesc(rr.boon).toLowerCase()}.`:`⚜️ The ${itemName(rr.item)} turned up in ${bossName(boss)}'s hoard! ${h.name} now bears it — ${boonDesc(rr.boon).toLowerCase()}.`}); } }
+                ns.adventurers=ns.adventurers.map(a=>{ if(a.id!==h.id) return a; const na={...a,boon:rr.boon}; chron(na, ns.day, ()=>LANG==="tr"?`${trEk(bossName(boss),"in")} hazinesinden ${itemName(rr.item)} ona kaldı.`:`Claimed the ${itemName(rr.item)} from ${bossName(boss)}'s hoard.`); return na; });
+                logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⚜️ ${trEk(bossName(boss),"in")} hazinesinden ${itemName(rr.item)} çıktı! ${h.name} artık onun taşıyıcısı — ${boonDesc(rr.boon).toLowerCase()}.`:`⚜️ The ${itemName(rr.item)} turned up in ${bossName(boss)}'s hoard! ${h.name} now bears it — ${boonDesc(rr.boon).toLowerCase()}.`}); } }
             ns.bossDefeated = {...(ns.bossDefeated||s.bossDefeated||{})}; ns.bossDefeated[boss.id]=(ns.bossDefeated[boss.id]||0)+1;
             if(rw.ach){ ns._pendingAch = ns._pendingAch||[]; ns._pendingAch.push(rw.ach); }
             logAdds.push({t:ns.elapsed, msg:LANG==="tr"?`🏆 ${boss.icon} ${bossName(boss)} yenildi! Ödül: +${rw.gold}A, +${rw.renown} şöhret${rw.item?`, 1× ${itemName(rw.item)}`:""}.`:`🏆 ${boss.icon} ${bossName(boss)} defeated! Reward: +${rw.gold}G, +${rw.renown} renown${rw.item?`, 1× ${itemName(rw.item)}`:""}.`});
@@ -3101,7 +3125,6 @@ function stepGame(s, offline){
     // ---- EVENT SYSTEM: roughly every few days something happens ----
     arcsDaily(ns, offline);
     if(!offline && !ns.pendingEvent){ const ae=arcCheck(ns); if(ae) ns.pendingEvent=ae; }
-    if(!offline && !ns.pendingEvent){ const sev=storyCheck(ns); if(sev) ns.pendingEvent=sev; }
   if(!ns.pendingEvent && Math.random()<0.40){
       const roll=offline ? 1 : Math.random(); // while away, only small self-resolving events happen
       if(roll<0.06){ // rare legendary
@@ -3151,7 +3174,7 @@ function stepGame(s, offline){
           died.forEach(d=>{ ns.fallen.unshift({ name:d.name, cls:d.cls, level:d.level, day:ns.day, region:(LANG==="tr"?C.name.tr:C.name.en), rank:rankForLevel(d.level).name, crisis:C.id,
               eulogy: LANG==="tr"?`${crisisName(C)} sırasında, diyar için düştü.`:`Fell for the realm during ${crisisName(C)}.`,
               chronicle:[...(d.chronicle||[]), {d:ns.day, ...bothLang(()=>LANG==="tr"?`${crisisName(C)} sırasında düştü.`:`Fell during ${crisisName(C)}.`)}] });
-            ns.adventurers.forEach(o=>{ if(o.id!==d.id && !o.dead && getRel(ns.rels||{},d.id,o.id)>=40){ o.grief=ns.elapsed+360; chron(o, ns.day, ()=>LANG==="tr"?`${d.name}'in ölümünün yasını tuttu.`:`Mourned the death of ${d.name}.`); } }); });
+            ns.adventurers.forEach(o=>{ if(o.id!==d.id && !o.dead && getRel(ns.rels||{},d.id,o.id)>=40){ o.grief=ns.elapsed+360; chron(o, ns.day, ()=>LANG==="tr"?`${trEk(d.name,"in")} ölümünün yasını tuttu.`:`Mourned the death of ${d.name}.`); } }); });
           ns.adventurers=ns.adventurers.filter(a=>!a.dead);
           { const bp=bloodPrice(ns, died); if(bp) logAdds.push({t:ns.elapsed,msg:bp}); }
           const nb=died.slice().sort((x,y)=>y.level-x.level)[0];
@@ -3214,6 +3237,8 @@ function stepGame(s, offline){
         logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`⭐ Adın bölgede dolaşmaya başladı ve kulaktan kulağa yayıldı. Efsanevi biri — ${u.name} — aday panosunda seni bekliyor!`:`⭐ Your name has started to travel. A legend — ${u.name} — awaits you on the recruit board!`}); } }
     if(ti>(ns.titleSeen||0)){ ns.titleSeen=ti;
       logAdds.push({t:ns.elapsed,msg:LANG==="tr"?`🎺 Loncanın adı yayılıyor! Artık "${titleName(ti)}" bir lonca olarak anılıyorsun.`:`🎺 Your name spreads! The guild is now "${titleName(ti)}".`}); } }
+  // 📜 personal stories: checked every live second — the chapter opens the moment the hero is home and the conditions are met
+  if(!offline && !ns.pendingEvent){ const sev=storyCheck(ns); if(sev) ns.pendingEvent=sev; }
   if(logAdds.length){ ns.log = [...logAdds.reverse(), ...s.log].slice(0,40); }
   return ns;
 }
@@ -4323,7 +4348,7 @@ function AdventurersView({state,setState,notify}){
     setState(s=>{ const ex=uniquesInPlay(s); const out=[];
       const hd=bLv(s.buildings,"guild_herald");
       const fameLv=titleIndex(s.renown);
-      for(let i=0;i<(hd.recruitSlots||3);i++){ const a=makeAdventurer(tier,null,(s.renown||0)+(hd.rareBoost||0),ex);
+      for(let i=0;i<(hd.recruitSlots||3);i++){ const a=makeAdventurer(tier,null,(s.renown||0),ex,false,(hd.rareBoost||0));
         if(fameLv>0 && !CLASSES[a.cls].unique){ a.level+=fameLv; a.maxHp=Math.floor(a.maxHp*(1+fameLv*0.06)); a.hp=a.maxHp; a.hireCost=hireCostFor(a.level,CLASSES[a.cls].rare); a.wage+=fameLv*2; } if(CLASSES[a.cls].unique) ex.push(a.cls); out.push(a); }
       return {...s,gold:s.gold-20,recruits:out}; }); };
   const dismiss=(a)=>{ if(a.status!=="idle"){notify(LANG==="tr"?"Uzaktayken çıkarılamaz.":"Can't dismiss while they're away.");return;} setConfirmKick(a); };
@@ -4873,7 +4898,7 @@ function RequestBoard({state,setState,notify}){
           return (<Panel key={r.id} style={{marginBottom:7,padding:10,opacity:r.done?0.45:1,
             border:`1px solid ${r.relic?T.gold:ok?T.green:T.border}`,background:r.relic?"linear-gradient(135deg,#2a2112,#1c140d)":T.panel}}>
             {!rr && isLocked(r) && !r.done && (()=>{ const reg=itemRegion(r.need[0].item); const rt=itemTier(r.need[0].item);
-              return <div style={{fontSize:10,color:T.inkFaint,marginBottom:5}}>🔒 {LANG==="tr"?`${reg?regionName(reg):""} henüz kapalı — Lonca Ruhsatı'nı kademe ${rt}'e yükselt`:`${reg?regionName(reg):""} is still closed — raise the Guild Charter to tier ${rt}`}</div>; })()}
+              return <div style={{fontSize:10,color:T.inkFaint,marginBottom:5}}>🔒 {LANG==="tr"?`${reg?regionName(reg):""} henüz kapalı — Lonca Ruhsatı'nı kademe ${trEk(rt,"e")} yükselt`:`${reg?regionName(reg):""} is still closed — raise the Guild Charter to tier ${rt}`}</div>; })()}
             {rr && <div style={{fontSize:11,color:T.gold,fontWeight:700,marginBottom:5}}>⚜️ {LANG==="tr"?`Özel istek — karşılığında ${clsName(rr.cls)} için ${itemName(rr.item)}`:`Special request — rewards the ${itemName(rr.item)} for your ${clsName(rr.cls)}`}
               <div style={{fontSize:10,color:T.inkDim,fontWeight:400}}>{boonDesc(rr.boon)}</div></div>}
             <div style={{display:"flex",gap:10,alignItems:"center"}}>
